@@ -1,21 +1,55 @@
 import Decimal from "../libraries/break_eternity.js-2.1.3/break_eternity.esm.js";
 
 import { player } from "./player.js";
+import { speedUp } from "./main.js";
 
 export const upgrades = {
-    energyBoost: {
+    energyAmplifier: {
         name: "Energy Amplifier",
         level: 0,
-        cost: new Decimal(100),
+        cost: new Decimal(10)
+    },
 
-        buy() {
-            if (player.energy.gte(this.cost)) {
+    energyBoost: {
+        name: "Energy Boost",
+        level: 0,
+        cost: new Decimal(50)
+    },
+
+    energyAccelerate: {
+        name: "Energy Accelerator",
+        level: 0,
+        cost: new Decimal(50),
+    },
+
+    buyEnergyAmplifier() {
+        if (player.energy.gte(this.energyAmplifier.cost)) {
+            player.energy = player.energy.minus(this.cost);
+            this.energyAmplifier.level++;
+            player.boughtUpgrades = player.boughtUpgrades.plus(1);
+            player.energyPerSecond = player.energyPerSecond
+            .times(2);
+            this.energyAmplifier.cost = new Decimal(this.energyAmplifier.cost).times(3);
+        }
+    },
+
+    buyEnergyBoost() {
+        if (player.energy.gte(this.energyBoost.cost)) {
+            player.energy = player.energy.minus(this.cost);
+            this.energyBoost.level++;
+            player.boughtUpgrades = player.boughtUpgrades.plus(1);
+            player.energyPerSecond = player.energyPerSecond.times(3);
+            this.energyBoost.cost = new Decimal(this.energyBoost.cost).times(5);
+        }
+    },
+
+    buyEnergyAccelerate() {
+            if (player.energy.gte(this.energyAccelerate.cost)) {
                 player.energy = player.energy.minus(this.cost);
-                this.level++;
+                this.energyAccelerate.level++;
                 player.boughtUpgrades = player.boughtUpgrades.plus(1);
-                player.energyPerSecond = player.energyPerSecond.times(2).times(Decimal.pow(1.67, this.level - 1));
-                this.cost = this.cost.times(1.67);
+                speedUp();
+                this.energyAccelerate.cost = new Decimal(this.energyAccelerate.cost).times(10);
             }
         }
-    }
 };

@@ -22,7 +22,18 @@ export function formatF(val) {
 
     if (num.lt(1000)) return num.toFixed(0);
 
-    const suffixes = ["K", "M", "B", "T", "Qa", "Qi"];
+    const suffixes = ["K", "M", "B", "T", "Qa", "Qn", "Sx", "Sp", "Oc", "No", "De",
+    "UDe", "DDe", "TDe", "QaDe", "QnDe", "SxDe", "SpDe", "OcDe", "NoDe", 
+    "Vg", "UVg", "DVg", "TVg", "QaVg", "QnVg", "SxVg", "SpVg", "OcVg", "NoVg",
+    "Tg", "UTg", "DTg", "TTg", "QaTg", "QnTg", "SxTg", "SpTg", "OcTg", "NoTg",
+    "qg", "Uqg", "Dqg", "Tqg", "Qaqg", "Qnqg", "Sxqg", "Spqg", "Ocqg", "Noqg",
+    "Qg", "UQg", "DQg", "TQg", "QaQg", "QnQg", "SxQg", "SpQg", "OcQg", "NoQg",
+    "sg", "Usg", "Dsg", "Tsg", "Qasg", "Qnsg", "Sxsg", "Spsg", "Ocsg", "Nosg",
+    "Sg", "USg", "DSg", "TSg", "QaSg", "QnSg", "SxSg", "SpSg", "OcSg", "NoSg",
+    "Og", "UOg", "DOg", "TOg", "QaOg", "QnOg", "SxOg", "SpOg", "OcOg", "NoOg",
+    "Ng", "UNg", "DNg", "TNg", "QaNg", "QnNg", "SxNg", "SpNg", "OcNg", "NoNg",
+    "Ce", "Uce"
+    ]; //Up to e308 Support
 
     let exponent = num.log10().floor();
     let index = exponent.div(3).floor().toNumber() - 1;
@@ -36,21 +47,57 @@ export function formatF(val) {
 }
 
 export function gameLoop() {
-    //main production loop, runs every 100ms
+    //main production loop, runs every energySpeed ms
     player.energy = player.energy.plus(player.energyPerSecond.div(1));
 
     updateDisplay();
 }
 
 export function updateDisplay() {
-    document.getElementById("energy").textContent = "Energy: " + formatE(player.energy);
-    document.getElementById("eps").textContent = "Energy/sec: " + formatE(player.energyPerSecond);
-    document.getElementById("upgrade").textContent = "Upgrade: " + formatE(upgrades.energyBoost.cost) + " Energy (Level: " + upgrades.energyBoost.level + ")";
+    document.getElementById("energy").textContent = 
+    "Energy: " + formatF(player.energy);
+    document.getElementById("eps").textContent = 
+    "Energy/sec: " + formatF(player.energyPerSecond.times(new Decimal(1000).div(player.energySpeed)));
+    document.getElementById("energyAmplifierBtn").textContent = 
+    "Energy Amplifier (2x): " + formatF(upgrades.energyAmplifier.cost) + " Energy (Level: " + upgrades.energyAmplifier.level + ")";
+    document.getElementById("energyBoostBtn").textContent = 
+    "Energy Boost (3x): " + formatF(upgrades.energyBoost.cost) + " Energy (Level: " + upgrades.energyBoost.level + ")";
+    document.getElementById("energyAccelerateBtn").textContent = 
+    "Accelerate: " + formatF(upgrades.energyAccelerate.cost) + " Energy (Level: " + upgrades.energyAccelerate.level + " / " + player.energySpeed.toFixed(0) + "ms" + ")";
 }
 
-document.getElementById("upgrade").onclick = () => {
-    upgrades.energyBoost.buy();
+document.getElementById("energyAmplifierBtn").onclick = () => {
+    upgrades.buyEnergyAmplifier();
 };
 
-setInterval(gameLoop, 1); // Run the game loop every 100ms
+document.getElementById("energyBoostBtn").onclick = () => {
+    upgrades.buyEnergyBoost();
+};
+
+document.getElementById("energyAccelerateBtn").onclick = () => {
+    upgrades.buyEnergyAccelerate();
+};
+
+let intervalId;
+
+export function startTimer() {
+  // Clear any existing interval to prevent overlapping
+  clearInterval(intervalId); 
+
+  // Start a new interval using the current value of the delay variable
+  intervalId = setInterval(() => {
+    gameLoop();
+    console.log(`Timer running at every ${player.energySpeed}ms`);
+  }, player.energySpeed);
+}
+
+// Update the variable dynamically
+export function speedUp() {
+  player.energySpeed = player.energySpeed * 0.9; // Cut the time in half
+  startTimer(); // Restart the interval with the new delay
+}
+
+startTimer();
+
+setInterval(updateDisplay, 60); // Run the display update loop every 100ms
 setInterval(saveGame, 10000); // Run the save game loop every 10 seconds
