@@ -3,6 +3,8 @@ import Decimal from "../libraries/break_eternity.js-2.1.3/break_eternity.esm.js"
 import { player } from "./player.js";
 import { upgrades } from "./upgrades.js";
 
+let countSaves = 0;
+
 export function saveGame() {
     let saveData = {
         energy: player.energy.toString(),
@@ -25,6 +27,8 @@ export function saveGame() {
         JSON.stringify(saveData)
     );
 
+    countSaves++;
+    document.getElementById("saves").textContent = `Game saves every 10s and has happened: ${countSaves} times`
     console.log("Game saved!");
 }
 
