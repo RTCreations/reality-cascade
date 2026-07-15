@@ -7,49 +7,49 @@ export const upgrades = {
     energyAmplifier: {
         name: "Energy Amplifier",
         level: 0,
-        cost: new Decimal(10),
-
-        buy() {
-            if (player.energy.gte(this.cost)) {
-                player.energy = player.energy.minus(this.cost);
-                this.level++;
-                player.boughtUpgrades = player.boughtUpgrades.plus(1);
-                player.energyPerSecond = player.energyPerSecond
-                .times(2);
-                this.cost = this.cost.times(3);
-            }
-        }
+        cost: new Decimal(10)
     },
 
     energyBoost: {
         name: "Energy Boost",
         level: 0,
-        cost: new Decimal(50),
-
-        buy() {
-            if (player.energy.gte(this.cost)) {
-                player.energy = player.energy.minus(this.cost);
-                this.level++;
-                player.boughtUpgrades = player.boughtUpgrades.plus(1);
-                player.energyPerSecond = player.energyPerSecond.times(3);
-                this.cost = this.cost.times(5);
-            }
-        }
+        cost: new Decimal(50)
     },
 
-    energySpeed: {
+    energyAccelerate: {
         name: "Energy Accelerator",
         level: 0,
         cost: new Decimal(50),
+    },
 
-        buy() {
-            if (player.energy.gte(this.cost)) {
+    buyEnergyAmplifier() {
+        if (player.energy.gte(this.energyAmplifier.cost)) {
+            player.energy = player.energy.minus(this.cost);
+            this.energyAmplifier.level++;
+            player.boughtUpgrades = player.boughtUpgrades.plus(1);
+            player.energyPerSecond = player.energyPerSecond
+            .times(2);
+            this.energyAmplifier.cost = new Decimal(this.energyAmplifier.cost).times(3);
+        }
+    },
+
+    buyEnergyBoost() {
+        if (player.energy.gte(this.energyBoost.cost)) {
+            player.energy = player.energy.minus(this.cost);
+            this.energyBoost.level++;
+            player.boughtUpgrades = player.boughtUpgrades.plus(1);
+            player.energyPerSecond = player.energyPerSecond.times(3);
+            this.energyBoost.cost = new Decimal(this.energyBoost.cost).times(5);
+        }
+    },
+
+    buyEnergyAccelerate() {
+            if (player.energy.gte(this.energyAccelerate.cost)) {
                 player.energy = player.energy.minus(this.cost);
-                this.level++;
+                this.energyAccelerate.level++;
                 player.boughtUpgrades = player.boughtUpgrades.plus(1);
                 speedUp();
-                this.cost = this.cost.times(10);
+                this.energyAccelerate.cost = new Decimal(this.energyAccelerate.cost).times(10);
             }
         }
-    }
 };

@@ -54,23 +54,28 @@ export function gameLoop() {
 }
 
 export function updateDisplay() {
-    document.getElementById("energy").textContent = "Energy: " + formatF(player.energy);
-    document.getElementById("eps").textContent = "Energy/sec: " + formatF(player.energyPerSecond.times(new Decimal(player.energySpeed).div(1000)));
-    document.getElementById("upgrade").textContent = "Energy Amplifier (2x): " + formatF(upgrades.energyAmplifier.cost) + " Energy (Level: " + upgrades.energyAmplifier.level + ")";
-    document.getElementById("energyBoostBtn").textContent = "Energy Boost (3x): " + formatF(upgrades.energyBoost.cost) + " Energy (Level: " + upgrades.energyBoost.level + ")";
-    document.getElementById("upgrade2").textContent = "Accelerate: " + formatF(upgrades.energySpeed.cost) + " Energy (Level: " + upgrades.energySpeed.level + " / " + player.energySpeed.toFixed(0) + "ms" + ")";
+    document.getElementById("energy").textContent = 
+    "Energy: " + formatF(player.energy);
+    document.getElementById("eps").textContent = 
+    "Energy/sec: " + formatF(player.energyPerSecond.times(new Decimal(1000).div(player.energySpeed)));
+    document.getElementById("energyAmplifierBtn").textContent = 
+    "Energy Amplifier (2x): " + formatF(upgrades.energyAmplifier.cost) + " Energy (Level: " + upgrades.energyAmplifier.level + ")";
+    document.getElementById("energyBoostBtn").textContent = 
+    "Energy Boost (3x): " + formatF(upgrades.energyBoost.cost) + " Energy (Level: " + upgrades.energyBoost.level + ")";
+    document.getElementById("energyAccelerateBtn").textContent = 
+    "Accelerate: " + formatF(upgrades.energyAccelerate.cost) + " Energy (Level: " + upgrades.energyAccelerate.level + " / " + player.energySpeed.toFixed(0) + "ms" + ")";
 }
 
-document.getElementById("upgrade").onclick = () => {
-    upgrades.energyAmplifier.buy();
+document.getElementById("energyAmplifierBtn").onclick = () => {
+    upgrades.buyEnergyAmplifier();
 };
 
 document.getElementById("energyBoostBtn").onclick = () => {
-    upgrades.energyBoost.buy();
+    upgrades.buyEnergyBoost();
 };
 
-document.getElementById("upgrade2").onclick = () => {
-    upgrades.energySpeed.buy();
+document.getElementById("energyAccelerateBtn").onclick = () => {
+    upgrades.buyEnergyAccelerate();
 };
 
 let intervalId;
@@ -94,5 +99,5 @@ export function speedUp() {
 
 startTimer();
 
-setInterval(updateDisplay, 50); // Run the display update loop every 100ms
+setInterval(updateDisplay, 60); // Run the display update loop every 100ms
 setInterval(saveGame, 10000); // Run the save game loop every 10 seconds
