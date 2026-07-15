@@ -4,7 +4,7 @@ import { player } from "./player.js";
 import { speedUp } from "./main.js";
 
 export const upgrades = {
-    energyBoost: {
+    energyAmplifier: {
         name: "Energy Amplifier",
         level: 0,
         cost: new Decimal(10),
@@ -16,7 +16,23 @@ export const upgrades = {
                 player.boughtUpgrades = player.boughtUpgrades.plus(1);
                 player.energyPerSecond = player.energyPerSecond
                 .times(2);
-                this.cost = this.cost.times(2.5);
+                this.cost = this.cost.times(3);
+            }
+        }
+    },
+
+    energyBoost: {
+        name: "Energy Boost",
+        level: 0,
+        cost: new Decimal(50),
+
+        buy() {
+            if (player.energy.gte(this.cost)) {
+                player.energy = player.energy.minus(this.cost);
+                this.level++;
+                player.boughtUpgrades = player.boughtUpgrades.plus(1);
+                player.energyPerSecond = player.energyPerSecond.times(3);
+                this.cost = this.cost.times(5);
             }
         }
     },

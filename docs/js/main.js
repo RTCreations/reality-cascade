@@ -22,7 +22,18 @@ export function formatF(val) {
 
     if (num.lt(1000)) return num.toFixed(0);
 
-    const suffixes = ["K", "M", "B", "T", "Qa", "Qi"];
+    const suffixes = ["K", "M", "B", "T", "Qa", "Qn", "Sx", "Sp", "Oc", "No", "De",
+    "UDe", "DDe", "TDe", "QaDe", "QnDe", "SxDe", "SpDe", "OcDe", "NoDe", 
+    "Vg", "UVg", "DVg", "TVg", "QaVg", "QnVg", "SxVg", "SpVg", "OcVg", "NoVg",
+    "Tg", "UTg", "DTg", "TTg", "QaTg", "QnTg", "SxTg", "SpTg", "OcTg", "NoTg",
+    "qg", "Uqg", "Dqg", "Tqg", "Qaqg", "Qnqg", "Sxqg", "Spqg", "Ocqg", "Noqg",
+    "Qg", "UQg", "DQg", "TQg", "QaQg", "QnQg", "SxQg", "SpQg", "OcQg", "NoQg",
+    "sg", "Usg", "Dsg", "Tsg", "Qasg", "Qnsg", "Sxsg", "Spsg", "Ocsg", "Nosg",
+    "Sg", "USg", "DSg", "TSg", "QaSg", "QnSg", "SxSg", "SpSg", "OcSg", "NoSg",
+    "Og", "UOg", "DOg", "TOg", "QaOg", "QnOg", "SxOg", "SpOg", "OcOg", "NoOg",
+    "Ng", "UNg", "DNg", "TNg", "QaNg", "QnNg", "SxNg", "SpNg", "OcNg", "NoNg",
+    "Ce", "Uce"
+    ]; //Up to e308 Support
 
     let exponent = num.log10().floor();
     let index = exponent.div(3).floor().toNumber() - 1;
@@ -43,13 +54,18 @@ export function gameLoop() {
 }
 
 export function updateDisplay() {
-    document.getElementById("energy").textContent = "Energy: " + formatE(player.energy);
-    document.getElementById("eps").textContent = "Energy/sec: " + formatE(player.energyPerSecond.times(new Decimal(player.energySpeed).div(1000)));
-    document.getElementById("upgrade").textContent = "Upgrade: " + formatE(upgrades.energyBoost.cost) + " Energy (Level: " + upgrades.energyBoost.level + ")";
-    document.getElementById("upgrade2").textContent = "Accelerate: " + formatE(upgrades.energySpeed.cost) + " Energy (Level: " + upgrades.energySpeed.level + " / " + player.energySpeed.toFixed(0) + "ms" + ")";
+    document.getElementById("energy").textContent = "Energy: " + formatF(player.energy);
+    document.getElementById("eps").textContent = "Energy/sec: " + formatF(player.energyPerSecond.times(new Decimal(player.energySpeed).div(1000)));
+    document.getElementById("upgrade").textContent = "Energy Amplifier (2x): " + formatF(upgrades.energyAmplifier.cost) + " Energy (Level: " + upgrades.energyAmplifier.level + ")";
+    document.getElementById("energyBoostBtn").textContent = "Energy Boost (3x): " + formatF(upgrades.energyBoost.cost) + " Energy (Level: " + upgrades.energyBoost.level + ")";
+    document.getElementById("upgrade2").textContent = "Accelerate: " + formatF(upgrades.energySpeed.cost) + " Energy (Level: " + upgrades.energySpeed.level + " / " + player.energySpeed.toFixed(0) + "ms" + ")";
 }
 
 document.getElementById("upgrade").onclick = () => {
+    upgrades.energyAmplifier.buy();
+};
+
+document.getElementById("energyBoostBtn").onclick = () => {
     upgrades.energyBoost.buy();
 };
 
