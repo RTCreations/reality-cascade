@@ -36,7 +36,7 @@ export function formatF(val) {
 }
 
 export function gameLoop() {
-    //main production loop, runs every 100ms
+    //main production loop, runs every energySpeed ms
     player.energy = player.energy.plus(player.energyPerSecond.div(1));
 
     updateDisplay();
@@ -44,13 +44,39 @@ export function gameLoop() {
 
 export function updateDisplay() {
     document.getElementById("energy").textContent = "Energy: " + formatE(player.energy);
-    document.getElementById("eps").textContent = "Energy/sec: " + formatE(player.energyPerSecond);
+    document.getElementById("eps").textContent = "Energy/sec: " + formatE(player.energyPerSecond.times(new Decimal(player.energySpeed).div(1000)));
     document.getElementById("upgrade").textContent = "Upgrade: " + formatE(upgrades.energyBoost.cost) + " Energy (Level: " + upgrades.energyBoost.level + ")";
+    document.getElementById("upgrade2").textContent = "Accelerate: " + formatE(upgrades.energySpeed.cost) + " Energy (Level: " + upgrades.energySpeed.level + " / " + player.energySpeed.toFixed(0) + "ms" + ")";
 }
 
 document.getElementById("upgrade").onclick = () => {
     upgrades.energyBoost.buy();
 };
 
-setInterval(gameLoop, 1); // Run the game loop every 100ms
+document.getElementById("upgrade2").onclick = () => {
+    upgrades.energySpeed.buy();
+};
+
+let intervalId;
+
+export function startTimer() {
+  // Clear any existing interval to prevent overlapping
+  clearInterval(intervalId); 
+
+  // Start a new interval using the current value of the delay variable
+  intervalId = setInterval(() => {
+    gameLoop();
+    console.log(`Timer running at every ${player.energySpeed}ms`);
+  }, player.energySpeed);
+}
+
+// Update the variable dynamically
+export function speedUp() {
+  player.energySpeed = player.energySpeed * 0.9; // Cut the time in half
+  startTimer(); // Restart the interval with the new delay
+}
+
+startTimer();
+
+setInterval(updateDisplay, 50); // Run the display update loop every 100ms
 setInterval(saveGame, 10000); // Run the save game loop every 10 seconds
