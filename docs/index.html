@@ -2,37 +2,47 @@
 <html>
     <head>
         <title>Reality Cascade</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="styles.css">
     </head>
 
     <body>
 
+    <header>
         <h1>Reality Cascade</h1>
+        <p id="saves">Game saves every 10s • Saved 0 times</p>
+    </header>
 
-        <p id="saves">Game saves every 10s and has happened: 0 times</p>
+    <nav class="tabs">
+        <button class="tab active">Energy</button>
+        <button class="tab">Dimensions</button>
+        <button class="tab">Reality</button>
+        <button class="tab">Statistics</button>
+        <button class="tab">Settings</button>
+    </nav>
 
-        <div id="energy">
-            Energy: LOADING
-        </div>
+    <main>
+        <section class="resources">
+            <div id="energy">Energy: LOADING</div>
+            <div id="eps">Energy/sec: LOADING</div>
+        </section>
 
-        <div id="eps">
-            Energy/sec: LOADING
-        </div>
+        <section class="upgrades">
+            <button id="energyAmplifierBtn">Amplifier: LOADING</button>
+            <button id="energyBoostBtn">Boost: LOADING</button>
+            <button id="energyAccelerateBtn">Accelerate: LOADING</button>
+        </section>
+    </main>
 
-        <button id="energyAmplifierBtn">
-            Amplifier: LOADING
-        </button>
+    <footer>
+        Reach <strong>1e10 Energy</strong> to unlock the next layer.
+    </footer>
 
-        <button id="energyBoostBtn">
-            Boost: LOADING
-        </button>
+    <button id="save">Save Game</button>
+    <button id="wipe">Wipe Save</button>
 
-        <button id="energyAccelerateBtn">
-            Accelerate: LOADING
-        </button>
+    <script type="module" src="js/main.js"></script>
 
-        <p>Reach 1e10 Energy For Something New!</p>
-
-        <script type="module" src="js/main.js"></script>
     </body>
 </html>
