@@ -5,7 +5,7 @@ import { upgrades } from "./upgrades.js";
 export const player = {
     energy: new Decimal(0),
     energyPerSecond: new Decimal(1),
-    energySpeed: 300,
+    energySpeed: 1000,
     boughtUpgrades: new Decimal(0),
 
     reality: {
