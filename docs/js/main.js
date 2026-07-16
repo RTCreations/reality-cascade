@@ -64,7 +64,7 @@ export function updateDisplay() {
     "Accelerate: " + formatF(upgrades.energyAccelerate.cost) + " Energy (Level: " + upgrades.energyAccelerate.level + " / " + player.energySpeed.toFixed(0) + "ms" + ")";
 }
 
-let intervalId;
+let intervalId = null;
 
 export function startTimer() {
   // Clear any existing interval to prevent overlapping
@@ -83,33 +83,39 @@ export function speedUp() {
   startTimer(); // Restart the interval with the new delay
 }
 
-let intervalId2;
+let intervalId2 = null;
 
 export function heldBuy() {
     clearInterval(intervalId2);
+    intervalId2 = null;
 
     intervalId2 = setInterval(() => {
         upgrades.buyEnergyAmplifier();
         upgrades.buyEnergyBoost();
         upgrades.buyEnergyAccelerate();
-        console.log("Held");
-    }, 100);
+    }, 50);
 }
 
 window.addEventListener('keydown', (event) => {
-    if (event.key === 'm') {
-        event.preventDefault();
+    if (event.code !== 'KeyM') return;
 
-        if (!intervalId2) {
-            heldBuy();
-        }
+    event.preventDefault();
+
+    if (event.repeat) return;
+    if (!intervalId2) {
+        heldBuy();
     }
 });
 
 window.addEventListener('keyup', (event) => {
-  if (event.key === 'm') {
-    clearInterval(intervalId2);
-  }
+    if (event.code !== 'KeyM') return;
+
+    event.preventDefault();
+
+    if (intervalId2) {
+        clearInterval(intervalId2);
+        intervalId2 = null;
+    }
 });
 
 document.getElementById("energyAmplifierBtn").onclick = (e) => {
