@@ -61,7 +61,7 @@ export function updateDisplay() {
     document.getElementById("energyAmplifierBtn").textContent = 
     "Energy Amplifier (2x): " + formatF(upgrades.energyAmplifier.cost) + " Energy (Level: " + upgrades.energyAmplifier.level + ")";
     document.getElementById("energyBoostBtn").textContent = 
-    "Energy Boost (3x): " + formatF(upgrades.energyBoost.cost) + " Energy (Level: " + upgrades.energyBoost.level + ")";
+    "Energy Boost (2x): " + formatF(upgrades.energyBoost.cost) + " Energy (Level: " + upgrades.energyBoost.level + ")";
     document.getElementById("energyAccelerateBtn").textContent = 
     "Accelerate: " + formatF(upgrades.energyAccelerate.cost) + " Energy (Level: " + upgrades.energyAccelerate.level + " / " + player.energySpeed.toFixed(0) + "ms" + ")";
 }
@@ -76,6 +76,15 @@ document.getElementById("energyBoostBtn").onclick = () => {
 
 document.getElementById("energyAccelerateBtn").onclick = () => {
     upgrades.buyEnergyAccelerate();
+};
+
+document.getElementById("save").onclick = () => {
+    saveGame();
+};
+
+document.getElementById("wipe").onclick = () => {
+    localStorage.clear();
+    window.location.reload();
 };
 
 let intervalId;

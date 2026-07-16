@@ -28,7 +28,7 @@ export function saveGame() {
     );
 
     countSaves++;
-    document.getElementById("saves").textContent = `Game saves every 10s and has happened: ${countSaves} times`
+    document.getElementById("saves").textContent = `Game saves every 10s • Saved ${countSaves} times`;
     console.log("Game saved!");
 }
 
