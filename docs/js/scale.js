@@ -57,6 +57,7 @@ export function getScale(key, level = 0) {
                     Pow: new Decimal(1.02)
                 };
             }
+            
         case "energyAccelerate":
             if (levelValue.lt(25)) {
                 return {
