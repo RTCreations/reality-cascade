@@ -29,6 +29,12 @@ export function getScale(key, level = 0) {
                     Multi: new Decimal(5),
                     Pow: new Decimal(1.003)
                 };
+            } else if (levelValue.lt(50)) {
+                console.log("level < 50");
+                return {
+                    Multi: new Decimal(6),
+                    Pow: new Decimal(1.004)
+                };
             }
 
         case "energyBoost":
@@ -57,7 +63,7 @@ export function getScale(key, level = 0) {
                     Pow: new Decimal(1.02)
                 };
             }
-            
+
         case "energyAccelerate":
             if (levelValue.lt(25)) {
                 return {
