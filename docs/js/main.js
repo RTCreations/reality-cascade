@@ -55,13 +55,13 @@ export function updateDisplay() {
     document.getElementById("energy").textContent = 
     "Energy: " + formatE(player.energy);
     document.getElementById("eps").textContent = 
-    "Energy/sec: " + formatF(player.energyPerSecond.times(new Decimal(1000).div(player.energySpeed)));
+    "Energy/sec: " + formatE(player.energyPerSecond.times(new Decimal(1000).div(player.energySpeed)));
     document.getElementById("energyAmplifierBtn").textContent = 
-    "Energy Amplifier (2x): " + formatF(upgrades.energyAmplifier.cost) + " Energy (Level: " + upgrades.energyAmplifier.level + ")";
+    "Energy Amplifier (2x): " + formatE(upgrades.energyAmplifier.cost) + " Energy (Level: " + upgrades.energyAmplifier.level + ")";
     document.getElementById("energyBoostBtn").textContent = 
-    "Energy Boost (2x): " + formatF(upgrades.energyBoost.cost) + " Energy (Level: " + upgrades.energyBoost.level + ")";
+    "Energy Boost (2x): " + formatE(upgrades.energyBoost.cost) + " Energy (Level: " + upgrades.energyBoost.level + ")";
     document.getElementById("energyAccelerateBtn").textContent = 
-    "Accelerate: " + formatF(upgrades.energyAccelerate.cost) + " Energy (Level: " + upgrades.energyAccelerate.level + " / " + player.energySpeed.toFixed(0) + "ms" + ")";
+    "Accelerate: " + formatE(upgrades.energyAccelerate.cost) + " Energy (Level: " + upgrades.energyAccelerate.level + " / " + player.energySpeed.toFixed(0) + "ms" + ")";
 }
 
 let intervalId = null;
