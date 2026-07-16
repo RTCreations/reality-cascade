@@ -4,8 +4,6 @@ import { player } from "./player.js";
 import { upgrades } from "./upgrades.js";
 import { saveGame, loadGame } from "./save.js";
 
-loadGame();
-
 export function formatE(num) {
     num = new Decimal(num);
 
@@ -66,27 +64,6 @@ export function updateDisplay() {
     "Accelerate: " + formatF(upgrades.energyAccelerate.cost) + " Energy (Level: " + upgrades.energyAccelerate.level + " / " + player.energySpeed.toFixed(0) + "ms" + ")";
 }
 
-document.getElementById("energyAmplifierBtn").onclick = () => {
-    upgrades.buyEnergyAmplifier();
-};
-
-document.getElementById("energyBoostBtn").onclick = () => {
-    upgrades.buyEnergyBoost();
-};
-
-document.getElementById("energyAccelerateBtn").onclick = () => {
-    upgrades.buyEnergyAccelerate();
-};
-
-document.getElementById("save").onclick = () => {
-    saveGame();
-};
-
-document.getElementById("wipe").onclick = () => {
-    localStorage.clear();
-    window.location.reload();
-};
-
 let intervalId;
 
 export function startTimer() {
@@ -106,6 +83,62 @@ export function speedUp() {
   startTimer(); // Restart the interval with the new delay
 }
 
+let intervalId2;
+
+export function heldBuy() {
+    clearInterval(intervalId2);
+
+    intervalId2 = setInterval(() => {
+        upgrades.buyEnergyAmplifier();
+        upgrades.buyEnergyBoost();
+        upgrades.buyEnergyAccelerate();
+        console.log("Held");
+    }, 100);
+}
+
+window.addEventListener('keydown', (event) => {
+    if (event.key === 'm') {
+        event.preventDefault();
+
+        if (!intervalId2) {
+            heldBuy();
+        }
+    }
+});
+
+window.addEventListener('keyup', (event) => {
+  if (event.key === 'm') {
+    clearInterval(intervalId2);
+  }
+});
+
+document.getElementById("energyAmplifierBtn").onclick = (e) => {
+    e.preventDefault();
+    upgrades.buyEnergyAmplifier();
+};
+
+document.getElementById("energyBoostBtn").onclick = (e) => {
+    e.preventDefault();
+    upgrades.buyEnergyBoost();
+};
+
+document.getElementById("energyAccelerateBtn").onclick = (e) => {
+    e.preventDefault();
+    upgrades.buyEnergyAccelerate();
+};
+
+document.getElementById("save").onclick = (e) => {
+    e.preventDefault();
+    saveGame();
+};
+
+document.getElementById("wipe").onclick = (e) => {
+    e.preventDefault();
+    localStorage.clear();
+    window.location.reload();
+};
+
+loadGame();
 startTimer();
 
 setInterval(updateDisplay, 60); // Run the display update loop every 100ms

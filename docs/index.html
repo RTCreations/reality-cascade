@@ -8,41 +8,39 @@
     </head>
 
     <body>
+        <header>
+            <h1>Reality Cascade</h1>
+            <p id="saves">Game saves every 10s • Saved 0 times</p>
+        </header>
 
-    <header>
-        <h1>Reality Cascade</h1>
-        <p id="saves">Game saves every 10s • Saved 0 times</p>
-    </header>
+        <nav class="tabs">
+            <button class="tab active">Energy</button>
+            <button class="tab">Dimensions</button>
+            <button class="tab">Reality</button>
+            <button class="tab">Statistics</button>
+            <button class="tab">Settings</button>
+        </nav>
 
-    <nav class="tabs">
-        <button class="tab active">Energy</button>
-        <button class="tab">Dimensions</button>
-        <button class="tab">Reality</button>
-        <button class="tab">Statistics</button>
-        <button class="tab">Settings</button>
-    </nav>
+        <main>
+            <section class="resources">
+                <div id="energy">Energy: LOADING</div>
+                <div id="eps">Energy/sec: LOADING</div>
+            </section>
 
-    <main>
-        <section class="resources">
-            <div id="energy">Energy: LOADING</div>
-            <div id="eps">Energy/sec: LOADING</div>
-        </section>
+            <section class="upgrades">
+                <button id="energyAmplifierBtn">Amplifier: LOADING</button>
+                <button id="energyBoostBtn">Boost: LOADING</button>
+                <button id="energyAccelerateBtn">Accelerate: LOADING</button>
+            </section>
+        </main>
 
-        <section class="upgrades">
-            <button id="energyAmplifierBtn">Amplifier: LOADING</button>
-            <button id="energyBoostBtn">Boost: LOADING</button>
-            <button id="energyAccelerateBtn">Accelerate: LOADING</button>
-        </section>
-    </main>
+        <footer>
+            Reach <strong>1e10 Energy</strong> to unlock the next layer.
+        </footer>
 
-    <footer>
-        Reach <strong>1e10 Energy</strong> to unlock the next layer.
-    </footer>
+        <button id="save">Save Game</button>
+        <button id="wipe">Wipe Save</button>
 
-    <button id="save">Save Game</button>
-    <button id="wipe">Wipe Save</button>
-
-    <script type="module" src="js/main.js"></script>
-
+        <script type="module" src="js/main.js"></script>
     </body>
 </html>
