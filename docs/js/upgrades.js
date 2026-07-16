@@ -1,6 +1,7 @@
 import Decimal from "../libraries/break_eternity.js-2.1.3/break_eternity.esm.js";
 
 import { player } from "./player.js";
+import { getScale } from "./scale.js";
 import { speedUp } from "./main.js";
 
 export const upgrades = {
@@ -29,7 +30,8 @@ export const upgrades = {
             player.boughtUpgrades = player.boughtUpgrades.plus(1);
             player.energyPerSecond = player.energyPerSecond
             .times(2);
-            this.energyAmplifier.cost = new Decimal(this.energyAmplifier.cost).times(4).pow(1.01);
+            const amplifierScale = getScale("energyAmplifier", this.energyAmplifier.level);
+            this.energyAmplifier.cost = new Decimal(this.energyAmplifier.cost).times(amplifierScale.Multi).pow(amplifierScale.Pow);
         }
     },
 
@@ -39,7 +41,8 @@ export const upgrades = {
             this.energyBoost.level++;
             player.boughtUpgrades = player.boughtUpgrades.plus(1);
             player.energyPerSecond = player.energyPerSecond.times(2);
-            this.energyBoost.cost = new Decimal(this.energyBoost.cost).times(5);
+            const boostScale = getScale("energyBoost", this.energyBoost.level);
+            this.energyBoost.cost = new Decimal(this.energyBoost.cost).times(boostScale.Multi).pow(boostScale.Pow);
         }
     },
 
@@ -49,7 +52,8 @@ export const upgrades = {
                 this.energyAccelerate.level++;
                 player.boughtUpgrades = player.boughtUpgrades.plus(1);
                 speedUp();
-                this.energyAccelerate.cost = new Decimal(this.energyAccelerate.cost).times(15);
+                const accelerateScale = getScale("energyAccelerate", this.energyAccelerate.level);
+                this.energyAccelerate.cost = new Decimal(this.energyAccelerate.cost).times(accelerateScale.Multi);
             }
         }
 };
