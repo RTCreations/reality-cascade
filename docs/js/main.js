@@ -53,7 +53,7 @@ export function gameLoop() {
 
 export function updateDisplay() {
     document.getElementById("energy").textContent = 
-    "Energy: " + formatF(player.energy);
+    "Energy: " + formatE(player.energy);
     document.getElementById("eps").textContent = 
     "Energy/sec: " + formatF(player.energyPerSecond.times(new Decimal(1000).div(player.energySpeed)));
     document.getElementById("energyAmplifierBtn").textContent = 
