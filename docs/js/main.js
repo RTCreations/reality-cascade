@@ -4,8 +4,6 @@ import { player } from "./player.js";
 import { upgrades } from "./upgrades.js";
 import { saveGame, loadGame } from "./save.js";
 
-loadGame();
-
 export function formatE(num) {
     num = new Decimal(num);
 
@@ -55,7 +53,7 @@ export function gameLoop() {
 
 export function updateDisplay() {
     document.getElementById("energy").textContent = 
-    "Energy: " + formatF(player.energy);
+    "Energy: " + formatE(player.energy);
     document.getElementById("eps").textContent = 
     "Energy/sec: " + formatF(player.energyPerSecond.times(new Decimal(1000).div(player.energySpeed)));
     document.getElementById("energyAmplifierBtn").textContent = 
@@ -66,28 +64,7 @@ export function updateDisplay() {
     "Accelerate: " + formatF(upgrades.energyAccelerate.cost) + " Energy (Level: " + upgrades.energyAccelerate.level + " / " + player.energySpeed.toFixed(0) + "ms" + ")";
 }
 
-document.getElementById("energyAmplifierBtn").onclick = () => {
-    upgrades.buyEnergyAmplifier();
-};
-
-document.getElementById("energyBoostBtn").onclick = () => {
-    upgrades.buyEnergyBoost();
-};
-
-document.getElementById("energyAccelerateBtn").onclick = () => {
-    upgrades.buyEnergyAccelerate();
-};
-
-document.getElementById("save").onclick = () => {
-    saveGame();
-};
-
-document.getElementById("wipe").onclick = () => {
-    localStorage.clear();
-    window.location.reload();
-};
-
-let intervalId;
+let intervalId = null;
 
 export function startTimer() {
   // Clear any existing interval to prevent overlapping
@@ -106,6 +83,68 @@ export function speedUp() {
   startTimer(); // Restart the interval with the new delay
 }
 
+let intervalId2 = null;
+
+export function heldBuy() {
+    clearInterval(intervalId2);
+    intervalId2 = null;
+
+    intervalId2 = setInterval(() => {
+        upgrades.buyEnergyAmplifier();
+        upgrades.buyEnergyBoost();
+        upgrades.buyEnergyAccelerate();
+    }, 50);
+}
+
+window.addEventListener('keydown', (event) => {
+    if (event.code !== 'KeyM') return;
+
+    event.preventDefault();
+
+    if (event.repeat) return;
+    if (!intervalId2) {
+        heldBuy();
+    }
+});
+
+window.addEventListener('keyup', (event) => {
+    if (event.code !== 'KeyM') return;
+
+    event.preventDefault();
+
+    if (intervalId2) {
+        clearInterval(intervalId2);
+        intervalId2 = null;
+    }
+});
+
+document.getElementById("energyAmplifierBtn").onclick = (e) => {
+    e.preventDefault();
+    upgrades.buyEnergyAmplifier();
+};
+
+document.getElementById("energyBoostBtn").onclick = (e) => {
+    e.preventDefault();
+    upgrades.buyEnergyBoost();
+};
+
+document.getElementById("energyAccelerateBtn").onclick = (e) => {
+    e.preventDefault();
+    upgrades.buyEnergyAccelerate();
+};
+
+document.getElementById("save").onclick = (e) => {
+    e.preventDefault();
+    saveGame();
+};
+
+document.getElementById("wipe").onclick = (e) => {
+    e.preventDefault();
+    localStorage.clear();
+    window.location.reload();
+};
+
+loadGame();
 startTimer();
 
 setInterval(updateDisplay, 60); // Run the display update loop every 100ms

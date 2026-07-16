@@ -9,6 +9,7 @@ export function saveGame() {
     let saveData = {
         energy: player.energy.toString(),
         energyPerSecond: player.energyPerSecond.toString(),
+        energySpeed: player.energySpeed.toString(),
 
         upgrades: { 
             energyAmplifier: upgrades.energyAmplifier,
@@ -39,6 +40,7 @@ export function loadGame() {
     if (save) {
         player.energy = new Decimal(save.energy);
         player.energyPerSecond = new Decimal(save.energyPerSecond);
+        player.energySpeed = new Decimal(save.energySpeed);
         upgrades.energyAmplifier = save.upgrades.energyAmplifier;
         upgrades.energyBoost = save.upgrades.energyBoost;
         upgrades.energyAccelerate = save.upgrades.energyAccelerate;
