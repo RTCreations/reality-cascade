@@ -23,31 +23,49 @@
 
         <main>
             <section id="resources" class="tab-content active">
-                <div id="energy">Energy: LOADING</div>
-                <div id="eps">Energy/sec: LOADING</div>
+                <div class="energy-column">
+                    <div id="energy">Energy: LOADING</div>
+                    <div id="eps">Energy/sec: LOADING</div>
+                </div>
 
-                <button id="energyAmplifierBtn">Energy Amplifier (2x): LOADING</button>
-                <button id="energyBoostBtn">Energy Boost (1.5x): LOADING</button>
-                <button id="energyAccelerateBtn">Accelerate: LOADING</button>
+                <div class="upgrades-column">
+                    <button id="energyAmplifierBtn">Energy Amplifier (2x): LOADING</button>
+                    <button id="energyBoostBtn">Energy Boost (1.5x): LOADING</button>
+                    <button id="energyAccelerateBtn">Accelerate: LOADING</button>
+                </div>
 
                 <footer>
-                    Reach <strong>1e-28  Energy</strong> to unlock a new feature.
+                    Reach <strong>1e-28 Energy</strong> to unlock a new feature.
                 </footer>
+            </section>
+
+            <section id="dimensions" class="tab-content">
+                <h2>Dimensions</h2>
+                <p>Coming soon.</p>
+            </section>
+
+            <section id="reality" class="tab-content">
+                <h2>Reality</h2>
+                <p>Coming soon.</p>
             </section>
 
             <section id="statistics" class="tab-content">
                 <h2>Statistics</h2>
 
-                <p>Total Joules Produced: <span id="totalEnergy">0</span></p>
                 <p id="playtime">Playtime: 0s</p>
 
                 <button id="save">Save Game</button>
                 <button id="wipe">Wipe Save</button>
             </section>
+
+            <section id="settings" class="tab-content">
+                <h2>Settings</h2>
+                <p>Coming soon.</p>
+            </section>
         </main>
 
         <script type="module" src="js/main.js"></script>
-        <script src="js/tabs.js"></script>
         <script type="module" src="js/time.js"></script>
+        <script src="js/navigation.js"></script>
     </body>
 </html>

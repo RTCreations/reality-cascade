@@ -11,7 +11,16 @@ export function getTime() {
 
     player.stats.playtime += delta;
 
-    player.energy = player.energy.plus(player.energyPerSecond.times(delta));
+    player.energy = new Decimal(player.energy).plus(new Decimal(player.energyPerSecond).times(delta));
+}
+
+export function applyOfflineProgress(seconds) {
+    const maxOfflineTime = 60 * 60 * 24 * 14;
+    seconds = Math.min(seconds, maxOfflineTime);
+    const earned = new Decimal(player.energyPerSecond).times(seconds);
+    player.energy = new Decimal(player.energy).plus(earned);
+
+    console.log(`You earned ${earned} energy while away for ` + formatTime(seconds));
 }
 
 export function formatTime(seconds) {

@@ -1,11 +1,30 @@
 const tabs = document.querySelectorAll(".tab");
+const tabContents = document.querySelectorAll(".tab-content");
 
-tabs.forEach(tab => {
+export function activateTab(targetTab) {
+    if (!targetTab) return;
+
+    tabs.forEach((tab) => {
+        tab.classList.toggle("active", tab === targetTab);
+    });
+
+    const targetId = targetTab.dataset.tab;
+
+    tabContents.forEach((content) => {
+        const shouldShow = content.id === targetId;
+        content.classList.toggle("active", shouldShow);
+        content.hidden = !shouldShow;
+    });
+}
+
+tabs.forEach((tab) => {
     tab.addEventListener("click", () => {
-        document.querySelector(".tab.active")?.classList.remove("active");
-        tab.classList.add("active");
-        document.querySelector(".tab-content.active")?.classList.remove("active");
-        const page = document.getElementById(tab.dataset.tab);
-        page.classList.add("active");
+        activateTab(tab);
     });
 });
+
+const initialActiveTab = document.querySelector(".tab.active") || tabs[0];
+
+if (initialActiveTab) {
+    activateTab(initialActiveTab);
+}

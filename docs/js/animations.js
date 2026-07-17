@@ -4,7 +4,7 @@ import { player } from "./player.js";
 import { upgrades } from "./upgrades.js";
 
 export function energyUpgradesLightUp() {
-    const playerEnergy = player.energy;
+    const playerEnergy = new Decimal(player.energy);
 
     if (playerEnergy.gte(upgrades.energyAmplifier.cost)) {
         document.getElementById("energyAmplifierBtn").style.backgroundColor = "#3c4c7f";
