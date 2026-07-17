@@ -22,24 +22,31 @@
         </nav>
 
         <main>
-            <section class="resources">
+            <section id="resources" class="tab-content active">
                 <div id="energy">Energy: LOADING</div>
                 <div id="eps">Energy/sec: LOADING</div>
             </section>
 
             <section class="upgrades">
-                <button id="energyAmplifierBtn">Amplifier: LOADING</button>
-                <button id="energyBoostBtn">Boost: LOADING</button>
+                <button id="energyAmplifierBtn">Energy Amplifier (2x): LOADING</button>
+                <button id="energyBoostBtn">Energy Boost (1.5x): LOADING</button>
                 <button id="energyAccelerateBtn">Accelerate: LOADING</button>
             </section>
         </main>
 
         <footer>
-            Reach <strong>2e23 Energy</strong> to unlock the next layer.
+            Reach <strong>1e-28  Energy</strong> to unlock a new feature.
         </footer>
 
         <button id="save">Save Game</button>
         <button id="wipe">Wipe Save</button>
+
+        <section id="statistics" class="tab-content">
+            <h2>Statistics</h2>
+
+            <p>Total Joules Produced: <span id="totalEnergy">0</span></p>
+            <p>Play Time: <span id="playTime">0s</span></p>
+        </section>
 
         <script type="module" src="js/main.js"></script>
     </body>

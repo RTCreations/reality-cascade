@@ -3,12 +3,10 @@ import Decimal from "../libraries/break_eternity.js-2.1.3/break_eternity.esm.js"
 import { player } from "./player.js";
 import { upgrades } from "./upgrades.js";
 import { saveGame, loadGame } from "./save.js";
+import { energyUpgradesLightUp } from "./animations.js";
 
 export function formatE(num) {
     num = new Decimal(num);
-
-    if (num.lt(1000)) return num.toFixed(0);
-
     let exponent = num.log10().floor();
     let mantissa = num.div(Decimal.pow(10, exponent));
 
@@ -59,9 +57,11 @@ export function updateDisplay() {
     document.getElementById("energyAmplifierBtn").textContent = 
     "Energy Amplifier (2x): " + formatE(upgrades.energyAmplifier.cost) + " Energy (Level: " + upgrades.energyAmplifier.level + ")";
     document.getElementById("energyBoostBtn").textContent = 
-    "Energy Boost (2x): " + formatE(upgrades.energyBoost.cost) + " Energy (Level: " + upgrades.energyBoost.level + ")";
+    "Energy Boost (1.5x): " + formatE(upgrades.energyBoost.cost) + " Energy (Level: " + upgrades.energyBoost.level + ")";
     document.getElementById("energyAccelerateBtn").textContent = 
     "Accelerate: " + formatE(upgrades.energyAccelerate.cost) + " Energy (Level: " + upgrades.energyAccelerate.level + " / " + player.energySpeed.toFixed(0) + "ms" + ")";
+
+    energyUpgradesLightUp();
 }
 
 let intervalId = null;

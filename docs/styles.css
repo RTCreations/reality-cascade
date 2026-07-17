@@ -157,6 +157,18 @@ p:last-of-type {
     transition: 0.2s;
 }
 
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.tab.active {
+    background: #4b7cff;
+}
+
 @media (max-width: 600px) {
     h1 {
         font-size: 2.3rem;

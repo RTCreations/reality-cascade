@@ -9,31 +9,31 @@ export function getScale(key, level = 0) {
                 console.log("level < 10");
                 return {
                     Multi: new Decimal(2),
-                    Pow: new Decimal(1)
+                    Pow: new Decimal(1.001)
                 };
             } else if (levelValue.lt(20)) {
                 console.log("level < 20");
                 return {
                     Multi: new Decimal(3),
-                    Pow: new Decimal(1.001)
+                    Pow: new Decimal(1.003)
                 };
             } else if (levelValue.lt(30)) {
                 console.log("level < 30");
                 return {
                     Multi: new Decimal(4),
-                    Pow: new Decimal(1.002)
+                    Pow: new Decimal(1.006)
                 };
             } else if (levelValue.lt(40)) {
                 console.log("level < 40");
                 return {
                     Multi: new Decimal(5),
-                    Pow: new Decimal(1.003)
+                    Pow: new Decimal(1.01)
                 };
             } else if (levelValue.lt(50)) {
                 console.log("level < 50");
                 return {
                     Multi: new Decimal(6),
-                    Pow: new Decimal(1.004)
+                    Pow: new Decimal(1.02)
                 };
             }
 
@@ -41,25 +41,25 @@ export function getScale(key, level = 0) {
             if (levelValue.lt(10)) {
                 console.log("level < 10");
                 return {
-                    Multi: new Decimal(3),
-                    Pow: new Decimal(1)
+                    Multi: new Decimal(4),
+                    Pow: new Decimal(1.005)
                 };
             } else if (levelValue.lt(20)) {
                 console.log("level < 20");
                 return {
-                    Multi: new Decimal(4),
+                    Multi: new Decimal(5),
                     Pow: new Decimal(1.01)
                 };
             } else if (levelValue.lt(30)) {
                 console.log("level < 30");
                 return {
-                    Multi: new Decimal(5),
+                    Multi: new Decimal(6),
                     Pow: new Decimal(1.015)
                 };
             } else if (levelValue.lt(40)) {
                 console.log("level < 40");
                 return {
-                    Multi: new Decimal(6),
+                    Multi: new Decimal(7),
                     Pow: new Decimal(1.02)
                 };
             }
