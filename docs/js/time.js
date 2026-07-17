@@ -20,7 +20,7 @@ export function applyOfflineProgress(seconds) {
     const earned = new Decimal(player.energyPerSecond).times(seconds);
     player.energy = new Decimal(player.energy).plus(earned);
 
-    console.log(`You earned ${earned} energy while away for ` + formatTime(seconds));
+    alert(`You earned ${earned} energy while away for ` + formatTime(seconds));
 }
 
 export function formatTime(seconds) {
