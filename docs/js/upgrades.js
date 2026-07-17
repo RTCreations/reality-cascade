@@ -31,7 +31,7 @@ export const upgrades = {
             player.energyPerSecond = player.energyPerSecond
             .times(2);
             const amplifierScale = getScale("energyAmplifier", this.energyAmplifier.level);
-            this.energyAmplifier.cost = new Decimal(this.energyAmplifier.cost).times(amplifierScale.Multi).pow(amplifierScale.Pow);
+            this.energyAmplifier.cost = new Decimal(this.energyAmplifier.cost).times(amplifierScale.Multi);
         }
     },
 
@@ -42,7 +42,7 @@ export const upgrades = {
             player.boughtUpgrades = player.boughtUpgrades.plus(1);
             player.energyPerSecond = player.energyPerSecond.times(1.5);
             const boostScale = getScale("energyBoost", this.energyBoost.level);
-            this.energyBoost.cost = new Decimal(this.energyBoost.cost).times(boostScale.Multi).pow(boostScale.Pow);
+            this.energyBoost.cost = new Decimal(this.energyBoost.cost).times(boostScale.Multi);
         }
     },
 
