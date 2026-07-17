@@ -8,19 +8,19 @@ export const upgrades = {
     energyAmplifier: {
         name: "Energy Amplifier",
         level: 0,
-        cost: new Decimal(10)
+        cost: new Decimal(1e-34)
     },
 
     energyBoost: {
         name: "Energy Boost",
         level: 0,
-        cost: new Decimal(50)
+        cost: new Decimal(5e-34)
     },
 
     energyAccelerate: {
         name: "Energy Accelerator",
         level: 0,
-        cost: new Decimal(50),
+        cost: new Decimal(5e-34),
     },
 
     buyEnergyAmplifier() {
@@ -40,7 +40,7 @@ export const upgrades = {
             player.energy = player.energy.minus(this.energyBoost.cost);
             this.energyBoost.level++;
             player.boughtUpgrades = player.boughtUpgrades.plus(1);
-            player.energyPerSecond = player.energyPerSecond.times(2);
+            player.energyPerSecond = player.energyPerSecond.times(1.5);
             const boostScale = getScale("energyBoost", this.energyBoost.level);
             this.energyBoost.cost = new Decimal(this.energyBoost.cost).times(boostScale.Multi).pow(boostScale.Pow);
         }

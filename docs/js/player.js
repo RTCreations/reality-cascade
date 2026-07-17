@@ -4,9 +4,15 @@ import { upgrades } from "./upgrades.js";
 
 export const player = {
     energy: new Decimal(0),
-    energyPerSecond: new Decimal(1),
+    energyPerSecond: new Decimal(1e-35),
     energySpeed: 1000,
     boughtUpgrades: new Decimal(0),
+    lastSave: Date.now(),
+
+    stats: {
+        playtime: 0,
+        totalEnergy: new Decimal(1e-35)
+    },
 
     reality: {
         essence: new Decimal(0),

@@ -3,12 +3,12 @@ import Decimal from "../libraries/break_eternity.js-2.1.3/break_eternity.esm.js"
 import { player } from "./player.js";
 import { upgrades } from "./upgrades.js";
 import { saveGame, loadGame } from "./save.js";
+import { energyUpgradesLightUp } from "./animations.js";
+import { getTime } from "./time.js";
+import { formatTime } from "./time.js";
 
 export function formatE(num) {
     num = new Decimal(num);
-
-    if (num.lt(1000)) return num.toFixed(0);
-
     let exponent = num.log10().floor();
     let mantissa = num.div(Decimal.pow(10, exponent));
 
@@ -46,22 +46,26 @@ export function formatF(val) {
 
 export function gameLoop() {
     //main production loop, runs every energySpeed ms
-    player.energy = player.energy.plus(player.energyPerSecond.div(1));
+    getTime();
 
     updateDisplay();
 }
 
 export function updateDisplay() {
     document.getElementById("energy").textContent = 
-    "Energy: " + formatE(player.energy);
+    "Energy: " + formatE(player.energy) + " J";
     document.getElementById("eps").textContent = 
-    "Energy/sec: " + formatF(player.energyPerSecond.times(new Decimal(1000).div(player.energySpeed)));
+    "Energy/sec: " + formatE(player.energyPerSecond.times(new Decimal(1000).div(player.energySpeed))) + " J";
     document.getElementById("energyAmplifierBtn").textContent = 
-    "Energy Amplifier (2x): " + formatF(upgrades.energyAmplifier.cost) + " Energy (Level: " + upgrades.energyAmplifier.level + ")";
+    "Energy Amplifier (2x): " + formatE(upgrades.energyAmplifier.cost) + " Energy (Level: " + upgrades.energyAmplifier.level + ")";
     document.getElementById("energyBoostBtn").textContent = 
-    "Energy Boost (2x): " + formatF(upgrades.energyBoost.cost) + " Energy (Level: " + upgrades.energyBoost.level + ")";
+    "Energy Boost (1.5x): " + formatE(upgrades.energyBoost.cost) + " Energy (Level: " + upgrades.energyBoost.level + ")";
     document.getElementById("energyAccelerateBtn").textContent = 
-    "Accelerate: " + formatF(upgrades.energyAccelerate.cost) + " Energy (Level: " + upgrades.energyAccelerate.level + " / " + player.energySpeed.toFixed(0) + "ms" + ")";
+    "Accelerate: " + formatE(upgrades.energyAccelerate.cost) + " Energy (Level: " + upgrades.energyAccelerate.level + " / " + player.energySpeed.toFixed(0) + "ms" + ")";
+
+    document.getElementById("playtime").textContent = "Playtime: " + formatTime(player.stats.playtime);
+
+    energyUpgradesLightUp();
 }
 
 let intervalId = null;

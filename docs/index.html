@@ -14,33 +14,58 @@
         </header>
 
         <nav class="tabs">
-            <button class="tab active">Energy</button>
-            <button class="tab">Dimensions</button>
-            <button class="tab">Reality</button>
-            <button class="tab">Statistics</button>
-            <button class="tab">Settings</button>
+            <button class="tab active" data-tab="resources">Energy</button>
+            <button class="tab" data-tab="dimensions">Dimensions</button>
+            <button class="tab" data-tab="reality">Reality</button>
+            <button class="tab" data-tab="statistics">Statistics</button>
+            <button class="tab" data-tab="settings">Settings</button>
         </nav>
 
         <main>
-            <section class="resources">
-                <div id="energy">Energy: LOADING</div>
-                <div id="eps">Energy/sec: LOADING</div>
+            <section id="resources" class="tab-content active">
+                <div class="energy-column">
+                    <div id="energy">Energy: LOADING</div>
+                    <div id="eps">Energy/sec: LOADING</div>
+                </div>
+
+                <div class="upgrades-column">
+                    <button id="energyAmplifierBtn">Energy Amplifier (2x): LOADING</button>
+                    <button id="energyBoostBtn">Energy Boost (1.5x): LOADING</button>
+                    <button id="energyAccelerateBtn">Accelerate: LOADING</button>
+                </div>
+
+                <footer>
+                    Reach <strong>1e-28 Energy</strong> to unlock a new feature.
+                </footer>
             </section>
 
-            <section class="upgrades">
-                <button id="energyAmplifierBtn">Amplifier: LOADING</button>
-                <button id="energyBoostBtn">Boost: LOADING</button>
-                <button id="energyAccelerateBtn">Accelerate: LOADING</button>
+            <section id="dimensions" class="tab-content">
+                <h2>Dimensions</h2>
+                <p>Coming soon.</p>
+            </section>
+
+            <section id="reality" class="tab-content">
+                <h2>Reality</h2>
+                <p>Coming soon.</p>
+            </section>
+
+            <section id="statistics" class="tab-content">
+                <h2>Statistics</h2>
+
+                <p id="playtime">Playtime: 0s</p>
+
+                <button id="save">Save Game</button>
+                <button id="wipe">Wipe Save</button>
+            </section>
+
+            <section id="settings" class="tab-content">
+                <h2>Settings</h2>
+                <p>Coming soon.</p>
             </section>
         </main>
 
-        <footer>
-            Reach <strong>2e23 Energy</strong> to unlock the next layer.
-        </footer>
-
-        <button id="save">Save Game</button>
-        <button id="wipe">Wipe Save</button>
-
         <script type="module" src="js/main.js"></script>
+        <script type="module" src="js/time.js"></script>
+        <script src="js/navigation.js"></script>
     </body>
 </html>
