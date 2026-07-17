@@ -6,9 +6,9 @@ let lastUpdate = Date.now();
 
 export function getTime() {
     const now = Date.now();
-    const delta = Math.floor((now - lastUpdate) / 1000); // seconds
+    const delta = (now - lastUpdate) / 1000; // seconds
     lastUpdate = now;
-
+    console.log("wr")
     player.stats.playtime += delta;
 
     player.energy = new Decimal(player.energy).plus(new Decimal(player.energyPerSecond).times(delta));
@@ -20,7 +20,7 @@ export function applyOfflineProgress(seconds) {
     const earned = new Decimal(player.energyPerSecond).times(seconds);
     player.energy = new Decimal(player.energy).plus(earned);
 
-    alert(`You earned ${earned} energy while away for ` + formatTime(seconds));
+    console.log(`You earned ${earned} energy while away for ` + formatTime(seconds));
 }
 
 export function formatTime(seconds) {
