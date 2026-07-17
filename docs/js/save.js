@@ -17,6 +17,11 @@ export function saveGame() {
             energyAccelerate: upgrades.energyAccelerate
         },
 
+        stats: {
+            playtime: player.stats.playtime.toString(),
+            totalEnergy: player.stats.totalEnergy.toString()
+        },
+
         reality: {
             essence: player.reality.essence.toString(),
             level: player.reality.level
@@ -44,6 +49,8 @@ export function loadGame() {
         upgrades.energyAmplifier = save.upgrades.energyAmplifier;
         upgrades.energyBoost = save.upgrades.energyBoost;
         upgrades.energyAccelerate = save.upgrades.energyAccelerate;
+        player.stats.playtime = save.stats.playtime;
+        player.stats.totalEnergy = save.stats.totalEnergy;
         player.reality.essence = new Decimal(save.reality.essence);
         player.reality.level = save.reality.level;
     }

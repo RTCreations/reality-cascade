@@ -14,40 +14,40 @@
         </header>
 
         <nav class="tabs">
-            <button class="tab active">Energy</button>
-            <button class="tab">Dimensions</button>
-            <button class="tab">Reality</button>
-            <button class="tab">Statistics</button>
-            <button class="tab">Settings</button>
+            <button class="tab active" data-tab="resources">Energy</button>
+            <button class="tab" data-tab="dimensions">Dimensions</button>
+            <button class="tab" data-tab="reality">Reality</button>
+            <button class="tab" data-tab="statistics">Statistics</button>
+            <button class="tab" data-tab="settings">Settings</button>
         </nav>
 
         <main>
             <section id="resources" class="tab-content active">
                 <div id="energy">Energy: LOADING</div>
                 <div id="eps">Energy/sec: LOADING</div>
-            </section>
 
-            <section class="upgrades">
                 <button id="energyAmplifierBtn">Energy Amplifier (2x): LOADING</button>
                 <button id="energyBoostBtn">Energy Boost (1.5x): LOADING</button>
                 <button id="energyAccelerateBtn">Accelerate: LOADING</button>
+
+                <footer>
+                    Reach <strong>1e-28  Energy</strong> to unlock a new feature.
+                </footer>
+            </section>
+
+            <section id="statistics" class="tab-content">
+                <h2>Statistics</h2>
+
+                <p>Total Joules Produced: <span id="totalEnergy">0</span></p>
+                <p id="playtime">Playtime: 0s</p>
+
+                <button id="save">Save Game</button>
+                <button id="wipe">Wipe Save</button>
             </section>
         </main>
 
-        <footer>
-            Reach <strong>1e-28  Energy</strong> to unlock a new feature.
-        </footer>
-
-        <button id="save">Save Game</button>
-        <button id="wipe">Wipe Save</button>
-
-        <section id="statistics" class="tab-content">
-            <h2>Statistics</h2>
-
-            <p>Total Joules Produced: <span id="totalEnergy">0</span></p>
-            <p>Play Time: <span id="playTime">0s</span></p>
-        </section>
-
         <script type="module" src="js/main.js"></script>
+        <script src="js/tabs.js"></script>
+        <script type="module" src="js/time.js"></script>
     </body>
 </html>

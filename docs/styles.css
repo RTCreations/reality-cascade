@@ -91,14 +91,18 @@ h1 {
     box-shadow: 0 0 12px rgba(103, 215, 255, 0.3);
 }
 
-.upgrades {
+#energyAmplifierBtn,
+#energyBoostBtn,
+#energyAccelerateBtn {
     width: 350px;
     display: flex;
     flex-direction: column;
     gap: 12px;
 }
 
-.upgrades button {
+#energyAmplifierBtn,
+#energyBoostBtn,
+#energyAccelerateBtn {
     background: #2b3452;
     color: white;
     border: 1px solid #4e70ff;
@@ -110,10 +114,6 @@ h1 {
 button:active {
     transform: scale(1.25);
     transition: transform 0.5s ease-out;
-}
-
-.upgrades button:hover {
-    background: #3c4c7f;
 }
 
 footer {
@@ -129,11 +129,7 @@ button:disabled {
     box-shadow: none;
 }
 
-p:last-of-type {
-    margin-top: 30px;
-    color: #ffd166;
-    font-size: 1rem;
-    font-weight: bold;
+#statistics {
     text-align: center;
 }
 

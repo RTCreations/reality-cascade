@@ -8,6 +8,11 @@ export const player = {
     energySpeed: 1000,
     boughtUpgrades: new Decimal(0),
 
+    stats: {
+        playtime: 3245234532412312,
+        totalEnergy: new Decimal(1e-35)
+    },
+
     reality: {
         essence: new Decimal(0),
         level: 0
