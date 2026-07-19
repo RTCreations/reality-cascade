@@ -1,17 +1,92 @@
 import Decimal from "../libraries/break_eternity.js-2.1.3/break_eternity.esm.js";
 
 import { player } from "./player.js";
+import { formatE } from "./main.js"
 
 let lastUpdate = Date.now();
+let offlineNoticeTimer = null;
+let offlineNoticeInterval = null;
+let offlineNoticeSecondsRemaining = 10;
+
+function hideOfflineProgressNotice() {
+    const notice = document.getElementById("offline-progress");
+    const countdown = document.getElementById("offline-progress-countdown");
+
+    if (notice) {
+        notice.classList.remove("visible");
+    }
+
+    if (offlineNoticeTimer) {
+        clearTimeout(offlineNoticeTimer);
+        offlineNoticeTimer = null;
+    }
+
+    if (offlineNoticeInterval) {
+        clearInterval(offlineNoticeInterval);
+        offlineNoticeInterval = null;
+    }
+
+    if (countdown) {
+        countdown.textContent = "Closing in 10s";
+    }
+}
+
+function showOfflineProgressNotice(earned, seconds) {
+    const notice = document.getElementById("offline-progress");
+    const message = document.getElementById("offline-progress-message");
+    const countdown = document.getElementById("offline-progress-countdown");
+
+    if (!notice || !message || !countdown) {
+        return;
+    }
+
+    hideOfflineProgressNotice();
+
+    message.textContent = `You earned ${formatE(earned.toString())} energy while away for ${formatTime(seconds)}!`;
+    offlineNoticeSecondsRemaining = 10;
+    countdown.textContent = "Closing in 10s";
+    notice.classList.add("visible");
+
+    offlineNoticeInterval = window.setInterval(() => {
+        offlineNoticeSecondsRemaining -= 1;
+
+        if (offlineNoticeSecondsRemaining <= 0) {
+            hideOfflineProgressNotice();
+            return;
+        }
+
+        countdown.textContent = `Closing in ${offlineNoticeSecondsRemaining}s`;
+    }, 1000);
+
+    offlineNoticeTimer = window.setTimeout(() => {
+        hideOfflineProgressNotice();
+    }, 10000);
+}
+
+const closeOfflineProgressButton = document.getElementById("offline-progress-close");
+
+if (closeOfflineProgressButton) {
+    closeOfflineProgressButton.addEventListener("click", hideOfflineProgressNotice);
+}
 
 export function getTime() {
     const now = Date.now();
     const delta = (now - lastUpdate) / 1000; // seconds
     lastUpdate = now;
-    console.log("wr")
+
     player.stats.playtime += delta;
 
-    player.energy = new Decimal(player.energy).plus(new Decimal(player.energyPerSecond).times(delta));
+    player.energy = new Decimal(player.energy).plus(new Decimal(player.energyPerSecond).times(new Decimal(1000).div(player.energySpeed)).times(player.light.pow(1.5)).times(delta));
+
+    if (player.photonsPerSecond.equals(new Decimal(0)) && player.energy.gte(1e-28)) {
+        player.photonsPerSecond = new Decimal(1);
+    }
+
+    if (player.energy.gte(1e-28)) {
+        player.photons = new Decimal(player.photons).plus(new Decimal(player.photonsPerSecond).times(delta));
+        player.lightPerSecond = new Decimal(player.lightPerSecond).plus(player.photons.pow(0.5).times(delta));
+        player.light = new Decimal(player.light).plus(new Decimal(player.lightPerSecond).times(delta));
+    }
 }
 
 export function applyOfflineProgress(seconds) {
@@ -20,7 +95,9 @@ export function applyOfflineProgress(seconds) {
     const earned = new Decimal(player.energyPerSecond).times(seconds);
     player.energy = new Decimal(player.energy).plus(earned);
 
-    alert(`You earned ${earned} energy while away for ` + formatTime(seconds));
+    if (seconds > 0) {
+        showOfflineProgressNotice(earned, seconds);
+    }
 }
 
 export function formatTime(seconds) {

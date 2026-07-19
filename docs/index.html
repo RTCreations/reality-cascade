@@ -22,6 +22,15 @@
         </nav>
 
         <main>
+            <div id="offline-progress" class="offline-progress" role="status" aria-live="polite">
+                <div class="offline-progress-header">
+                    <strong>Offline Progress</strong>
+                    <button id="offline-progress-close" class="offline-progress-close" type="button" aria-label="Close offline progress">×</button>
+                </div>
+                <span id="offline-progress-countdown">Closing in 10s</span>
+                <span id="offline-progress-message"></span>
+            </div>
+
             <section id="resources" class="tab-content active">
                 <div class="energy-column">
                     <div id="energy">Energy: LOADING</div>
@@ -34,9 +43,16 @@
                     <button id="energyAccelerateBtn">Accelerate: LOADING</button>
                 </div>
 
-                <footer>
+                <footer id="unlock1" class="active">
                     Reach <strong>1e-28 Energy</strong> to unlock a new feature.
                 </footer>
+
+                <hr id="lightDivider" class="">
+
+                <div class="light-column">
+                    <p id="light">Light: LOADING</p>
+                    <p id="photons">Photons: LOADING</p>
+                </div>
             </section>
 
             <section id="dimensions" class="tab-content">
@@ -53,7 +69,7 @@
                 <h2>Statistics</h2>
 
                 <p id="playtime">Playtime: 0s</p>
-                <p id="energyStats">You have 1e-35 energy, which is enough energy for 0.626 photons!</p>
+                <p id="energyStats">You have 1e-35 energy, which is enough energy to power 0.015 photons with a frequency of 1Hz!</p>
             </section>
 
             <section id="settings" class="tab-content">
