@@ -175,6 +175,20 @@ h1 {
     display: block;
 }
 
+#lightDivider {
+    display: none;
+    width: 100%;
+    margin: 8px 0 4px;
+    border: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #ffffff, #fce306, #ffffff);
+    box-shadow: 0 0 8px rgba(252, 227, 6, 0.35);
+}
+
+#lightDivider.active {
+    display: block;
+}
+
 .light-column {
     display: none;
 }
