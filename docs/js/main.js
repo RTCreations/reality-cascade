@@ -6,6 +6,7 @@ import { saveGame, loadGame } from "./save.js";
 import { energyUpgradesLightUp } from "./animations.js";
 import { getTime } from "./time.js";
 import { formatTime } from "./time.js";
+import { getFact } from "./facts.js";
 
 export function formatE(num) {
     num = new Decimal(num);
@@ -64,6 +65,7 @@ export function updateDisplay() {
     "Accelerate: " + formatE(upgrades.energyAccelerate.cost) + " Energy (Level: " + upgrades.energyAccelerate.level + " / " + player.energySpeed.toFixed(0) + "ms" + ")";
 
     document.getElementById("playtime").textContent = "Playtime: " + formatTime(player.stats.playtime);
+    document.getElementById("energyStats").textContent = getFact();
 
     energyUpgradesLightUp();
 }
