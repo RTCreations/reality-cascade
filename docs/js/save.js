@@ -13,6 +13,12 @@ export function saveGame() {
         energy: player.energy.toString(),
         energyPerSecond: player.energyPerSecond.toString(),
         energySpeed: String(player.energySpeed),
+
+        photons: player.photons.toString(),
+        photonsPerSecond: player.photonsPerSecond.toString(),
+        light: player.light.toString(),
+        lightPerSecond: player.light.toString(),
+
         lastSave: player.lastSave,
 
         upgrades: {
@@ -63,16 +69,23 @@ export function loadGame() {
         player.energyPerSecond = new Decimal(save.energyPerSecond ?? 1e-35);
         player.energySpeed = Number(save.energySpeed ?? 1000);
 
+        player.light = new Decimal(save.light ?? 1);
+        player.lightPerSecond = new Decimal(save.lightPerSecond ?? 0);
+        player.photons = new Decimal(save.photons ?? 1);
+        player.photons = new Decimal(save.photonsPerSecond ?? 0);
+
         upgrades.energyAmplifier = {
             name: save.upgrades?.energyAmplifier?.name ?? upgrades.energyAmplifier.name,
             level: Number(save.upgrades?.energyAmplifier?.level ?? 0),
             cost: new Decimal(save.upgrades?.energyAmplifier?.cost ?? 1e-34)
         };
+
         upgrades.energyBoost = {
             name: save.upgrades?.energyBoost?.name ?? upgrades.energyBoost.name,
             level: Number(save.upgrades?.energyBoost?.level ?? 0),
             cost: new Decimal(save.upgrades?.energyBoost?.cost ?? 5e-34)
         };
+        
         upgrades.energyAccelerate = {
             name: save.upgrades?.energyAccelerate?.name ?? upgrades.energyAccelerate.name,
             level: Number(save.upgrades?.energyAccelerate?.level ?? 0),

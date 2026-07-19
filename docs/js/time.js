@@ -73,10 +73,20 @@ export function getTime() {
     const now = Date.now();
     const delta = (now - lastUpdate) / 1000; // seconds
     lastUpdate = now;
-    console.log("wr")
+
     player.stats.playtime += delta;
 
-    player.energy = new Decimal(player.energy).plus(new Decimal(player.energyPerSecond).times(delta));
+    player.energy = new Decimal(player.energy).plus(new Decimal(player.energyPerSecond).times(new Decimal(1000).div(player.energySpeed)).times(player.light.pow(1.5)).times(delta));
+
+    if (player.photonsPerSecond.equals(new Decimal(0)) && player.energy.gte(1e-28)) {
+        player.photonsPerSecond = new Decimal(1);
+    }
+
+    if (player.energy.gte(1e-28)) {
+        player.photons = new Decimal(player.photons).plus(new Decimal(player.photonsPerSecond).times(delta));
+        player.lightPerSecond = new Decimal(player.lightPerSecond).plus(player.photons.pow(0.5).times(delta));
+        player.light = new Decimal(player.light).plus(new Decimal(player.lightPerSecond).times(delta));
+    }
 }
 
 export function applyOfflineProgress(seconds) {

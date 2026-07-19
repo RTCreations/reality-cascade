@@ -167,6 +167,37 @@ h1 {
     gap: 12px;
 }
 
+#unlock1 {
+    display: none;
+}
+
+#unlock1.active {
+    display: block;
+}
+
+.light-column {
+    display: none;
+}
+
+.light-column.active {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+#light,
+#photons {
+    width: 320px;
+    text-align: center;
+    background: rgba(255, 255, 160, 0.4);
+    border: 2px solid #fce306;
+    border-radius: 12px;
+    padding: 15px;
+    margin: 10px 0;
+    font-size: 1.2rem;
+    transition: 0.25s;
+}
+
 #energy:hover,
 #eps:hover {
     border-color: #67d7ff;
