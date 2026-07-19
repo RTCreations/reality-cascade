@@ -22,6 +22,15 @@
         </nav>
 
         <main>
+            <div id="offline-progress" class="offline-progress" role="status" aria-live="polite">
+                <div class="offline-progress-header">
+                    <strong>Offline Progress</strong>
+                    <button id="offline-progress-close" class="offline-progress-close" type="button" aria-label="Close offline progress">×</button>
+                </div>
+                <span id="offline-progress-countdown">Closing in 10s</span>
+                <span id="offline-progress-message"></span>
+            </div>
+
             <section id="resources" class="tab-content active">
                 <div class="energy-column">
                     <div id="energy">Energy: LOADING</div>

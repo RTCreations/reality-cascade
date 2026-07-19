@@ -22,6 +22,65 @@ main {
     width: 100%;
 }
 
+.offline-progress {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-16px);
+    z-index: 1000;
+    min-width: min(420px, calc(100vw - 32px));
+    padding: 14px 18px;
+    border-radius: 12px;
+    background: rgba(10, 16, 29, 0.95);
+    border: 1px solid #67d7ff;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+    color: #f3f7ff;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.offline-progress.visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: auto;
+}
+
+.offline-progress-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.offline-progress strong {
+    color: #7ad7ff;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+}
+
+.offline-progress span {
+    font-size: 0.95rem;
+    color: #dfe6f5;
+}
+
+.offline-progress-close {
+    border: none;
+    background: transparent;
+    color: #f3f7ff;
+    cursor: pointer;
+    font-size: 1.2rem;
+    line-height: 1;
+    padding: 0;
+}
+
+.offline-progress-close:hover {
+    color: #7ad7ff;
+}
+
 #resources {
     display: flex;
     justify-content: center;
