@@ -61,6 +61,9 @@ export function updateDisplay() {
     "Primons: " + formatE(player.primon);
     document.getElementById("pps").textContent = 
     "Primons/s: " + formatE(player.primonsPerSecond);
+    const antiEnergyMultiplier = upgrades.getAntiEnergyMultiplier();
+    document.getElementById("antiBoost").textContent = 
+    "Anti-energy boost: " + antiEnergyMultiplier.toFixed(2) + "x";
     document.getElementById("primonBtn").textContent = 
     "Primon Enhancer (3x): " + formatE(upgrades.primonBtn.cost) + " Energy (Level: " + upgrades.primonBtn.level + ")";
 
@@ -69,7 +72,7 @@ export function updateDisplay() {
     "Anti Energy: 0 Anti J" : document.getElementById("antiEnergy").textContent = 
     "Anti Energy: " + formatE(player.antiEnergy) + " Anti J";
     document.getElementById("antiEnergyReset").textContent = 
-    "Reset Primons for " + formatE(player.primon.pow(0.5)) + " Anti Energy";
+    "Reset Primons for " + formatE(new Decimal(player.primon).pow(1.5)) + " Anti Energy";
 
     document.getElementById("energy").textContent = 
     "Energy: " + formatE(player.energy) + " J";
@@ -178,6 +181,11 @@ window.addEventListener('keyup', (event) => {
 document.getElementById("primonBtn").onclick = (e) => {
     e.preventDefault();
     upgrades.buyPrimonBtn();
+};
+
+document.getElementById("antiEnergyReset").onclick = (e) => {
+    e.preventDefault();
+    upgrades.resetPrimonForAntiEnergy();
 };
 
 document.getElementById("energyAmplifierBtn").onclick = (e) => {

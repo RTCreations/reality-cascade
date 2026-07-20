@@ -33,6 +33,12 @@ export function saveGame() {
         lastSave: player.lastSave,
 
         upgrades: {
+            primonBtn: {
+                name: upgrades.primonBtn.name,
+                level: upgrades.primonBtn.level,
+                cost: upgrades.primonBtn.cost.toString()
+            },
+
             energyAmplifier: {
                 name: upgrades.energyAmplifier.name,
                 level: upgrades.energyAmplifier.level,
@@ -95,6 +101,12 @@ export function loadGame() {
         player.photons = new Decimal(save.photons ?? 1);
         player.photons = new Decimal(save.photonsPerSecond ?? 0);
         player.unlockedLight = Boolean(save.unlockedLight ?? false);
+
+        upgrades.primonBtn = {
+            name: save.upgrades?.primonBtn?.name ?? upgrades.primonBtn.name,
+            level: Number(save.upgrades?.primonBtn?.level ?? 0),
+            cost: new Decimal(save.upgrades?.primonBtn?.cost ?? 5e-100)
+        },
 
         upgrades.energyAmplifier = {
             name: save.upgrades?.energyAmplifier?.name ?? upgrades.energyAmplifier.name,
