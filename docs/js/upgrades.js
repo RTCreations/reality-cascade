@@ -33,14 +33,14 @@ export const upgrades = {
         if (player.primon.gte(this.primonBtn.cost)) {
             player.primon = player.primon.minus(this.primonBtn.cost);
             this.primonBtn.level++;
-            player.primonsPerSecond = player.primonsPerSecond.times(2.2);
+            player.primonsPerSecond = player.primonsPerSecond.times(2);
             const primonScale = getScale("primonBtn", this.primonBtn.level);
             this.primonBtn.cost = new Decimal(this.primonBtn.cost).times(primonScale.Multi);
         }
     },
 
     getAntiEnergyGain() {
-        return new Decimal(player.primon).pow(1.5);
+        return new Decimal(player.primon).mul(player.primon.pow(0.1));
     },
 
     getAntiEnergyMultiplier() {
@@ -50,7 +50,7 @@ export const upgrades = {
 
         const baseline = new Decimal(1e-100);
         const ratio = player.antiEnergy.div(baseline);
-        const boost = new Decimal(1).plus(ratio.pow(0.1));
+        const boost = new Decimal(1).plus(ratio.pow(2));
 
         return boost.toNumber();
     },
@@ -65,7 +65,9 @@ export const upgrades = {
         player.primon = new Decimal(0);
 
         const multiplier = this.getAntiEnergyMultiplier();
-        player.primonsPerSecond = player.primonsPerSecond.times(multiplier);
+        player.primonsPerSecond = new Decimal(1e-100).times(multiplier);
+        player.upgrades.primonBtn.level = 0;
+        player.upgrades.primonBtn.cost = new Decimal(5e-100);
 
         return true;
     },

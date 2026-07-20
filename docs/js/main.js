@@ -61,11 +61,12 @@ export function updateDisplay() {
     "Primons: " + formatE(player.primon);
     document.getElementById("pps").textContent = 
     "Primons/s: " + formatE(player.primonsPerSecond);
+    
     const antiEnergyMultiplier = upgrades.getAntiEnergyMultiplier();
     document.getElementById("antiBoost").textContent = 
-    "Anti-energy boost: " + antiEnergyMultiplier.toFixed(2) + "x";
+    "Anti-energy boost: " + formatF(antiEnergyMultiplier) + "x";
     document.getElementById("primonBtn").textContent = 
-    "Primon Enhancer (3x): " + formatE(upgrades.primonBtn.cost) + " Energy (Level: " + upgrades.primonBtn.level + ")";
+    "Primon Enhancer (2x) for " + formatE(upgrades.primonBtn.cost) + " Primons (Level " + upgrades.primonBtn.level + ")";
 
 
     player.antiEnergy.equals(0) ? document.getElementById("antiEnergy").textContent = 
