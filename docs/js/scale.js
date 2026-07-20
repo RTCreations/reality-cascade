@@ -4,6 +4,11 @@ export function getScale(key, level = 0) {
     const levelValue = new Decimal(level);
 
     switch (key) {
+        case "primonBtn":
+            if (levelValue.lt(20)) {
+                Multi: new Decimal(1.2)
+            }
+
         case "energyAmplifier":
             if (levelValue.lt(10)) {
                 console.log("level < 10");

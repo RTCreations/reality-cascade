@@ -5,6 +5,12 @@ import { getScale } from "./scale.js";
 import { speedUp } from "./main.js";
 
 export const upgrades = {
+    primonBtn: {
+        name: "Primon Enhancer",
+        level: 0,
+        cost: new Decimal(5e-100)
+    },
+
     energyAmplifier: {
         name: "Energy Amplifier",
         level: 0,
@@ -21,6 +27,16 @@ export const upgrades = {
         name: "Energy Accelerator",
         level: 0,
         cost: new Decimal(5e-34),
+    },
+
+    buyPrimonBtn() {
+        if (player.primon.gte(this.primonBtn.cost)) {
+            player.primon = player.primon.minus(this.primonBtn.cost);
+            this.primonBtn.level++;
+            player.primonsPerSecond = player.primonsPerSecond.times(3);
+            const primonScale = getScale("primonBtn", this.primonBtn.level);
+            this.primonBtn.cost = new Decimal(this.primonBtn.cost).times(primonScale.Multi);
+        }
     },
 
     buyEnergyAmplifier() {

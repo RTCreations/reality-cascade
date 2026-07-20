@@ -61,8 +61,12 @@ export function updateDisplay() {
     "Primons: " + formatE(player.primon);
     document.getElementById("pps").textContent = 
     "Primons/s: " + formatE(player.primonsPerSecond);
+    document.getElementById("primonBtn").textContent = 
+    "Primon Enhancer (3x): " + formatE(upgrades.primonBtn.cost) + " Energy (Level: " + upgrades.primonBtn.level + ")";
 
-    document.getElementById("antiEnergy").textContent = 
+
+    player.antiEnergy.equals(0) ? document.getElementById("antiEnergy").textContent = 
+    "Anti Energy: 0 Anti J" : document.getElementById("antiEnergy").textContent = 
     "Anti Energy: " + formatE(player.antiEnergy) + " Anti J";
     document.getElementById("antiEnergyReset").textContent = 
     "Reset Primons for " + formatE(player.primon.pow(0.5)) + " Anti Energy";
@@ -142,6 +146,7 @@ export function heldBuy() {
     intervalId2 = null;
 
     intervalId2 = setInterval(() => {
+        upgrades.buyPrimonBtn();
         upgrades.buyEnergyAmplifier();
         upgrades.buyEnergyBoost();
         upgrades.buyEnergyAccelerate();
@@ -169,6 +174,11 @@ window.addEventListener('keyup', (event) => {
         intervalId2 = null;
     }
 });
+
+document.getElementById("primonBtn").onclick = (e) => {
+    e.preventDefault();
+    upgrades.buyPrimonBtn();
+};
 
 document.getElementById("energyAmplifierBtn").onclick = (e) => {
     e.preventDefault();
