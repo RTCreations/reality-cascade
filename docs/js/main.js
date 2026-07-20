@@ -4,7 +4,10 @@ import { player } from "./player.js";
 import { upgrades } from "./upgrades.js";
 import { saveGame, loadGame } from "./save.js";
 import { energyUpgradesLightUp } from "./animations.js";
-import { getTime } from "./time.js";
+import { getPlaytime } from "./time.js";
+import { getPrimonTime } from "./time.js";
+import { getEnergyTime } from "./time.js";
+import { getLightTime } from "./time.js";
 import { formatTime } from "./time.js";
 import { getFact } from "./facts.js";
 import { getUnlock } from "./unlock.js";
@@ -47,13 +50,30 @@ export function formatF(val) {
 }
 
 export function gameLoop() {
-    //main production loop, runs every energySpeed ms
+    //main production loop, runs every tick ms
     getTime();
 
     updateDisplay();
 }
 
 export function updateDisplay() {
+    document.getElementById("primon").textContent = 
+    "Primons: " + formatE(player.primon);
+    document.getElementById("pps").textContent = 
+    "Primons/s: " + formatE(player.primonsPerSecond);
+    const antiEnergyMultiplier = upgrades.getAntiEnergyMultiplier();
+    document.getElementById("antiBoost").textContent = 
+    "Anti-energy boost: " + antiEnergyMultiplier.toFixed(2) + "x";
+    document.getElementById("primonBtn").textContent = 
+    "Primon Enhancer (3x): " + formatE(upgrades.primonBtn.cost) + " Energy (Level: " + upgrades.primonBtn.level + ")";
+
+
+    player.antiEnergy.equals(0) ? document.getElementById("antiEnergy").textContent = 
+    "Anti Energy: 0 Anti J" : document.getElementById("antiEnergy").textContent = 
+    "Anti Energy: " + formatE(player.antiEnergy) + " Anti J";
+    document.getElementById("antiEnergyReset").textContent = 
+    "Reset Primons for " + formatE(new Decimal(player.primon).pow(1.5)) + " Anti Energy";
+
     document.getElementById("energy").textContent = 
     "Energy: " + formatE(player.energy) + " J";
     document.getElementById("eps").textContent = 
@@ -78,17 +98,42 @@ export function updateDisplay() {
     getUnlock();
 }
 
-let intervalId = null;
+let playtimeInterval = null;
+let primonInterval = null;
+let energyInterval = null;
+let lightInterval = null;
 
 export function startTimer() {
-  // Clear any existing interval to prevent overlapping
-  clearInterval(intervalId); 
+    // Clear any existing interval to prevent overlapping
+    clearInterval(playtimeInterval);
+    clearInterval(primonInterval);
+    clearInterval(energyInterval); 
+    clearInterval(lightInterval);
 
-  // Start a new interval using the current value of the delay variable
-  intervalId = setInterval(() => {
-    gameLoop();
-    console.log(`Timer running at every ${player.energySpeed}ms`);
-  }, player.energySpeed);
+    // Start intervals using the current value of the delay variable
+    if (!playtimeInterval) {
+        playtimeInterval = setInterval(() => {
+            getPlaytime();
+        }, 1000);
+    }
+
+    if (!primonInterval) {
+        primonInterval = setInterval(() => {
+            getPrimonTime();
+        }, player.primonSpeed);
+    }
+
+    if (player.unlockedEnergy) {
+        energyInterval = setInterval(() => {
+            getEnergyTime();
+        }, player.energySpeed);
+    }
+
+    if (player.unlockedLight) {
+        lightInterval = setInterval(() => {
+            getLightTime();
+        }, player.energySpeed);
+    }
 }
 
 // Update the variable dynamically
@@ -104,6 +149,7 @@ export function heldBuy() {
     intervalId2 = null;
 
     intervalId2 = setInterval(() => {
+        upgrades.buyPrimonBtn();
         upgrades.buyEnergyAmplifier();
         upgrades.buyEnergyBoost();
         upgrades.buyEnergyAccelerate();
@@ -131,6 +177,16 @@ window.addEventListener('keyup', (event) => {
         intervalId2 = null;
     }
 });
+
+document.getElementById("primonBtn").onclick = (e) => {
+    e.preventDefault();
+    upgrades.buyPrimonBtn();
+};
+
+document.getElementById("antiEnergyReset").onclick = (e) => {
+    e.preventDefault();
+    upgrades.resetPrimonForAntiEnergy();
+};
 
 document.getElementById("energyAmplifierBtn").onclick = (e) => {
     e.preventDefault();

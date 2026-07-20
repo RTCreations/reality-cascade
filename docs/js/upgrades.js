@@ -5,6 +5,12 @@ import { getScale } from "./scale.js";
 import { speedUp } from "./main.js";
 
 export const upgrades = {
+    primonBtn: {
+        name: "Primon Enhancer",
+        level: 0,
+        cost: new Decimal(5e-100)
+    },
+
     energyAmplifier: {
         name: "Energy Amplifier",
         level: 0,
@@ -21,6 +27,47 @@ export const upgrades = {
         name: "Energy Accelerator",
         level: 0,
         cost: new Decimal(5e-34),
+    },
+
+    buyPrimonBtn() {
+        if (player.primon.gte(this.primonBtn.cost)) {
+            player.primon = player.primon.minus(this.primonBtn.cost);
+            this.primonBtn.level++;
+            player.primonsPerSecond = player.primonsPerSecond.times(2.2);
+            const primonScale = getScale("primonBtn", this.primonBtn.level);
+            this.primonBtn.cost = new Decimal(this.primonBtn.cost).times(primonScale.Multi);
+        }
+    },
+
+    getAntiEnergyGain() {
+        return new Decimal(player.primon).pow(1.5);
+    },
+
+    getAntiEnergyMultiplier() {
+        if (player.antiEnergy.lte(0)) {
+            return 1;
+        }
+
+        const baseline = new Decimal(1e-100);
+        const ratio = player.antiEnergy.div(baseline);
+        const boost = new Decimal(1).plus(ratio.pow(0.1));
+
+        return boost.toNumber();
+    },
+
+    resetPrimonForAntiEnergy() {
+        if (player.primon.lte(0)) {
+            return false;
+        }
+
+        const gain = this.getAntiEnergyGain();
+        player.antiEnergy = player.antiEnergy.plus(gain);
+        player.primon = new Decimal(0);
+
+        const multiplier = this.getAntiEnergyMultiplier();
+        player.primonsPerSecond = player.primonsPerSecond.times(multiplier);
+
+        return true;
     },
 
     buyEnergyAmplifier() {

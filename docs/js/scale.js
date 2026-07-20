@@ -4,71 +4,75 @@ export function getScale(key, level = 0) {
     const levelValue = new Decimal(level);
 
     switch (key) {
+        case "primonBtn":
+            if (levelValue.lt(10)) {
+                return {
+                    Multi: new Decimal(1.6)
+                };
+            } else if (levelValue.lt(25)) {
+                return {
+                    Multi: new Decimal(1.9)
+                };
+            } else if (levelValue.lt(50)) {
+                return {
+                    Multi: new Decimal(2.2)
+                };
+            }
+            return {
+                Multi: new Decimal(2.6)
+            };
+
         case "energyAmplifier":
             if (levelValue.lt(10)) {
-                console.log("level < 10");
                 return {
                     Multi: new Decimal(2)
                 };
             } else if (levelValue.lt(20)) {
-                console.log("level < 20");
                 return {
                     Multi: new Decimal(3)
                 };
             } else if (levelValue.lt(30)) {
-                console.log("level < 30");
                 return {
                     Multi: new Decimal(4)
                 };
             } else if (levelValue.lt(40)) {
-                console.log("level < 40");
                 return {
                     Multi: new Decimal(5)
                 };
-            } else if (levelValue.lt(50)) {
-                console.log("level < 50");
-                return {
-                    Multi: new Decimal(6)
-                };
             }
+            return {
+                Multi: new Decimal(6)
+            };
 
         case "energyBoost":
             if (levelValue.lt(10)) {
-                console.log("level < 10");
                 return {
                     Multi: new Decimal(4)
                 };
             } else if (levelValue.lt(20)) {
-                console.log("level < 20");
                 return {
                     Multi: new Decimal(5)
                 };
             } else if (levelValue.lt(30)) {
-                console.log("level < 30");
                 return {
                     Multi: new Decimal(6)
                 };
             } else if (levelValue.lt(40)) {
-                console.log("level < 40");
                 return {
                     Multi: new Decimal(7)
                 };
             }
+            return {
+                Multi: new Decimal(8)
+            };
 
         case "energyAccelerate":
-            if (levelValue.lt(25)) {
-                return {
-                    Multi: new Decimal(15),
-                    Pow: new Decimal(1),
-                    Max: 50
-                };
-            } else {
-                return {
-                    Multi: new Decimal(15),
-                    Pow: new Decimal(1),
-                    Max: 50
-                };
-            }
+            return {
+                Multi: new Decimal(15),
+                Pow: new Decimal(1),
+                Max: 50
+            };
+
         default:
             return {
                 Multi: new Decimal(1),
@@ -79,6 +83,7 @@ export function getScale(key, level = 0) {
 }
 
 export const scale = {
+    primonBtn: getScale("primonBtn"),
     energyAmplifier: getScale("energyAmplifier"),
     energyBoost: getScale("energyBoost"),
     energyAccelerate: getScale("energyAccelerate")
