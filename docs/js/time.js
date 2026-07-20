@@ -31,18 +31,21 @@ function hideOfflineProgressNotice() {
     }
 }
 
-function showOfflineProgressNotice(earned, seconds) {
+function showOfflineProgressNotice(seconds) {
     const notice = document.getElementById("offline-progress");
     const message = document.getElementById("offline-progress-message");
     const countdown = document.getElementById("offline-progress-countdown");
-
+    
+    const primonsEarned = new Decimal(player.primonsPerSecond).times(new Decimal(seconds));
+    player.primon = new Decimal(player.primon).plus(primonsEarned);
+    
     if (!notice || !message || !countdown) {
         return;
     }
 
     hideOfflineProgressNotice();
 
-    message.textContent = `You earned ${formatE(earned.toString())} energy while away for ${formatTime(seconds)}!`;
+    message.textContent = `You earned ${formatE(primonsEarned.toString())} primons while away for ${formatTime(seconds)}!`;
     offlineNoticeSecondsRemaining = 10;
     countdown.textContent = "Closing in 10s";
     notice.classList.add("visible");
@@ -69,14 +72,26 @@ if (closeOfflineProgressButton) {
     closeOfflineProgressButton.addEventListener("click", hideOfflineProgressNotice);
 }
 
-export function getTime() {
+export function getPlaytime() {
     const now = Date.now();
     const delta = (now - lastUpdate) / 1000; // seconds
     lastUpdate = now;
 
     player.stats.playtime += delta;
+}
 
-    player.energy = new Decimal(player.energy).plus(new Decimal(player.energyPerSecond).times(new Decimal(1000).div(player.energySpeed)).times(player.light.pow(1.5)).times(delta));
+export function getPrimonTime() {
+    player.primon = new Decimal(player.primon).plus(player.primonsPerSecond);
+}
+
+export function getEnergyTime() {
+    player.energy = new Decimal(player.energy).plus(player.energyPerSecond.times(player.light.pow(1.5)).times(delta));
+}
+
+export function getLightTime() {
+    const now = Date.now();
+    const delta = (now - lastUpdate) / 1000; // seconds
+    lastUpdate = now;
 
     if (player.photonsPerSecond.equals(new Decimal(0)) && player.energy.gte(1e-28)) {
         player.photonsPerSecond = new Decimal(1);
@@ -92,11 +107,9 @@ export function getTime() {
 export function applyOfflineProgress(seconds) {
     const maxOfflineTime = 60 * 60 * 24 * 14;
     seconds = Math.min(seconds, maxOfflineTime);
-    const earned = new Decimal(player.energyPerSecond).times(seconds);
-    player.energy = new Decimal(player.energy).plus(earned);
 
     if (seconds > 0) {
-        showOfflineProgressNotice(earned, seconds);
+        showOfflineProgressNotice(seconds);
     }
 }
 

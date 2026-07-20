@@ -155,9 +155,34 @@ h1 {
     transition: 0.25s;
 }
 
+#primon,
+#pps {
+    width: 320px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.2);
+    border: 2px solid #5f5f5f;
+    border-radius: 12px;
+    padding: 15px;
+    margin: 10px 0;
+    font-size: 1.3rem;
+    transition: 0.25s;
+}
+
+.primon-column {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+}
+
+.anti-energy-column {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+}
+
 .energy-column {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 12px;
 }
 
@@ -175,6 +200,22 @@ h1 {
     display: block;
 }
 
+#unlock2 {
+    display: none;
+}
+
+#unlock2.active {
+    display: block;
+}
+
+#unlock3 {
+    display: none;
+}
+
+#unlock3.active {
+    display: block;
+}
+
 #lightDivider {
     display: none;
     width: 100%;
@@ -187,6 +228,26 @@ h1 {
 
 #lightDivider.active {
     display: block;
+}
+
+.anti-energy-column {
+    display: none;
+}
+
+.anti-energy-column.active {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+}
+
+.energy-column {
+    display: none;
+}
+
+.energy-column.active {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
 .light-column {
@@ -221,6 +282,12 @@ h1 {
 #energyAmplifierBtn,
 #energyBoostBtn,
 #energyAccelerateBtn {
+    display: none;
+}
+
+#energyAmplifierBtn.active,
+#energyBoostBtn.active,
+#energyAccelerateBtn.active {
     width: 350px;
     display: flex;
     flex-direction: column;

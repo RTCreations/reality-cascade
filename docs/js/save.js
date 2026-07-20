@@ -10,14 +10,25 @@ export function saveGame() {
     player.lastSave = Date.now();
 
     let saveData = {
+        primon: player.primon.toString(),
+        primonsPerSecond: player.primonsPerSecond.toString(),
+        primonSpeed: String(player.primonSpeed),
+
+        antiEnergy: player.antiEnergy.toString(),
+        antiEnergyPerSecond: player.antiEnergyPerSecond.toString(),
+        antiEnergySpeed: String(player.antiEnergySpeed),
+        antiEnergyUnlocked: String(player.antiEnergyUnlocked),
+
         energy: player.energy.toString(),
         energyPerSecond: player.energyPerSecond.toString(),
         energySpeed: String(player.energySpeed),
+        energyUnlocked: String(player.energyUnlocked),
 
         photons: player.photons.toString(),
         photonsPerSecond: player.photonsPerSecond.toString(),
         light: player.light.toString(),
         lightPerSecond: player.light.toString(),
+        lightUnlocked: String(player.unlockedLight),
 
         lastSave: player.lastSave,
 
@@ -65,14 +76,25 @@ export function loadGame() {
     let save = JSON.parse(localStorage.getItem("RealityCascadeSave"));
 
     if (save) {
+        player.primon = new Decimal(save.primon ?? 1e-100);
+        player.primonsPerSecond = new Decimal(save.primonsPerSecond ?? 1e-100);
+        player.primonSpeed = Number(save.primonSpeed ?? 1000);
+
+        player.antiEnergy = new Decimal(save.antiEnergy ?? 0);
+        player.antiEnergyPerSecond = new Decimal(save.antiEnergyPerSecond ?? 0);
+        player.antiEnergySpeed = Number(save.antiEnergySpeed ?? 1000);
+        player.unlockedAntiEnergy = Boolean(save.unlockedAntiEnergy ?? false);
+
         player.energy = new Decimal(save.energy ?? 0);
         player.energyPerSecond = new Decimal(save.energyPerSecond ?? 1e-35);
         player.energySpeed = Number(save.energySpeed ?? 1000);
+        player.energyUnlocked = Boolean(save.unlockedEnergy ?? false);
 
         player.light = new Decimal(save.light ?? 1);
         player.lightPerSecond = new Decimal(save.lightPerSecond ?? 0);
         player.photons = new Decimal(save.photons ?? 1);
         player.photons = new Decimal(save.photonsPerSecond ?? 0);
+        player.unlockedLight = Boolean(save.unlockedLight ?? false);
 
         upgrades.energyAmplifier = {
             name: save.upgrades?.energyAmplifier?.name ?? upgrades.energyAmplifier.name,
