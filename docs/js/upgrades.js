@@ -70,8 +70,8 @@ export const upgrades = {
         player.primon = new Decimal(0);
 
         const multiplier = this.getAntiEnergyMultiplier();
-        player.antiEnergyMultiplier = new Decimal(1).times(player.antiEnergyMultiplier);
-        player.primonsPerSecond = new Decimal(1e-100).times(player.primonMultiplier).times(multiplier);
+        player.antiEnergyMultiplier = new Decimal(1).times(multiplier);
+        player.primonsPerSecond = new Decimal(1e-100).times(player.primonMultiplier);
         this.primonBtn.level = 0;
         this.primonBtn.cost = new Decimal(5e-100);
 
