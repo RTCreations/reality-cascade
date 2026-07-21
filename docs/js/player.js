@@ -6,20 +6,25 @@ export const player = {
     primon: new Decimal(1e-100),
     primonsPerSecond: new Decimal(1e-100),
     primonSpeed: 1000,
+    primonMultiplier: new Decimal(1),
 
     antiEnergy: new Decimal(0),
     antiEnergyPerSecond: new Decimal(0),
     antiEnergySpeed: 1000,
+    antiEnergyMultiplier: new Decimal(1),
     unlockedAntiEnergy: false,
 
     energy: new Decimal(1e-35),
     energyPerSecond: new Decimal(1e-35),
     energySpeed: 1000,
+    energyMultiplier: new Decimal(1),
     unlockedEnergy: false,
     
     photons: new Decimal(1),
     photonsPerSecond: new Decimal(0),
+    photonsMultiplier: new Decimal(1),
     lightPerSecond: new Decimal(0),
+    lightMultiplier: new Decimal(1),
     light: new Decimal(1),
     unlockedLight: false,
     

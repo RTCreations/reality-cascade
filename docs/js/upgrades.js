@@ -33,24 +33,29 @@ export const upgrades = {
         if (player.primon.gte(this.primonBtn.cost)) {
             player.primon = player.primon.minus(this.primonBtn.cost);
             this.primonBtn.level++;
-            player.primonsPerSecond = player.primonsPerSecond.times(2);
+            player.primonMultiplier = player.primonMultiplier.times(2);
+            player.primonsPerSecond = new Decimal(1e-100).times(player.primonMultiplier);
+            player.antiEnergyMultiplier = player.antiEnergyMultiplier.times(1);
+            player.energyMultiplier = player.energyMultiplier.times(1);
+            player.photonsMultiplier = player.photonsMultiplier.times(1);
+            player.lightMultiplier = player.lightMultiplier.times(1);
             const primonScale = getScale("primonBtn", this.primonBtn.level);
             this.primonBtn.cost = new Decimal(this.primonBtn.cost).times(primonScale.Multi);
         }
     },
 
     getAntiEnergyGain() {
-        return new Decimal(player.primon).mul(player.primon.pow(0.1));
+        return new Decimal(player.primon).pow(1.2);
     },
 
     getAntiEnergyMultiplier() {
         if (player.antiEnergy.lte(0)) {
-            return 1;
+            return player.antiEnergyMultiplier.toNumber();
         }
 
-        const baseline = new Decimal(1e-100);
+        const baseline = new Decimal(1e-110);
         const ratio = player.antiEnergy.div(baseline);
-        const boost = new Decimal(1).plus(ratio.pow(2));
+        const boost = new Decimal(player.antiEnergyMultiplier).times(new Decimal(1).plus(ratio.pow(0.35)));
 
         return boost.toNumber();
     },
@@ -65,9 +70,10 @@ export const upgrades = {
         player.primon = new Decimal(0);
 
         const multiplier = this.getAntiEnergyMultiplier();
-        player.primonsPerSecond = new Decimal(1e-100).times(multiplier);
-        player.upgrades.primonBtn.level = 0;
-        player.upgrades.primonBtn.cost = new Decimal(5e-100);
+        player.antiEnergyMultiplier = new Decimal(1).times(player.antiEnergyMultiplier);
+        player.primonsPerSecond = new Decimal(1e-100).times(player.primonMultiplier).times(multiplier);
+        this.primonBtn.level = 0;
+        this.primonBtn.cost = new Decimal(5e-100);
 
         return true;
     },
@@ -77,8 +83,12 @@ export const upgrades = {
             player.energy = player.energy.minus(this.energyAmplifier.cost);
             this.energyAmplifier.level++;
             player.boughtUpgrades = player.boughtUpgrades.plus(1);
-            player.energyPerSecond = player.energyPerSecond
-            .times(2);
+            player.energyMultiplier = player.energyMultiplier.times(2);
+            player.energyPerSecond = new Decimal(1e-35).times(player.energyMultiplier);
+            player.primonMultiplier = player.primonMultiplier.times(1);
+            player.antiEnergyMultiplier = player.antiEnergyMultiplier.times(1);
+            player.photonsMultiplier = player.photonsMultiplier.times(1);
+            player.lightMultiplier = player.lightMultiplier.times(1);
             const amplifierScale = getScale("energyAmplifier", this.energyAmplifier.level);
             this.energyAmplifier.cost = new Decimal(this.energyAmplifier.cost).times(amplifierScale.Multi);
         }
@@ -89,7 +99,12 @@ export const upgrades = {
             player.energy = player.energy.minus(this.energyBoost.cost);
             this.energyBoost.level++;
             player.boughtUpgrades = player.boughtUpgrades.plus(1);
-            player.energyPerSecond = player.energyPerSecond.times(1.5);
+            player.energyMultiplier = player.energyMultiplier.times(1.5);
+            player.energyPerSecond = new Decimal(1e-35).times(player.energyMultiplier);
+            player.primonMultiplier = player.primonMultiplier.times(1);
+            player.antiEnergyMultiplier = player.antiEnergyMultiplier.times(1);
+            player.photonsMultiplier = player.photonsMultiplier.times(1);
+            player.lightMultiplier = player.lightMultiplier.times(1);
             const boostScale = getScale("energyBoost", this.energyBoost.level);
             this.energyBoost.cost = new Decimal(this.energyBoost.cost).times(boostScale.Multi);
         }
@@ -100,6 +115,11 @@ export const upgrades = {
                 player.energy = player.energy.minus(this.energyAccelerate.cost);
                 this.energyAccelerate.level++;
                 player.boughtUpgrades = player.boughtUpgrades.plus(1);
+                player.energyMultiplier = player.energyMultiplier.times(1);
+                player.primonMultiplier = player.primonMultiplier.times(1);
+                player.antiEnergyMultiplier = player.antiEnergyMultiplier.times(1);
+                player.photonsMultiplier = player.photonsMultiplier.times(1);
+                player.lightMultiplier = player.lightMultiplier.times(1);
                 speedUp();
                 const accelerateScale = getScale("energyAccelerate", this.energyAccelerate.level);
                 this.energyAccelerate.cost = new Decimal(this.energyAccelerate.cost).times(accelerateScale.Multi);

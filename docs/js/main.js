@@ -3,25 +3,33 @@ import Decimal from "../libraries/break_eternity.js-2.1.3/break_eternity.esm.js"
 import { player } from "./player.js";
 import { upgrades } from "./upgrades.js";
 import { saveGame, loadGame } from "./save.js";
-import { energyUpgradesLightUp } from "./animations.js";
-import { getPlaytime } from "./time.js";
-import { getPrimonTime } from "./time.js";
-import { getEnergyTime } from "./time.js";
-import { getLightTime } from "./time.js";
-import { formatTime } from "./time.js";
+import { energyUpgradesLightUp, primonUpgradesLightUp } from "./animations.js";
+import { getPlaytime, getPrimonTime, getEnergyTime, getLightTime, formatTime } from "./time.js";
 import { getFact } from "./facts.js";
 import { getUnlock } from "./unlock.js";
 
+function isZeroishValue(value) {
+    const decimalValue = new Decimal(value);
+    const text = decimalValue.toString();
+
+    return decimalValue.eq(0) || text === "NaN" || text === "Infinity" || text === "-Infinity";
+}
+
 export function formatE(num) {
-    num = new Decimal(num);
-    let exponent = num.log10().floor();
-    let mantissa = num.div(Decimal.pow(10, exponent));
+    const value = new Decimal(num);
+
+    if (isZeroishValue(value)) return "0";
+
+    let exponent = value.log10().floor();
+    let mantissa = value.div(Decimal.pow(10, exponent));
 
     return `${mantissa.toFixed(2)}e${exponent}`;
 }
 
 export function formatF(val) {
     let num = new Decimal(val);
+
+    if (isZeroishValue(num)) return "0";
 
     if (num.lt(1000)) return num.toFixed(0);
 
@@ -57,34 +65,43 @@ export function gameLoop() {
 }
 
 export function updateDisplay() {
-    document.getElementById("primon").textContent = 
-    "Primons: " + formatE(player.primon);
-    document.getElementById("pps").textContent = 
-    "Primons/s: " + formatE(player.primonsPerSecond);
+    document.getElementById("primon").textContent = "Primons: " + formatE(player.primon);
+    document.getElementById("pps").textContent = "Primons/s: " + formatE(player.primonsPerSecond);
     
     const antiEnergyMultiplier = upgrades.getAntiEnergyMultiplier();
     document.getElementById("antiBoost").textContent = 
-    "Anti-energy boost: " + formatF(antiEnergyMultiplier) + "x";
-    document.getElementById("primonBtn").textContent = 
-    "Primon Enhancer (2x) for " + formatE(upgrades.primonBtn.cost) + " Primons (Level " + upgrades.primonBtn.level + ")";
+    "Boost: " + formatF(antiEnergyMultiplier) + "x";
+    document.getElementById("primonBtn").innerHTML = `
+        <span class="upgrade-name">Primon Enhancer</span>
+        <span class="upgrade-cost">Cost: ${formatE(upgrades.primonBtn.cost)}</span>
+        <span class="upgrade-level">Level ${upgrades.primonBtn.level}</span>
+    `;
 
 
-    player.antiEnergy.equals(0) ? document.getElementById("antiEnergy").textContent = 
-    "Anti Energy: 0 Anti J" : document.getElementById("antiEnergy").textContent = 
+    document.getElementById("antiEnergy").textContent = 
     "Anti Energy: " + formatE(player.antiEnergy) + " Anti J";
     document.getElementById("antiEnergyReset").textContent = 
-    "Reset Primons for " + formatE(new Decimal(player.primon).pow(1.5)) + " Anti Energy";
+    "Reset for " + formatE(upgrades.getAntiEnergyGain()) + " Anti Energy";
 
     document.getElementById("energy").textContent = 
     "Energy: " + formatE(player.energy) + " J";
     document.getElementById("eps").textContent = 
     "Energy/sec: " + formatE(player.energyPerSecond.times(new Decimal(1000).div(player.energySpeed))) + " J";
-    document.getElementById("energyAmplifierBtn").textContent = 
-    "Energy Amplifier (2x): " + formatE(upgrades.energyAmplifier.cost) + " Energy (Level: " + upgrades.energyAmplifier.level + ")";
-    document.getElementById("energyBoostBtn").textContent = 
-    "Energy Boost (1.5x): " + formatE(upgrades.energyBoost.cost) + " Energy (Level: " + upgrades.energyBoost.level + ")";
-    document.getElementById("energyAccelerateBtn").textContent = 
-    "Accelerate: " + formatE(upgrades.energyAccelerate.cost) + " Energy (Level: " + upgrades.energyAccelerate.level + " / " + player.energySpeed.toFixed(0) + "ms" + ")";
+    document.getElementById("energyAmplifierBtn").innerHTML = `
+        <span class="upgrade-name">Amplifier</span>
+        <span class="upgrade-cost">Cost: ${formatE(upgrades.energyAmplifier.cost)}</span>
+        <span class="upgrade-level">Level ${upgrades.energyAmplifier.level}</span>
+    `;
+    document.getElementById("energyBoostBtn").innerHTML = `
+        <span class="upgrade-name">Boost</span>
+        <span class="upgrade-cost">Cost: ${formatE(upgrades.energyBoost.cost)}</span>
+        <span class="upgrade-level">Level ${upgrades.energyBoost.level}</span>
+    `;
+    document.getElementById("energyAccelerateBtn").innerHTML = `
+        <span class="upgrade-name">Accelerate</span>
+        <span class="upgrade-cost">Cost: ${formatE(upgrades.energyAccelerate.cost)}</span>
+        <span class="upgrade-level">Level ${upgrades.energyAccelerate.level} • ${player.energySpeed.toFixed(0)}ms</span>
+    `;
 
     document.getElementById("light").textContent = 
     "Light: " + formatE(player.light) + " | Boosts Energy By " + formatE(player.light.pow(1.5));
@@ -95,6 +112,7 @@ export function updateDisplay() {
     "Playtime: " + formatTime(player.stats.playtime);
     document.getElementById("energyStats").textContent = getFact();
 
+    primonUpgradesLightUp();
     energyUpgradesLightUp();
     getUnlock();
 }
