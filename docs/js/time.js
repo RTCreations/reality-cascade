@@ -93,13 +93,16 @@ export function getLightTime() {
     const delta = (now - lastUpdate) / 1000; // seconds
     lastUpdate = now;
 
+    const photonBaseRate = new Decimal(1).times(player.photonsMultiplier);
+
     if (player.photonsPerSecond.equals(new Decimal(0)) && player.energy.gte(1e-28)) {
-        player.photonsPerSecond = new Decimal(1);
+        player.photonsPerSecond = photonBaseRate;
     }
 
     if (player.energy.gte(1e-28)) {
         player.photons = new Decimal(player.photons).plus(new Decimal(player.photonsPerSecond).times(delta));
-        player.lightPerSecond = new Decimal(player.lightPerSecond).plus(player.photons.pow(0.5).times(delta));
+        const lightRate = new Decimal(player.photons).pow(0.5).times(player.lightMultiplier);
+        player.lightPerSecond = lightRate;
         player.light = new Decimal(player.light).plus(new Decimal(player.lightPerSecond).times(delta));
     }
 }

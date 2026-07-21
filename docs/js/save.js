@@ -13,21 +13,26 @@ export function saveGame() {
         primon: player.primon.toString(),
         primonsPerSecond: player.primonsPerSecond.toString(),
         primonSpeed: String(player.primonSpeed),
+        primonMultiplier: player.primonMultiplier.toString(),
 
         antiEnergy: player.antiEnergy.toString(),
         antiEnergyPerSecond: player.antiEnergyPerSecond.toString(),
         antiEnergySpeed: String(player.antiEnergySpeed),
+        antiEnergyMultiplier: player.antiEnergyMultiplier.toString(),
         antiEnergyUnlocked: String(player.antiEnergyUnlocked),
 
         energy: player.energy.toString(),
         energyPerSecond: player.energyPerSecond.toString(),
         energySpeed: String(player.energySpeed),
+        energyMultiplier: player.energyMultiplier.toString(),
         energyUnlocked: String(player.energyUnlocked),
 
         photons: player.photons.toString(),
         photonsPerSecond: player.photonsPerSecond.toString(),
+        photonsMultiplier: player.photonsMultiplier.toString(),
         light: player.light.toString(),
-        lightPerSecond: player.light.toString(),
+        lightPerSecond: player.lightPerSecond.toString(),
+        lightMultiplier: player.lightMultiplier.toString(),
         lightUnlocked: String(player.unlockedLight),
 
         lastSave: player.lastSave,
@@ -85,21 +90,26 @@ export function loadGame() {
         player.primon = new Decimal(save.primon ?? 1e-100);
         player.primonsPerSecond = new Decimal(save.primonsPerSecond ?? 1e-100);
         player.primonSpeed = Number(save.primonSpeed ?? 1000);
+        player.primonMultiplier = new Decimal(save.primonMultiplier ?? 1);
 
         player.antiEnergy = new Decimal(save.antiEnergy ?? 0);
         player.antiEnergyPerSecond = new Decimal(save.antiEnergyPerSecond ?? 0);
         player.antiEnergySpeed = Number(save.antiEnergySpeed ?? 1000);
+        player.antiEnergyMultiplier = new Decimal(save.antiEnergyMultiplier ?? 1);
         player.unlockedAntiEnergy = Boolean(save.unlockedAntiEnergy ?? false);
 
         player.energy = new Decimal(save.energy ?? 0);
         player.energyPerSecond = new Decimal(save.energyPerSecond ?? 1e-35);
         player.energySpeed = Number(save.energySpeed ?? 1000);
+        player.energyMultiplier = new Decimal(save.energyMultiplier ?? 1);
         player.energyUnlocked = Boolean(save.unlockedEnergy ?? false);
 
         player.light = new Decimal(save.light ?? 1);
         player.lightPerSecond = new Decimal(save.lightPerSecond ?? 0);
+        player.lightMultiplier = new Decimal(save.lightMultiplier ?? 1);
         player.photons = new Decimal(save.photons ?? 1);
-        player.photons = new Decimal(save.photonsPerSecond ?? 0);
+        player.photonsPerSecond = new Decimal(save.photonsPerSecond ?? 0);
+        player.photonsMultiplier = new Decimal(save.photonsMultiplier ?? 1);
         player.unlockedLight = Boolean(save.unlockedLight ?? false);
 
         upgrades.primonBtn = {
