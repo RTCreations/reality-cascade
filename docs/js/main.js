@@ -2,7 +2,7 @@ import Decimal from "../libraries/break_eternity.js-2.1.3/break_eternity.esm.js"
 
 import { player } from "./player.js";
 import { upgrades } from "./upgrades.js";
-import { saveGame, loadGame } from "./save.js";
+import { saveGame, loadGame, loaded } from "./save.js";
 import { energyUpgradesLightUp, primonUpgradesLightUp } from "./animations.js";
 import { getPlaytime, getPrimonTime, getEnergyTime, getLightTime, formatTime } from "./time.js";
 import { getFact } from "./facts.js";
@@ -70,7 +70,7 @@ export function updateDisplay() {
     
     const antiEnergyMultiplier = upgrades.getAntiEnergyMultiplier();
     document.getElementById("antiBoost").textContent = 
-    "Boost: " + formatF(antiEnergyMultiplier) + "x";
+    "Primon Boost: " + formatF(antiEnergyMultiplier) + "x";
     document.getElementById("primonBtn").innerHTML = `
         <span class="upgrade-name">Primon Enhancer</span>
         <span class="upgrade-cost">Cost: ${formatE(upgrades.primonBtn.cost)}</span>
@@ -83,10 +83,9 @@ export function updateDisplay() {
     document.getElementById("antiEnergyReset").textContent = 
     "Reset for " + formatE(upgrades.getAntiEnergyGain()) + " Anti Energy";
 
+    const energyPerSecond = player.energyPerSecond.times(new Decimal(1000).div(player.energySpeed));
     document.getElementById("energy").textContent = 
-    "Energy: " + formatE(player.energy) + " J";
-    document.getElementById("eps").textContent = 
-    "Energy/sec: " + formatE(player.energyPerSecond.times(new Decimal(1000).div(player.energySpeed))) + " J";
+    "Energy: " + formatE(player.energy) + " J • " + formatE(energyPerSecond) + " J/s";
     document.getElementById("energyAmplifierBtn").innerHTML = `
         <span class="upgrade-name">Amplifier</span>
         <span class="upgrade-cost">Cost: ${formatE(upgrades.energyAmplifier.cost)}</span>
@@ -123,24 +122,18 @@ let energyInterval = null;
 let lightInterval = null;
 
 export function startTimer() {
-    // Clear any existing interval to prevent overlapping
     clearInterval(playtimeInterval);
     clearInterval(primonInterval);
-    clearInterval(energyInterval); 
+    clearInterval(energyInterval);
     clearInterval(lightInterval);
 
-    // Start intervals using the current value of the delay variable
-    if (!playtimeInterval) {
-        playtimeInterval = setInterval(() => {
-            getPlaytime();
-        }, 1000);
-    }
+    playtimeInterval = setInterval(() => {
+        getPlaytime();
+    }, 1000);
 
-    if (!primonInterval) {
-        primonInterval = setInterval(() => {
-            getPrimonTime();
-        }, player.primonSpeed);
-    }
+    primonInterval = setInterval(() => {
+        getPrimonTime();
+    }, player.primonSpeed);
 
     if (player.unlockedEnergy) {
         energyInterval = setInterval(() => {

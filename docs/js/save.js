@@ -152,3 +152,5 @@ export function loadGame() {
 
     console.log("Game loaded!");
 }
+
+export const loaded = true;

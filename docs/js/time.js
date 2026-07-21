@@ -85,7 +85,12 @@ export function getPrimonTime() {
 }
 
 export function getEnergyTime() {
-    player.energy = new Decimal(player.energy).plus(player.energyPerSecond.times(player.light.pow(1.5)).times(delta));
+    const now = Date.now();
+    const delta = (now - lastUpdate) / 1000;
+    lastUpdate = now;
+    console.log("x");
+    const energyGain = player.energyPerSecond.times(player.light.pow(1.5)).times(delta);
+    player.energy = new Decimal(player.energy).plus(energyGain);
 }
 
 export function getLightTime() {
