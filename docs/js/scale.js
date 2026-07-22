@@ -15,11 +15,15 @@ export function getScale(key, level = 0) {
                 };
             } else if (levelValue.lt(50)) {
                 return {
-                    Multi: new Decimal(4)
+                    Multi: new Decimal(5)
                 };
             } else if (levelValue.lt(100)) {
                 return {
-                    Multi: new Decimal(18)
+                    Multi: new Decimal(25)
+                };
+            } else if (levelValue.lt(150)) {
+                return {
+                    Multi: new Decimal(150)
                 };
             }
             return {
