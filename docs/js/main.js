@@ -86,7 +86,7 @@ export function updateDisplay() {
 
     const energyGain = document.getElementById("energyGain");
     if (energyGain) {
-        energyGain.textContent = "Anti Energy Boost: " + formatE(upgrades.getEnergyBoostMultiplier()) + "(x)";
+        energyGain.textContent = "Anti Energy Boost: " + formatF(upgrades.getEnergyBoostMultiplier()) + "(x)";
     }
 
     const energyResetBtn = document.getElementById("energyResetBtn");
@@ -94,7 +94,7 @@ export function updateDisplay() {
         energyResetBtn.innerHTML = `
             <span class="upgrade-name">Convert Anti Energy</span>
             <span class="upgrade-cost">Gain ${formatE(upgrades.getEnergyFromAntiEnergyGain())} Energy</span>
-            <span class="upgrade-level">Resets Anti Energy</span>
+            <span class="upgrade-level">Resets Anti Energy, Primons, and all Upgrades Above</span>
         `;
     }
 

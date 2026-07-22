@@ -44,7 +44,7 @@ export function getUnlock() {
     if (isUnlockThresholdReached(currentEnergy, light)) {
         player.unlockedLight = true;
     }
-    
+
     firstUnlock.classList.toggle("active", !player.unlockedAntiEnergy);
     secondUnlock.classList.toggle("active", !player.unlockedEnergy && player.unlockedAntiEnergy);
     thirdUnlock.classList.toggle("active", !player.unlockedLight && player.unlockedEnergy);

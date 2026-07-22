@@ -38,9 +38,6 @@ export const upgrades = {
                 .times(player.primonMultiplier)
                 .times(player.primonAchievementBonus);
             player.antiEnergyMultiplier = player.antiEnergyMultiplier.times(1);
-            player.energyMultiplier = player.energyMultiplier.times(1);
-            player.photonsMultiplier = player.photonsMultiplier.times(1);
-            player.lightMultiplier = player.lightMultiplier.times(1);
             const primonScale = getScale("primonBtn", this.primonBtn.level);
             this.primonBtn.cost = new Decimal(this.primonBtn.cost).times(primonScale.Multi);
         }
@@ -77,41 +74,10 @@ export const upgrades = {
     },
 
     getAntiEnergyGain() {
-        let baseGain = new Decimal(player.primon).pow(1.2);
+        let baseGain = new Decimal(1);
+        let baseLine = new Decimal(145);
+        baseGain = new Decimal(player.primon).pow(baseLine.div(player.antiEnergy.log(8).abs()));
 
-        if (player.antiEnergy.lt(1e-100)) {
-            baseGain = new Decimal(player.primon).pow(1.25);
-        } else if (player.antiEnergy.lt(1e-90)) {
-            baseGain = new Decimal(player.primon).pow(1.3);
-        } else if (player.antiEnergy.lt(1e-80)) {
-            baseGain = new Decimal(player.primon).pow(1.35);
-        } else if (player.antiEnergy.lt(1e-70)) {
-            baseGain = new Decimal(player.primon).pow(1.4);
-        } else if (player.antiEnergy.lt(1e-60)) {
-            baseGain = new Decimal(player.primon).pow(1.45);
-        } else if (player.antiEnergy.lt(1e-55)) {
-            baseGain = new Decimal(player.primon).pow(1.5);
-        } else if (player.antiEnergy.lt(1e-50)) {
-            baseGain = new Decimal(player.primon).pow(1.5);
-        } else if (player.antiEnergy.lt(1e-45)) {
-            baseGain = new Decimal(player.primon).pow(1.55);
-        } else if (player.antiEnergy.lt(1e-40)) {
-            baseGain = new Decimal(player.primon).pow(1.6);
-        } else if (player.antiEnergy.lt(1e-35)) {
-            baseGain = new Decimal(player.primon).pow(1.7);
-        } else if (player.antiEnergy.lt(1e-30)) {
-            baseGain = new Decimal(player.primon).pow(1.8);
-        } else if (player.antiEnergy.lt(1e-25)) {
-            baseGain = new Decimal(player.primon).pow(1.9);
-        } else if (player.antiEnergy.lt(1e-20)) {
-            baseGain = new Decimal(player.primon).pow(2);
-        } else if (player.antiEnergy.lt(1e0)) {
-            baseGain = new Decimal(player.primon).pow(0.5);
-        } else if (player.antiEnergy.lt(1e10)) {
-            baseGain = new Decimal(player.primon).pow(0.25);
-        } else if (player.antiEnergy.lt(1e20)) {
-            baseGain = new Decimal(player.primon).pow(0.1);
-        }
         return baseGain.times(this.getEnergyBoostMultiplier());
     },
 
@@ -120,9 +86,9 @@ export const upgrades = {
             return player.antiEnergyMultiplier.toNumber();
         }
 
-        const baseline = new Decimal(1e-118);
+        const baseline = new Decimal(1e-115);
         const ratio = player.antiEnergy.div(baseline);
-        const boost = new Decimal(player.antiEnergyMultiplier).times(new Decimal(1).plus(ratio.pow(0.52)));
+        const boost = new Decimal(player.antiEnergyMultiplier).times(new Decimal(1).plus(ratio.pow(0.75)));
 
         return boost.toNumber();
     },
@@ -148,13 +114,14 @@ export const upgrades = {
     },
 
     getEnergyFromAntiEnergyGain() {
-        let baseGain = new Decimal(player.antiEnergy); 
-
+        let baseGain = new Decimal(player.antiEnergy);
+        
         if (player.energy.lt(1e-80)) {
             baseGain = new Decimal(player.antiEnergy.pow(1.01)); 
         } else if (player.energy.lt(1e-75)) {
             baseGain = new Decimal(player.antiEnergy.pow(1.1));
         }
+
         return baseGain;
     },
 
@@ -165,7 +132,7 @@ export const upgrades = {
 
         const gain = this.getEnergyFromAntiEnergyGain();
         player.energy = player.energy.plus(gain);
-        player.antiEnergy = new Decimal(0);
+        player.antiEnergy = new Decimal(1e-116);
         player.primon = new Decimal(1e-100);
         player.primonsPerSecond = new Decimal(1e-100);
         player.primonMultiplier = new Decimal(1).times(player.primonAchievementBonus);
