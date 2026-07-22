@@ -10,9 +10,10 @@ const primonColumn = document.querySelector(".primon-column");
 const antiEnergyColumn = document.querySelector(".anti-energy-column");
 const energyColumn = document.querySelector(".energy-column")
 const lightColumn = document.querySelector(".light-column");
+const energyResetButton = document.querySelector("#energyResetBtn");
 
 const antiEnergy = new Decimal(1e-90);
-const energy = new Decimal(1e-50);
+const energy = new Decimal(1e-65);
 const light = new Decimal(1e-28);
 
 function isUnlockThresholdReached(value, threshold) {
@@ -30,20 +31,18 @@ export function getUnlock() {
 
     if (isUnlockThresholdReached(currentPrimon, antiEnergy)) {
         player.unlockedAntiEnergy = true;
-    } else {
-        player.unlockedAntiEnergy = false;
     }
 
     if (isUnlockThresholdReached(currentPrimon, energy)) {
         player.unlockedEnergy = true;
-    } else {
-        player.unlockedEnergy = false;
+    }
+
+    if (energyResetButton) {
+        energyResetButton.classList.toggle("active", isUnlockThresholdReached(currentPrimon, energy));
     }
 
     if (isUnlockThresholdReached(currentEnergy, light)) {
         player.unlockedLight = true;
-    } else {
-        player.unlockedLight = false;
     }
 
     firstUnlock.classList.toggle("active", !player.unlockedAntiEnergy);
