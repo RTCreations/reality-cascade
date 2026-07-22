@@ -68,7 +68,7 @@ export const upgrades = {
     },
 
     getEnergyBoostMultiplier() {
-        const baseline = new Decimal(1e-90);
+        const baseline = new Decimal(1e-95);
         const ratio = player.energy.div(baseline);
         return new Decimal(1).plus(new Decimal(ratio.pow(0.7)));
     },
@@ -115,7 +115,7 @@ export const upgrades = {
 
     getEnergyFromAntiEnergyGain() {
         let baseGain = new Decimal(player.antiEnergy);
-        
+
         if (player.energy.lt(1e-80)) {
             baseGain = new Decimal(player.antiEnergy.pow(1.01)); 
         } else if (player.energy.lt(1e-75)) {
@@ -126,7 +126,7 @@ export const upgrades = {
     },
 
     resetAntiEnergyForEnergy() {
-        if (player.antiEnergy.lte(1e-90)) {
+        if (player.antiEnergy.lte(1e-100)) {
             return false;
         }
 
