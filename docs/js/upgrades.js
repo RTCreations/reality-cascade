@@ -126,7 +126,7 @@ export const upgrades = {
     },
 
     resetAntiEnergyForEnergy() {
-        if (player.antiEnergy.lte(1e-90)) {
+        if (player.antiEnergy.lte(1e-100)) {
             return false;
         }
 
