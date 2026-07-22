@@ -22,12 +22,12 @@ export const player = {
     energyMultiplier: new Decimal(1),
     unlockedEnergy: false,
     
-    photons: new Decimal(1),
+    photons: new Decimal(0),
     photonsPerSecond: new Decimal(0),
     photonsMultiplier: new Decimal(1),
     lightPerSecond: new Decimal(0),
     lightMultiplier: new Decimal(1),
-    light: new Decimal(1),
+    light: new Decimal(0),
     unlockedLight: false,
     
     boughtUpgrades: new Decimal(0),
