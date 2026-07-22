@@ -14,6 +14,8 @@ export function saveGame() {
         primonsPerSecond: player.primonsPerSecond.toString(),
         primonSpeed: String(player.primonSpeed),
         primonMultiplier: player.primonMultiplier.toString(),
+        primonAchievementBonus: player.primonAchievementBonus.toString(),
+        autoBuyPrimon: player.autoBuyPrimon,
 
         antiEnergy: player.antiEnergy.toString(),
         antiEnergyPerSecond: player.antiEnergyPerSecond.toString(),
@@ -66,6 +68,8 @@ export function saveGame() {
             totalEnergy: player.stats.totalEnergy.toString()
         },
 
+        achievements: player.achievements,
+
         reality: {
             essence: player.reality.essence.toString(),
             level: player.reality.level
@@ -91,6 +95,8 @@ export function loadGame() {
         player.primonsPerSecond = new Decimal(save.primonsPerSecond ?? 1e-100);
         player.primonSpeed = Number(save.primonSpeed ?? 1000);
         player.primonMultiplier = new Decimal(save.primonMultiplier ?? 1);
+        player.primonAchievementBonus = new Decimal(save.primonAchievementBonus ?? 1);
+        player.autoBuyPrimon = Boolean(save.autoBuyPrimon ?? false);
 
         player.antiEnergy = new Decimal(save.antiEnergy ?? 0);
         player.antiEnergyPerSecond = new Decimal(save.antiEnergyPerSecond ?? 0);
@@ -138,6 +144,16 @@ export function loadGame() {
 
         player.stats.playtime = Number(save.stats?.playtime ?? 0);
         player.stats.totalEnergy = new Decimal(save.stats?.totalEnergy ?? 0);
+        player.achievements = save.achievements ?? {};
+        player.primonAchievementBonus = new Decimal(save.primonAchievementBonus ?? 1);
+
+        if (player.achievements.primon1 && player.primonAchievementBonus.eq(1)) {
+            player.primonAchievementBonus = new Decimal(2);
+        }
+
+        player.primonsPerSecond = new Decimal(1e-100)
+            .times(player.primonMultiplier)
+            .times(player.primonAchievementBonus);
 
         player.lastSave = save.lastSave ?? Date.now();
 
@@ -152,3 +168,5 @@ export function loadGame() {
 
     console.log("Game loaded!");
 }
+
+export const loaded = true;

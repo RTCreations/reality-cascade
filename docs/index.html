@@ -14,9 +14,10 @@
         </header>
 
         <nav class="tabs">
-            <button class="tab active" data-tab="resources">Energy</button>
+            <button class="tab active" data-tab="resources">Game</button>
             <button class="tab" data-tab="dimensions">Dimensions</button>
             <button class="tab" data-tab="reality">Reality</button>
+            <button class="tab" data-tab="achievements">Achievements</button>
             <button class="tab" data-tab="statistics">Statistics</button>
             <button class="tab" data-tab="settings">Settings</button>
         </nav>
@@ -37,20 +38,26 @@
                         <div id="primon">Primons: LOADING</div>
                         <div id="pps">Primons/s: LOADING</div>
                     </div>
-                    <button id="primonBtn">Primon Upgrade</button>
+                    <div class="primon-actions">
+                        <button id="primonBtn">Primon Upgrade</button>
+                        <label class="toggle-switch" for="primonBuyMax">
+                            <input type="checkbox" id="primonBuyMax">
+                            <span class="toggle-track"></span>
+                            <span class="toggle-label">Buy Max</span>
+                        </label>
+                    </div>
                 </div>
 
                 <div class="anti-energy-column">
                     <div class="anti-energy-stats">
-                        <div id="antiEnergy">Primons: LOADING</div>
-                        <div id="antiBoost">Anti-energy boost: LOADING</div>
+                        <div id="antiEnergy">Anti Energy: LOADING</div>
+                        <div id="antiBoost">Primon boost: LOADING</div>
                     </div>
                     <button id="antiEnergyReset">Reset for Anti Energy</button>
                 </div>
 
                 <div class="energy-column">
                     <div id="energy">Energy: LOADING</div>
-                    <div id="eps">Energy/sec: LOADING</div>
                 </div>
 
                 <div class="upgrades-column">
@@ -89,6 +96,12 @@
                 <p>Coming soon.</p>
             </section>
 
+            <section id="achievements" class="tab-content">
+                <h2>Achievements</h2>
+                <div id="achievements-grid" class="achievements-grid"></div>
+                <div id="achievement-tooltip" class="achievement-tooltip" aria-hidden="true"></div>
+            </section>
+
             <section id="statistics" class="tab-content">
                 <h2>Statistics</h2>
 
@@ -124,6 +137,7 @@
         </script>
 
         <script type="module" src="js/main.js"></script>
+        <script type="module" src="js/achievements.js"></script>
         <script type="module" src="js/time.js"></script>
         <script src="js/navigation.js"></script>
     </body>

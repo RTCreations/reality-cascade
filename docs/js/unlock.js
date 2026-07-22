@@ -15,6 +15,10 @@ const antiEnergy = new Decimal(1e-90);
 const energy = new Decimal(1e-50);
 const light = new Decimal(1e-28);
 
+function isUnlockThresholdReached(value, threshold) {
+    return value.gte(threshold);
+}
+
 export function getUnlock() {
     if (!antiEnergyColumn || !energyColumn || !lightColumn) {
         return;
@@ -24,16 +28,22 @@ export function getUnlock() {
     const currentAntiEnergy = player.antiEnergy;
     const currentEnergy = player.energy;
 
-    if (player.primon.gte(antiEnergy)) {
+    if (isUnlockThresholdReached(currentPrimon, antiEnergy)) {
         player.unlockedAntiEnergy = true;
+    } else {
+        player.unlockedAntiEnergy = false;
     }
 
-    if (player.primon.gte(energy)) {
+    if (isUnlockThresholdReached(currentPrimon, energy)) {
         player.unlockedEnergy = true;
+    } else {
+        player.unlockedEnergy = false;
     }
 
-    if (player.energy.gte(light)) {
+    if (isUnlockThresholdReached(currentEnergy, light)) {
         player.unlockedLight = true;
+    } else {
+        player.unlockedLight = false;
     }
 
     firstUnlock.classList.toggle("active", !player.unlockedAntiEnergy);

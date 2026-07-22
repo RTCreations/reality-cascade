@@ -7,6 +7,8 @@ export const player = {
     primonsPerSecond: new Decimal(1e-100),
     primonSpeed: 1000,
     primonMultiplier: new Decimal(1),
+    primonAchievementBonus: new Decimal(1),
+    autoBuyPrimon: false,
 
     antiEnergy: new Decimal(0),
     antiEnergyPerSecond: new Decimal(0),
@@ -35,6 +37,8 @@ export const player = {
         playtime: 0,
         totalEnergy: new Decimal(1e-35)
     },
+
+    achievements: {},
 
     reality: {
         essence: new Decimal(0),
