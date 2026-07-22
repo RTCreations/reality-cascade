@@ -30,14 +30,20 @@ export function getUnlock() {
 
     if (isUnlockThresholdReached(currentPrimon, antiEnergy)) {
         player.unlockedAntiEnergy = true;
+    } else {
+        player.unlockedAntiEnergy = false;
     }
 
     if (isUnlockThresholdReached(currentPrimon, energy)) {
         player.unlockedEnergy = true;
+    } else {
+        player.unlockedEnergy = false;
     }
 
     if (isUnlockThresholdReached(currentEnergy, light)) {
         player.unlockedLight = true;
+    } else {
+        player.unlockedLight = false;
     }
 
     firstUnlock.classList.toggle("active", !player.unlockedAntiEnergy);

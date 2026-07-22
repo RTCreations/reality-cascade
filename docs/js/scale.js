@@ -17,6 +17,10 @@ export function getScale(key, level = 0) {
                 return {
                     Multi: new Decimal(4)
                 };
+            } else if (levelValue.lt(100)) {
+                return {
+                    Multi: new Decimal(18)
+                };
             }
             return {
                 Multi: new Decimal(2.6)
@@ -61,7 +65,7 @@ export function getScale(key, level = 0) {
                 return {
                     Multi: new Decimal(7)
                 };
-            }
+            } 
             return {
                 Multi: new Decimal(8)
             };

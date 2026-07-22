@@ -7,6 +7,7 @@ import { energyUpgradesLightUp, primonUpgradesLightUp } from "./animations.js";
 import { getPlaytime, getPrimonTime, getEnergyTime, getLightTime, formatTime } from "./time.js";
 import { getFact } from "./facts.js";
 import { getUnlock } from "./unlock.js";
+import { checkAchievements } from "./achievements.js";
 
 function isZeroishValue(value) {
     const decimalValue = new Decimal(value);
@@ -70,7 +71,7 @@ export function updateDisplay() {
     
     const antiEnergyMultiplier = upgrades.getAntiEnergyMultiplier();
     document.getElementById("antiBoost").textContent = 
-    "Primon Boost: " + formatF(antiEnergyMultiplier) + "x";
+    "Primon Boost: " + formatF(antiEnergyMultiplier) + "(x)";
     document.getElementById("primonBtn").innerHTML = `
         <span class="upgrade-name">Primon Enhancer</span>
         <span class="upgrade-cost">Cost: ${formatE(upgrades.primonBtn.cost)}</span>
@@ -114,6 +115,7 @@ export function updateDisplay() {
     primonUpgradesLightUp();
     energyUpgradesLightUp();
     getUnlock();
+    checkAchievements();
 }
 
 let playtimeInterval = null;
@@ -161,7 +163,11 @@ export function heldBuy() {
     intervalId2 = null;
 
     intervalId2 = setInterval(() => {
-        upgrades.buyPrimonBtn();
+        if (player.autoBuyPrimon) {
+            upgrades.buyPrimonBtnMax();
+        } else {
+            upgrades.buyPrimonBtn();
+        }
         upgrades.buyEnergyAmplifier();
         upgrades.buyEnergyBoost();
         upgrades.buyEnergyAccelerate();
@@ -192,8 +198,20 @@ window.addEventListener('keyup', (event) => {
 
 document.getElementById("primonBtn").onclick = (e) => {
     e.preventDefault();
-    upgrades.buyPrimonBtn();
+    if (player.autoBuyPrimon) {
+        upgrades.buyPrimonBtnMax();
+    } else {
+        upgrades.buyPrimonBtn();
+    }
 };
+
+const primonBuyMaxInput = document.getElementById("primonBuyMax");
+if (primonBuyMaxInput) {
+    primonBuyMaxInput.checked = player.autoBuyPrimon;
+    primonBuyMaxInput.addEventListener("change", (event) => {
+        player.autoBuyPrimon = event.target.checked;
+    });
+}
 
 document.getElementById("antiEnergyReset").onclick = (e) => {
     e.preventDefault();
@@ -227,7 +245,11 @@ document.getElementById("wipe").onclick = (e) => {
 };
 
 loadGame();
+if (primonBuyMaxInput) {
+    primonBuyMaxInput.checked = player.autoBuyPrimon;
+}
 startTimer();
+checkAchievements();
 
 setInterval(updateDisplay, 60); // Run the display update loop every 100ms
 setInterval(saveGame, 10000); // Run the save game loop every 1 seconds

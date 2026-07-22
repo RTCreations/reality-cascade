@@ -34,13 +34,39 @@ export const upgrades = {
             player.primon = player.primon.minus(this.primonBtn.cost);
             this.primonBtn.level++;
             player.primonMultiplier = player.primonMultiplier.times(2);
-            player.primonsPerSecond = new Decimal(1e-100).times(player.primonMultiplier);
+            player.primonsPerSecond = new Decimal(1e-100)
+                .times(player.primonMultiplier)
+                .times(player.primonAchievementBonus);
             player.antiEnergyMultiplier = player.antiEnergyMultiplier.times(1);
             player.energyMultiplier = player.energyMultiplier.times(1);
             player.photonsMultiplier = player.photonsMultiplier.times(1);
             player.lightMultiplier = player.lightMultiplier.times(1);
             const primonScale = getScale("primonBtn", this.primonBtn.level);
             this.primonBtn.cost = new Decimal(this.primonBtn.cost).times(primonScale.Multi);
+        }
+    },
+
+    buyPrimonBtnMax() {
+        let purchases = 0;
+
+        while (player.primon.gte(this.primonBtn.cost)) {
+            player.primon = player.primon.minus(this.primonBtn.cost);
+            this.primonBtn.level++;
+            player.primonMultiplier = player.primonMultiplier.times(2);
+            player.primonsPerSecond = new Decimal(1e-100)
+                .times(player.primonMultiplier)
+                .times(player.primonAchievementBonus);
+            player.antiEnergyMultiplier = player.antiEnergyMultiplier.times(1);
+            player.energyMultiplier = player.energyMultiplier.times(1);
+            player.photonsMultiplier = player.photonsMultiplier.times(1);
+            player.lightMultiplier = player.lightMultiplier.times(1);
+            const primonScale = getScale("primonBtn", this.primonBtn.level);
+            this.primonBtn.cost = new Decimal(this.primonBtn.cost).times(primonScale.Multi);
+            purchases++;
+
+            if (purchases >= 2000) {
+                break;
+            }
         }
     },
 
@@ -71,7 +97,9 @@ export const upgrades = {
 
         const multiplier = this.getAntiEnergyMultiplier();
         player.primonMultiplier = new Decimal(1).times(multiplier);
-        player.primonsPerSecond = new Decimal(1e-100).times(player.primonMultiplier);
+        player.primonsPerSecond = new Decimal(1e-100)
+            .times(player.primonMultiplier)
+            .times(player.primonAchievementBonus);
         this.primonBtn.level = 0;
         this.primonBtn.cost = new Decimal(5e-100);
 
