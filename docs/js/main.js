@@ -5,7 +5,9 @@ import { upgrades } from "./upgrades.js";
 import { saveGame, loadGame, loaded } from "./save.js";
 import { energyUpgradesLightUp, primonUpgradesLightUp } from "./animations.js";
 import { getPlaytime, getPrimonTime, getEnergyTime, getLightTime, formatTime } from "./time.js";
-import { getFact } from "./facts.js";
+import { getFact, checkFactPopup } from "./facts.js";
+import { checkPrimonMilestone } from "./milestones.js";
+import { startTriviaLoop } from "./trivia.js";
 import { getUnlock } from "./unlock.js";
 import { checkAchievements } from "./achievements.js";
 
@@ -130,6 +132,8 @@ export function updateDisplay() {
     energyUpgradesLightUp();
     getUnlock();
     checkAchievements();
+    checkFactPopup();
+    checkPrimonMilestone();
 }
 
 let playtimeInterval = null;
@@ -269,6 +273,7 @@ if (primonBuyMaxInput) {
 }
 startTimer();
 checkAchievements();
+startTriviaLoop();
 
 setInterval(updateDisplay, 60); // Run the display update loop every 100ms
 setInterval(saveGame, 10000); // Run the save game loop every 1 seconds

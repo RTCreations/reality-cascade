@@ -5,12 +5,12 @@ import { upgrades } from "./upgrades.js";
 export const player = {
     primon: new Decimal(1e-100),
     primonsPerSecond: new Decimal(1e-100),
-    primonSpeed: 1000,
+    primonSpeed: 500,
     primonMultiplier: new Decimal(1),
     primonAchievementBonus: new Decimal(1),
     autoBuyPrimon: false,
 
-    antiEnergy: new Decimal(1e-116),
+    antiEnergy: new Decimal(0),
     antiEnergyPerSecond: new Decimal(0),
     antiEnergySpeed: 1000,
     antiEnergyMultiplier: new Decimal(1),

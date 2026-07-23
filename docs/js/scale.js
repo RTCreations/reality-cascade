@@ -7,11 +7,11 @@ export function getScale(key, level = 0) {
         case "primonBtn":
             if (levelValue.lt(10)) {
                 return {
-                    Multi: new Decimal(1.7)
+                    Multi: new Decimal(2)
                 };
             } else if (levelValue.lt(25)) {
                 return {
-                    Multi: new Decimal(2)
+                    Multi: new Decimal(2.5)
                 };
             } else if (levelValue.lt(50)) {
                 return {
