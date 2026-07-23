@@ -70,7 +70,8 @@ export function gameLoop() {
 export function updateDisplay() {
     document.getElementById("primon").textContent = "Primons: " + formatE(player.primon);
     document.getElementById("pps").textContent = "Primons/s: " + formatE(player.primonsPerSecond);
-    
+    document.getElementById("ptm").textContent = "Primon(x): " + formatE(player.primonMultiplier);
+
     const antiEnergyMultiplier = upgrades.getAntiEnergyMultiplier();
     document.getElementById("antiBoost").textContent = 
     "Primon Boost: " + formatF(antiEnergyMultiplier) + "(x)";
@@ -127,6 +128,8 @@ export function updateDisplay() {
     document.getElementById("playtime").textContent = 
     "Playtime: " + formatTime(player.stats.playtime);
     document.getElementById("energyStats").textContent = getFact();
+
+    document.getElementById("primonAchievementMulti").textContent = "Total Primon Achievement Multiplier: " + formatF(player.primonAchievementBonus) + "(x)";
 
     primonUpgradesLightUp();
     energyUpgradesLightUp();
@@ -278,9 +281,11 @@ document.getElementById("wipe").onclick = (e) => {
 };
 
 loadGame();
+
 if (primonBuyMaxInput) {
     primonBuyMaxInput.checked = player.autoBuyPrimon;
 }
+
 startTimer();
 checkAchievements();
 startTriviaLoop();

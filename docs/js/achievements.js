@@ -12,6 +12,13 @@ const achievementDefinitions = [
         unlocked: (p) => p.primon.gte(new Decimal("1e-90")),
     },
     {
+        id: "primon2",
+        title: "Primon Simulator",
+        requirement: "Reach 1e-80 Primons",
+        reward: "10x Primons",
+        unlocked: (p) => p.primon.gte(new Decimal("1e-80")),
+    },
+    {
         id: "energy1",
         title: "Energy Spark",
         requirement: "Reach 1e-28 Energy",
@@ -121,6 +128,13 @@ export function checkAchievements() {
 
             if (def.id === "primon1") {
                 player.primonAchievementBonus = player.primonAchievementBonus.times(2);
+                player.primonsPerSecond = new Decimal(1e-100)
+                    .times(player.primonMultiplier)
+                    .times(player.primonAchievementBonus);
+            }
+
+            if (def.id === "primon2") {
+                player.primonAchievementBonus = player.primonAchievementBonus.times(10);
                 player.primonsPerSecond = new Decimal(1e-100)
                     .times(player.primonMultiplier)
                     .times(player.primonAchievementBonus);
