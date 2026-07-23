@@ -15,7 +15,7 @@ export function getScale(key, level = 0) {
                 };
             } else if (levelValue.lt(50)) {
                 return {
-                    Multi: new Decimal(4)
+                    Multi: new Decimal(3.5)
                 };
             } else if (levelValue.lt(75)) {
                 return {
