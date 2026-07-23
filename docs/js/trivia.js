@@ -14,7 +14,7 @@ const triviaPool = [
         if (antiJ.lte(0)) {
             return "You haven't banked any Anti Energy yet. The universe currently owes you nothing, which is, legally speaking, fair.";
         }
-        const fictionalJoules = new Decimal(1).div(antiJ);
+        const fictionalJoules = antiJ.pow(0.7);
         return `You've stockpiled ${formatE(antiJ)} Anti J. Under the Universal Inversion Treaty (still unratified), that converts to roughly ${formatE(fictionalJoules)} real Joules — enough to reheat a cold coffee in a universe that hasn't been invented yet.`;
     },
 
