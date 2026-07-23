@@ -73,7 +73,7 @@ export const upgrades = {
         let baseExponent = new Decimal(12);
         let difficultyRate = new Decimal(0.051);
         if (player.antiEnergy.lt(1e-200)) {
-            difficultyRate = new Decimal(0.051);
+            difficultyRate = new Decimal(0.0515);
         } else if (player.antiEnergy.lte(1e-175)) {
             difficultyRate = new Decimal(0.052);
         }
@@ -90,7 +90,7 @@ export const upgrades = {
 
         const baseline = new Decimal(1e-200);
         const ratio = player.antiEnergy.div(baseline);
-        const boost = new Decimal(player.antiEnergyMultiplier).times(new Decimal(1).plus(ratio.pow(0.5)));
+        const boost = new Decimal(player.antiEnergyMultiplier).times(new Decimal(1).plus(ratio.pow(0.6)));
 
         return boost.toNumber();
     },
@@ -116,7 +116,7 @@ export const upgrades = {
     },
 
     getEnergyBoostMultiplier() {
-        const baseline = new Decimal(1e-189);
+        const baseline = new Decimal(1e-190);
         const ratio = player.energy.div(baseline);
         return new Decimal(1).plus(new Decimal(ratio.pow(0.7)));
     },

@@ -26,7 +26,7 @@ function dismiss(toast) {
  * @param {"fact"|"achievement"|"milestone"|"trivia"} [options.variant] - Controls accent color
  * @param {number} [options.duration] - Milliseconds before auto-dismiss
  */
-export function showToast({ title, message, variant = "fact", duration = 6000 }) {
+export function showToast({ title, message, variant = "fact", duration = 15000 }) {
     const container = getContainer();
     if (!container) return;
 
