@@ -116,7 +116,7 @@ let triviaInterval = null;
 
 // Shows a random trivia toast every `intervalMs` (default 2 minutes).
 // Safe to call multiple times - only ever starts one loop.
-export function startTriviaLoop(intervalMs = 20000) {
+export function startTriviaLoop(intervalMs = 40000) {
     if (triviaInterval) return;
 
     triviaInterval = setInterval(() => {
