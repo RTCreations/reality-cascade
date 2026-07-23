@@ -2,7 +2,7 @@ import Decimal from "../libraries/break_eternity.js-2.1.3/break_eternity.esm.js"
 
 import { player } from "./player.js";
 import { upgrades } from "./upgrades.js";
-import { saveGame, loadGame, loaded } from "./save.js";
+import { saveGame, loadGame, loaded, importSave, exportSave } from "./save.js";
 import { energyUpgradesLightUp, primonUpgradesLightUp } from "./animations.js";
 import { getPlaytime, getPrimonTime, getEnergyTime, getLightTime, formatTime } from "./time.js";
 import { getFact, checkFactPopup } from "./facts.js";
@@ -259,6 +259,16 @@ document.getElementById("energyAccelerateBtn").onclick = (e) => {
 document.getElementById("save").onclick = (e) => {
     e.preventDefault();
     saveGame();
+};
+
+document.getElementById("export").onclick = (e) => {
+    e.preventDefault();
+    exportSave();
+};
+
+document.getElementById("import").onclick = (e) => {
+    e.preventDefault();
+    importSave();
 };
 
 document.getElementById("wipe").onclick = (e) => {

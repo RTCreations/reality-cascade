@@ -6,6 +6,48 @@ import { applyOfflineProgress } from "./time.js";
 
 let countSaves = 0;
 
+export async function exportSave() {
+    const save = localStorage.getItem("RealityCascadeSave");
+
+    if (!save) {
+        alert("No save found!");
+        return;
+    }
+
+    // Encode as Base64
+    const exportString = btoa(unescape(encodeURIComponent(save)));
+
+    try {
+        await navigator.clipboard.writeText(exportString);
+        alert("Save copied to clipboard!");
+    } catch {
+        prompt("Copy your save:", exportString);
+    }
+}
+
+export function importSave() {
+    const input = document.getElementById("saveInput").value.trim();
+
+    if (!input) {
+        alert("Paste a save first.");
+        return;
+    }
+
+    try {
+        const decoded = decodeURIComponent(escape(atob(input)));
+
+        JSON.parse(decoded); // Validate
+
+        localStorage.setItem("RealityCascadeSave", decoded);
+
+        alert("Save imported!");
+        location.reload();
+    } catch (err) {
+        console.error(err);
+        alert("Invalid save.");
+    }
+}
+
 export function saveGame() {
     player.lastSave = Date.now();
 

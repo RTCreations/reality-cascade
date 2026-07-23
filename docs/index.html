@@ -15,7 +15,6 @@
 
         <nav class="tabs">
             <button class="tab active" data-tab="resources">Game</button>
-            <button class="tab" data-tab="dimensions">Dimensions</button>
             <button class="tab" data-tab="reality">Reality</button>
             <button class="tab" data-tab="achievements">Achievements</button>
             <button class="tab" data-tab="statistics">Statistics</button>
@@ -101,7 +100,9 @@
 
             <section id="reality" class="tab-content">
                 <h2>Reality</h2>
-                <p>Coming soon.</p>
+                <h4>Current: Reality 1</h4>
+                <button id="firstReality" class="active">First Reality</button>
+                <button id="secondReality">Second Reality</button>
             </section>
 
             <section id="achievements" class="tab-content">
@@ -121,6 +122,9 @@
                 <h2>Settings</h2>
                 
                 <button id="save">Save Game</button>
+                <textarea id="saveInput" placeholder="Paste your save here"></textarea>
+                <button id="export">Export Save</button>
+                <button id="import">Import Save</button>
                 <button id="wipe">Wipe Save</button>
             </section>
         </main>
