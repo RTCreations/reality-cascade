@@ -2,7 +2,7 @@ import Decimal from "../libraries/break_eternity.js-2.1.3/break_eternity.esm.js"
 
 import { player } from "./player.js";
 import { upgrades } from "./upgrades.js";
-import { saveGame, loadGame, loaded } from "./save.js";
+import { saveGame, loadGame, loaded, importSave, exportSave } from "./save.js";
 import { energyUpgradesLightUp, primonUpgradesLightUp } from "./animations.js";
 import { getPlaytime, getPrimonTime, getEnergyTime, getLightTime, formatTime } from "./time.js";
 import { getFact, checkFactPopup } from "./facts.js";
@@ -70,7 +70,8 @@ export function gameLoop() {
 export function updateDisplay() {
     document.getElementById("primon").textContent = "Primons: " + formatE(player.primon);
     document.getElementById("pps").textContent = "Primons/s: " + formatE(player.primonsPerSecond);
-    
+    document.getElementById("ptm").textContent = "Primon(x): " + formatE(player.primonMultiplier);
+
     const antiEnergyMultiplier = upgrades.getAntiEnergyMultiplier();
     document.getElementById("antiBoost").textContent = 
     "Primon Boost: " + formatF(antiEnergyMultiplier) + "(x)";
@@ -127,6 +128,8 @@ export function updateDisplay() {
     document.getElementById("playtime").textContent = 
     "Playtime: " + formatTime(player.stats.playtime);
     document.getElementById("energyStats").textContent = getFact();
+
+    document.getElementById("primonAchievementMulti").textContent = "Total Primon Achievement Multiplier: " + formatF(player.primonAchievementBonus) + "(x)";
 
     primonUpgradesLightUp();
     energyUpgradesLightUp();
@@ -261,6 +264,16 @@ document.getElementById("save").onclick = (e) => {
     saveGame();
 };
 
+document.getElementById("export").onclick = (e) => {
+    e.preventDefault();
+    exportSave();
+};
+
+document.getElementById("import").onclick = (e) => {
+    e.preventDefault();
+    importSave();
+};
+
 document.getElementById("wipe").onclick = (e) => {
     e.preventDefault();
     localStorage.clear();
@@ -268,9 +281,11 @@ document.getElementById("wipe").onclick = (e) => {
 };
 
 loadGame();
+
 if (primonBuyMaxInput) {
     primonBuyMaxInput.checked = player.autoBuyPrimon;
 }
+
 startTimer();
 checkAchievements();
 startTriviaLoop();

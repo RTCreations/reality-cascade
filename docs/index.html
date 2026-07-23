@@ -15,7 +15,6 @@
 
         <nav class="tabs">
             <button class="tab active" data-tab="resources">Game</button>
-            <button class="tab" data-tab="dimensions">Dimensions</button>
             <button class="tab" data-tab="reality">Reality</button>
             <button class="tab" data-tab="achievements">Achievements</button>
             <button class="tab" data-tab="statistics">Statistics</button>
@@ -37,6 +36,7 @@
                     <div class="primon-status-box">
                         <div id="primon">Primons: LOADING</div>
                         <div id="pps">Primons/s: LOADING</div>
+                        <div id="ptm">Total Multi: LOADING</div>
                     </div>
                     <div class="primon-actions">
                         <button id="primonBtn">Primon Upgrade</button>
@@ -101,11 +101,16 @@
 
             <section id="reality" class="tab-content">
                 <h2>Reality</h2>
-                <p>Coming soon.</p>
+                <h4>Current: Reality 1</h4>
+                <button id="firstReality" class="active">First Reality</button>
+                <button id="secondReality">Second Reality</button>
             </section>
 
             <section id="achievements" class="tab-content">
-                <h2>Achievements</h2>
+                <div id="achievementHeader">
+                    <h2>Achievements</h2>
+                    <p id="primonAchievementMulti">Achievement (x) to Primons: LOADING</p>
+                </div>
                 <div id="achievements-grid" class="achievements-grid"></div>
                 <div id="achievement-tooltip" class="achievement-tooltip" aria-hidden="true"></div>
             </section>
@@ -121,6 +126,9 @@
                 <h2>Settings</h2>
                 
                 <button id="save">Save Game</button>
+                <textarea id="saveInput" placeholder="Paste your save here"></textarea>
+                <button id="export">Export Save</button>
+                <button id="import">Import Save</button>
                 <button id="wipe">Wipe Save</button>
             </section>
         </main>

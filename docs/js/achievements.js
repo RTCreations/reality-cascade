@@ -12,11 +12,53 @@ const achievementDefinitions = [
         unlocked: (p) => p.primon.gte(new Decimal("1e-90")),
     },
     {
+        id: "primon2",
+        title: "Primon Simulator",
+        requirement: "Reach 1e-80 Primons",
+        reward: "5x Primons",
+        unlocked: (p) => p.primon.gte(new Decimal("1e-80")),
+    },
+    {
+        id: "primon3",
+        title: "Not Enough Primons",
+        requirement: "Reach 1e-70 Primons",
+        reward: "10x Primons",
+        unlocked: (p) => p.primon.gte(new Decimal("1e-70")),
+    },
+    {
+        id: "primon4",
+        title: "MASSIVE Primons",
+        requirement: "Reach 1e-50 Primons",
+        reward: "1Kx Primons",
+        unlocked: (p) => p.primon.gte(new Decimal("1e-50")),
+    },
+    {
+        id: "antiEnergy1",
+        title: "Anti Joules Are Not Real",
+        requirement: "Reach 1e-181 Anti Energy",
+        reward: "2x Primons, 2x Anti Energy, 2x Energy",
+        unlocked: (p) => p.antiEnergy.gte(new Decimal("1e-181")),
+    },
+    {
+        id: "antiEnergy2",
+        title: "2e-178 Anti J is Not a Lot",
+        requirement: "Reach 2e-178 Anti Energy",
+        reward: "2x Anti Energy, 2x Energy",
+        unlocked: (p) => p.antiEnergy.gte(new Decimal("2e-178")),
+    },
+    {
         id: "energy1",
-        title: "Energy Spark",
-        requirement: "Reach 1e-28 Energy",
-        reward: "Unlock Energy",
-        unlocked: (p) => p.energy.gte(new Decimal("1e-28"))
+        title: "Primodial Energy",
+        requirement: "Reach 1e-185 Energy",
+        reward: "3x Energy",
+        unlocked: (p) => p.energy.gte(new Decimal("1e-185"))
+    },
+    {
+        id: "energy2",
+        title: "BIG Energy",
+        requirement: "Reach 1e-165 Energy",
+        reward: "1Kx Energy",
+        unlocked: (p) => p.energy.gte(new Decimal("1e-165"))
     },
     {
         id: "light1",
@@ -124,6 +166,49 @@ export function checkAchievements() {
                 player.primonsPerSecond = new Decimal(1e-100)
                     .times(player.primonMultiplier)
                     .times(player.primonAchievementBonus);
+            }
+
+            if (def.id === "primon2") {
+                player.primonAchievementBonus = player.primonAchievementBonus.times(5);
+                player.primonsPerSecond = new Decimal(1e-100)
+                    .times(player.primonMultiplier)
+                    .times(player.primonAchievementBonus);
+            }
+
+            if (def.id === "primon3") {
+                player.primonAchievementBonus = player.primonAchievementBonus.times(10);
+                player.primonsPerSecond = new Decimal(1e-100)
+                    .times(player.primonMultiplier)
+                    .times(player.primonAchievementBonus);
+            }
+
+            if (def.id === "primon4") {
+                player.primonAchievementBonus = player.primonAchievementBonus.times(1e3);
+                player.primonsPerSecond = new Decimal(1e-100)
+                    .times(player.primonMultiplier)
+                    .times(player.primonAchievementBonus);
+            }
+
+            if (def.id === "antiEnergy1") {
+                player.primonAchievementBonus = player.primonAchievementBonus.times(2);
+                player.antiEnergyMultiplier = player.antiEnergyMultiplier.times(2);
+                player.energyMultiplier = player.energyMultiplier.times(2);
+                player.primonsPerSecond = new Decimal(1e-100)
+                    .times(player.primonMultiplier)
+                    .times(player.primonAchievementBonus);
+            }
+
+            if (def.id === "antiEnergy2") {
+                player.antiEnergyMultiplier = player.antiEnergyMultiplier.times(2);
+                player.energyMultiplier = player.energyMultiplier.times(2);
+            }
+
+            if (def.id === "energy1") {
+                player.energyMultiplier = player.energyMultiplier.times(3);
+            }
+
+            if (def.id === "energy2") {
+                player.energyMultiplier = player.energyMultiplier.times(1e3);
             }
 
             changed = true;
