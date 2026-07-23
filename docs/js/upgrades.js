@@ -105,7 +105,7 @@ export const upgrades = {
 
         const baseline = new Decimal(1e-200);
         const ratio = player.antiEnergy.div(baseline);
-        const boost = new Decimal(player.antiEnergyMultiplier).times(new Decimal(1).plus(ratio.pow(0.52)));
+        const boost = new Decimal(player.antiEnergyMultiplier).times(new Decimal(1).plus(ratio.pow(0.54)));
 
         return boost.toNumber();
     },
