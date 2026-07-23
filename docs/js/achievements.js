@@ -1,6 +1,7 @@
 import Decimal from "../libraries/break_eternity.js-2.1.3/break_eternity.esm.js";
 
 import { player } from "./player.js";
+import { showToast } from "./notifications.js";
 
 const achievementDefinitions = [
     {
@@ -111,6 +112,12 @@ export function checkAchievements() {
     achievementDefinitions.forEach((def) => {
         if (!player.achievements[def.id] && def.unlocked(player)) {
             player.achievements[def.id] = true;
+
+            showToast({
+                title: "Achievement Unlocked!",
+                message: `${def.title} — ${def.reward}`,
+                variant: "achievement"
+            });
 
             if (def.id === "primon1") {
                 player.primonAchievementBonus = player.primonAchievementBonus.times(2);

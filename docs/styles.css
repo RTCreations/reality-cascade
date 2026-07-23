@@ -449,10 +449,6 @@ h1 {
     gap: 12px;
 }
 
-#antiScale {
-    display: block;
-}
-
 #unlock1 {
     display: none;
 }
@@ -662,6 +658,96 @@ button:disabled {
 
 .tab.active {
     background: #4b7cff;
+}
+
+.toast-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 2000;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 10px;
+    max-width: min(340px, calc(100vw - 32px));
+    pointer-events: none;
+}
+
+.toast {
+    pointer-events: auto;
+    cursor: pointer;
+    padding: 14px 16px;
+    border-radius: 12px;
+    background: rgba(10, 16, 29, 0.95);
+    border: 1px solid #67d7ff;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+    color: #f3f7ff;
+    opacity: 0;
+    transform: translateX(40px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.toast.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.toast.leaving {
+    opacity: 0;
+    transform: translateX(40px) scale(0.96);
+}
+
+.toast-title {
+    font-weight: 700;
+    font-size: 0.9rem;
+    margin-bottom: 4px;
+    letter-spacing: 0.02em;
+    color: #7ad7ff;
+}
+
+.toast-message {
+    font-size: 0.85rem;
+    color: #dfe6f5;
+    line-height: 1.4;
+}
+
+.toast-achievement {
+    border-color: #7cdb89;
+}
+
+.toast-achievement .toast-title {
+    color: #7cdb89;
+}
+
+.toast-fact {
+    border-color: #b373ff;
+}
+
+.toast-fact .toast-title {
+    color: #cdb2ff;
+}
+
+.toast-milestone {
+    border-color: #fce306;
+}
+
+.toast-milestone .toast-title {
+    color: #fce306;
+}
+
+.toast-trivia {
+    border-color: #5eead4;
+}
+
+.toast-trivia .toast-title {
+    color: #5eead4;
+}
+
+@media (max-width: 480px) {
+    .toast-container {
+        left: 16px;
+        right: 16px;
+        max-width: none;
+    }
 }
 
 .cutscene-overlay {
