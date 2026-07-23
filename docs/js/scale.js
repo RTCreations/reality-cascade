@@ -25,9 +25,17 @@ export function getScale(key, level = 0) {
                 return {
                     Multi: new Decimal(50)
                 };
+            } else if (levelValue.lt(200)) {
+                return {
+                    Multi: new Decimal(250)
+                };
+            } else if (levelValue.lt(300)) {
+                return {
+                    Multi: new Decimal(1000)
+                };
             }
             return {
-                Multi: new Decimal(2.6)
+                Multi: new Decimal(1000)
             };
 
         case "energyAmplifier":

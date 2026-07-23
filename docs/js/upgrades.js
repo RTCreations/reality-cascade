@@ -68,34 +68,35 @@ export const upgrades = {
     },
 
     getAntiEnergyGain() {
-        let primonMagnitude = player.primon.log(10).abs();
+        let primonMagnitude = new Decimal(1).div(player.primon.log(5).abs());
+        let baseGain = new Decimal(1e-200);
 
-        let baseExponent = new Decimal(12);
-        let difficultyRate = new Decimal(0.051);
+        let difficultyRate = new Decimal(1e1);
 
         if (player.antiEnergy.lt(1e-200)) {
-            difficultyRate = new Decimal(0.0515);
+            difficultyRate = new Decimal(1e1);
         } else if (player.antiEnergy.lte(1e-175)) {
-            difficultyRate = new Decimal(0.052);
+            difficultyRate = new Decimal(1e2);
         } else if (player.antiEnergy.lte(1e-150)) {
-            difficultyRate = new Decimal(0.053);
+            difficultyRate = new Decimal(0.2);
         } else if (player.antiEnergy.lte(1e-125)) {
-            difficultyRate = new Decimal(0.055);
+            difficultyRate = new Decimal(0.25);
         } else if (player.antiEnergy.lte(1e-100)) {
-            difficultyRate = new Decimal(0.06);
+            difficultyRate = new Decimal(0.3);
         } else if (player.antiEnergy.lte(1e-75)) {
-            difficultyRate = new Decimal(0.07);
+            difficultyRate = new Decimal(0.4);
         } else if (player.antiEnergy.lte(1e-50)) {
-            difficultyRate = new Decimal(0.085);
+            difficultyRate = new Decimal(0.5);
         } else if (player.antiEnergy.lte(1e-25)) {
-            difficultyRate = new Decimal(0.1);
+            difficultyRate = new Decimal(0.75);
         } else if (player.antiEnergy.lte(1e0)) {
             difficultyRate = new Decimal(10);
         }
-        let exponent = baseExponent.div(primonMagnitude.times(difficultyRate).plus(1));
-        let antiEnergyGain = player.primon.pow(exponent);
 
-        return antiEnergyGain.times(player.antiEnergyMultiplier);
+        let exponent = primonMagnitude.times(difficultyRate);
+        let antiEnergyGain = new Decimal(1e-200).pow(exponent);
+
+        return antiEnergyGain.times(player.antiEnergyMultiplier).times(this.getEnergyBoostMultiplier());
     },
 
     getAntiEnergyMultiplier() {
