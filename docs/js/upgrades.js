@@ -68,33 +68,30 @@ export const upgrades = {
     },
 
     getAntiEnergyGain() {
-        let primonMagnitude = new Decimal(1).div(player.primon.log(5).abs());
-        let baseGain = new Decimal(1e-200);
-
-        let difficultyRate = new Decimal(1e1);
+        let baseGain = player.primon.pow(2.2);
+        let difficultyRate = new Decimal(1);
 
         if (player.antiEnergy.lt(1e-200)) {
-            difficultyRate = new Decimal(1e1);
-        } else if (player.antiEnergy.lte(1e-175)) {
-            difficultyRate = new Decimal(1e2);
-        } else if (player.antiEnergy.lte(1e-150)) {
-            difficultyRate = new Decimal(0.2);
+            difficultyRate = new Decimal(0.93);
+        } else if (player.antiEnergy.lte(1e-190)) {
+            difficultyRate = new Decimal(1.2);
+        } else if (player.antiEnergy.lte(1e-180)) {
+            difficultyRate = new Decimal(1.5);
         } else if (player.antiEnergy.lte(1e-125)) {
-            difficultyRate = new Decimal(0.25);
+            difficultyRate = new Decimal(1.05);
         } else if (player.antiEnergy.lte(1e-100)) {
-            difficultyRate = new Decimal(0.3);
+            difficultyRate = new Decimal(1.1);
         } else if (player.antiEnergy.lte(1e-75)) {
-            difficultyRate = new Decimal(0.4);
+            difficultyRate = new Decimal(1.15);
         } else if (player.antiEnergy.lte(1e-50)) {
-            difficultyRate = new Decimal(0.5);
+            difficultyRate = new Decimal(1.2);
         } else if (player.antiEnergy.lte(1e-25)) {
-            difficultyRate = new Decimal(0.75);
+            difficultyRate = new Decimal(1.3);
         } else if (player.antiEnergy.lte(1e0)) {
-            difficultyRate = new Decimal(10);
+            difficultyRate = new Decimal(1.5);
         }
 
-        let exponent = primonMagnitude.times(difficultyRate);
-        let antiEnergyGain = new Decimal(1e-200).pow(exponent);
+        let antiEnergyGain = baseGain.pow(difficultyRate);
 
         return antiEnergyGain.times(player.antiEnergyMultiplier).times(this.getEnergyBoostMultiplier());
     },
