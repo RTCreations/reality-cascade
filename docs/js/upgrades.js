@@ -72,6 +72,11 @@ export const upgrades = {
 
         let baseExponent = new Decimal(12);
         let difficultyRate = new Decimal(0.051);
+        if (player.antiEnergy.lt(1e-200)) {
+            difficultyRate = new Decimal(0.051);
+        } else if (player.antiEnergy.lte(1e-175)) {
+            difficultyRate = new Decimal(0.052);
+        }
         let exponent = baseExponent.div(primonMagnitude.times(difficultyRate).plus(1));
         let antiEnergyGain = player.primon.pow(exponent);
 
@@ -111,7 +116,7 @@ export const upgrades = {
     },
 
     getEnergyBoostMultiplier() {
-        const baseline = new Decimal(1e-95);
+        const baseline = new Decimal(1e-189);
         const ratio = player.energy.div(baseline);
         return new Decimal(1).plus(new Decimal(ratio.pow(0.7)));
     },
@@ -129,13 +134,13 @@ export const upgrades = {
     },
 
     resetAntiEnergyForEnergy() {
-        if (player.antiEnergy.lte(1e-100)) {
+        if (player.antiEnergy.lte(1e-200)) {
             return false;
         }
 
         const gain = this.getEnergyFromAntiEnergyGain();
         player.energy = player.energy.plus(gain);
-        player.antiEnergy = new Decimal(1e-116);
+        player.antiEnergy = new Decimal(0);
         player.primon = new Decimal(1e-100);
         player.primonsPerSecond = new Decimal(1e-100);
         player.primonMultiplier = new Decimal(1).times(player.primonAchievementBonus);
