@@ -7,36 +7,78 @@ const achievementDefinitions = [
     {
         id: "primon1",
         title: "First Cascade",
-        requirement: "Reach 1e-90 Primons",
+        requirement: "Reach 1K Primons",
         reward: "2x Primons",
-        unlocked: (p) => p.primon.gte(new Decimal("1e-90")),
+        unlocked: (p) => p.primon.gte(new Decimal("1e3")),
+    },
+    {
+        id: "primon2",
+        title: "Primon Simulator",
+        requirement: "Reach 1e10 Primons",
+        reward: "5x Primons",
+        unlocked: (p) => p.primon.gte(new Decimal("1e10")),
+    },
+    {
+        id: "primon3",
+        title: "Not Enough Primons",
+        requirement: "Reach 1e18 Primons",
+        reward: "10x Primons",
+        unlocked: (p) => p.primon.gte(new Decimal("1e18")),
+    },
+    {
+        id: "primon4",
+        title: "MASSIVE Primons",
+        requirement: "Reach 1e26 Primons",
+        reward: "1Kx Primons",
+        unlocked: (p) => p.primon.gte(new Decimal("1e26")),
+    },
+    {
+        id: "antiEnergy1",
+        title: "Anti Joules Are Not Real",
+        requirement: "Reach 100 Anti Energy",
+        reward: "2x Primons, 2x Anti Energy, 2x Energy",
+        unlocked: (p) => p.antiEnergy.gte(new Decimal("1e2")),
+    },
+    {
+        id: "antiEnergy2",
+        title: "200K Anti J is Not a Lot",
+        requirement: "Reach 200K Anti Energy",
+        reward: "2x Anti Energy, 2x Energy",
+        unlocked: (p) => p.antiEnergy.gte(new Decimal("2e5")),
     },
     {
         id: "energy1",
-        title: "Energy Spark",
+        title: "Primodial Energy",
+        requirement: "Reach 1e-32 Energy",
+        reward: "3x Energy",
+        unlocked: (p) => p.energy.gte(new Decimal("1e-32"))
+    },
+    {
+        id: "energy2",
+        title: "BIG Energy",
         requirement: "Reach 1e-28 Energy",
-        reward: "Unlock Energy",
+        reward: "1Kx Energy",
         unlocked: (p) => p.energy.gte(new Decimal("1e-28"))
     },
     {
         id: "light1",
         title: "Photon Glow",
         requirement: "Reach 1 Light",
-        reward: "Unlock Light",
-        unlocked: (p) => p.light.gte(new Decimal(1))
+        reward: "1.2x Light",
+        unlocked: (p) => p.light.gte(new Decimal("1"))
     },
     {
         id: "amplifier",
         title: "Amplified",
         requirement: "Buy 1 Energy Amplifier",
-        reward: "Energy gain doubled",
+        reward: "2x Energy",
         unlocked: (p) => p.boughtUpgrades.gte(new Decimal(1))
     },
     {
         id: "boost",
         title: "Energy Boost",
         requirement: "Buy 1 Energy Boost",
-        reward: "Energy gain boosted",
+        reward: "1.67x Energy",
         unlocked: (p) => p.boughtUpgrades.gte(new Decimal(2))
     }
 ];
@@ -115,15 +157,58 @@ export function checkAchievements() {
 
             showToast({
                 title: "Achievement Unlocked!",
-                message: `${def.title} — ${def.reward}`,
+                message: `${def.title} > ${def.reward}`,
                 variant: "achievement"
             });
 
             if (def.id === "primon1") {
                 player.primonAchievementBonus = player.primonAchievementBonus.times(2);
-                player.primonsPerSecond = new Decimal(1e-100)
+                player.primonsPerSecond = new Decimal("1")
                     .times(player.primonMultiplier)
                     .times(player.primonAchievementBonus);
+            }
+
+            if (def.id === "primon2") {
+                player.primonAchievementBonus = player.primonAchievementBonus.times(5);
+                player.primonsPerSecond = new Decimal("1")
+                    .times(player.primonMultiplier)
+                    .times(player.primonAchievementBonus);
+            }
+
+            if (def.id === "primon3") {
+                player.primonAchievementBonus = player.primonAchievementBonus.times(10);
+                player.primonsPerSecond = new Decimal("1")
+                    .times(player.primonMultiplier)
+                    .times(player.primonAchievementBonus);
+            }
+
+            if (def.id === "primon4") {
+                player.primonAchievementBonus = player.primonAchievementBonus.times(1e3);
+                player.primonsPerSecond = new Decimal("1")
+                    .times(player.primonMultiplier)
+                    .times(player.primonAchievementBonus);
+            }
+
+            if (def.id === "antiEnergy1") {
+                player.primonAchievementBonus = player.primonAchievementBonus.times("2");
+                player.antiEnergyMultiplier = player.antiEnergyMultiplier.times("2");
+                player.energyMultiplier = player.energyMultiplier.times("2");
+                player.primonsPerSecond = new Decimal("1")
+                    .times(player.primonMultiplier)
+                    .times(player.primonAchievementBonus);
+            }
+
+            if (def.id === "antiEnergy2") {
+                player.antiEnergyMultiplier = player.antiEnergyMultiplier.times("2");
+                player.energyMultiplier = player.energyMultiplier.times("2");
+            }
+
+            if (def.id === "energy1") {
+                player.energyMultiplier = player.energyMultiplier.times("3");
+            }
+
+            if (def.id === "energy2") {
+                player.energyMultiplier = player.energyMultiplier.times("1e3");
             }
 
             changed = true;

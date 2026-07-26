@@ -12,9 +12,9 @@ const energyColumn = document.querySelector(".energy-column")
 const lightColumn = document.querySelector(".light-column");
 const energyResetButton = document.querySelector("#energyResetBtn");
 
-const antiEnergy = new Decimal(1e-97);
-const energy = new Decimal(1e-80);
-const light = new Decimal(1e-28);
+const antiEnergy = new Decimal("1e4");
+const energy = new Decimal("5e8");
+const light = new Decimal("1e-28");
 
 function isUnlockThresholdReached(value, threshold) {
     return value.gte(threshold);

@@ -38,6 +38,10 @@ function showOfflineProgressNotice(seconds) {
     
     const primonsEarned = new Decimal(player.primonsPerSecond).times(new Decimal(seconds));
     player.primon = new Decimal(player.primon).plus(primonsEarned);
+
+    if (player.primon.gt(player.stats.highestPrimon)) {
+        player.stats.highestPrimon = player.primon;
+    }
     
     if (!notice || !message || !countdown) {
         return;
@@ -82,6 +86,10 @@ export function getPlaytime() {
 
 export function getPrimonTime() {
     player.primon = new Decimal(player.primon).plus(player.primonsPerSecond);
+
+    if (player.primon.gt(player.stats.highestPrimon)) {
+        player.stats.highestPrimon = player.primon;
+    }
 }
 
 export function getEnergyTime() {

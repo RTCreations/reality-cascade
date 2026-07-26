@@ -2,11 +2,12 @@ import Decimal from "../libraries/break_eternity.js-2.1.3/break_eternity.esm.js"
 
 import { player } from "./player.js";
 import { upgrades } from "./upgrades.js";
-import { saveGame, loadGame, loaded } from "./save.js";
+import { saveGame, loadGame, loaded, importSave, exportSave } from "./save.js";
 import { energyUpgradesLightUp, primonUpgradesLightUp } from "./animations.js";
 import { getPlaytime, getPrimonTime, getEnergyTime, getLightTime, formatTime } from "./time.js";
 import { getFact, checkFactPopup } from "./facts.js";
 import { checkPrimonMilestone } from "./milestones.js";
+import { checkInfoUnlocks } from "./info.js";
 import { startTriviaLoop } from "./trivia.js";
 import { getUnlock } from "./unlock.js";
 import { checkAchievements } from "./achievements.js";
@@ -46,7 +47,7 @@ export function formatF(val) {
     "Sg", "USg", "DSg", "TSg", "QaSg", "QnSg", "SxSg", "SpSg", "OcSg", "NoSg",
     "Og", "UOg", "DOg", "TOg", "QaOg", "QnOg", "SxOg", "SpOg", "OcOg", "NoOg",
     "Ng", "UNg", "DNg", "TNg", "QaNg", "QnNg", "SxNg", "SpNg", "OcNg", "NoNg",
-    "Ce", "Uce"
+    "Ce", "UCe"
     ]; //Up to e308 Support
 
     let exponent = num.log10().floor();
@@ -68,15 +69,18 @@ export function gameLoop() {
 }
 
 export function updateDisplay() {
-    document.getElementById("primon").textContent = "Primons: " + formatE(player.primon);
-    document.getElementById("pps").textContent = "Primons/s: " + formatE(player.primonsPerSecond);
-    
+    player.primon.gte("1e308") ? document.getElementById("primon").textContent = formatE(player.primon) + " Primons"
+     : document.getElementById("primon").textContent = formatF(player.primon) + " Primons";
+    player.primonsPerSecond.gte("1e308") ? document.getElementById("pps").textContent = formatE(player.primonsPerSecond.mul(new Decimal(1000).div(player.primonSpeed))) + " Primons Per Second"
+     : document.getElementById("pps").textContent = formatF(player.primonsPerSecond.mul(new Decimal(1000).div(player.primonSpeed))) + " Primons Per Second";
+    document.getElementById("ptm").textContent = formatE(player.primonMultiplier) + "x Total Multiplier";
+
     const antiEnergyMultiplier = upgrades.getAntiEnergyMultiplier();
     document.getElementById("antiBoost").textContent = 
-    "Primon Boost: " + formatF(antiEnergyMultiplier) + "(x)";
+    formatF(antiEnergyMultiplier) + "x Primon Boost";
     document.getElementById("primonBtn").innerHTML = `
         <span class="upgrade-name">Primon Enhancer</span>
-        <span class="upgrade-cost">Cost: ${formatE(upgrades.primonBtn.cost)}</span>
+        <span class="upgrade-cost">${formatF(upgrades.primonBtn.cost)} Primons</span>
         <span class="upgrade-level">Level ${upgrades.primonBtn.level}</span>
     `;
 
@@ -128,12 +132,24 @@ export function updateDisplay() {
     "Playtime: " + formatTime(player.stats.playtime);
     document.getElementById("energyStats").textContent = getFact();
 
+    document.getElementById("highestPrimonStat").textContent = 
+    "Highest Primons Ever: " + formatF(player.stats.highestPrimon);
+    document.getElementById("totalAntiEnergyStat").textContent = 
+    "Total Anti Energy Earned: " + formatE(player.stats.totalAntiEnergyEarned);
+    document.getElementById("antiEnergyResetsStat").textContent = 
+    "Anti Energy Resets: " + player.stats.antiEnergyResetCount;
+    document.getElementById("energyResetsStat").textContent = 
+    "Energy Resets: " + player.stats.energyResetCount;
+
+    document.getElementById("primonAchievementMulti").textContent = "Total Primon Achievement Multiplier: " + formatF(player.primonAchievementBonus) + "(x)";
+
     primonUpgradesLightUp();
     energyUpgradesLightUp();
     getUnlock();
     checkAchievements();
     checkFactPopup();
     checkPrimonMilestone();
+    checkInfoUnlocks();
 }
 
 let playtimeInterval = null;
@@ -176,7 +192,7 @@ export function speedUp() {
 
 let intervalId2 = null;
 
-export function heldBuy() {
+export async function heldBuy() {
     clearInterval(intervalId2);
     intervalId2 = null;
 
@@ -197,7 +213,6 @@ window.addEventListener('keydown', (event) => {
 
     event.preventDefault();
 
-    if (event.repeat) return;
     if (!intervalId2) {
         heldBuy();
     }
@@ -261,6 +276,16 @@ document.getElementById("save").onclick = (e) => {
     saveGame();
 };
 
+document.getElementById("export").onclick = (e) => {
+    e.preventDefault();
+    exportSave();
+};
+
+document.getElementById("import").onclick = (e) => {
+    e.preventDefault();
+    importSave();
+};
+
 document.getElementById("wipe").onclick = (e) => {
     e.preventDefault();
     localStorage.clear();
@@ -268,9 +293,11 @@ document.getElementById("wipe").onclick = (e) => {
 };
 
 loadGame();
+
 if (primonBuyMaxInput) {
     primonBuyMaxInput.checked = player.autoBuyPrimon;
 }
+
 startTimer();
 checkAchievements();
 startTriviaLoop();
