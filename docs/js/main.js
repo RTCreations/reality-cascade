@@ -72,11 +72,11 @@ export function updateDisplay() {
      : document.getElementById("primon").textContent = formatF(player.primon) + " Primons";
     player.primonsPerSecond.gte("1e308") ? document.getElementById("pps").textContent = formatE(player.primonsPerSecond.mul(new Decimal(1000).div(player.primonSpeed))) + " Primons Per Second"
      : document.getElementById("pps").textContent = formatF(player.primonsPerSecond.mul(new Decimal(1000).div(player.primonSpeed))) + " Primons Per Second";
-    document.getElementById("ptm").textContent = "Primon(x): " + formatE(player.primonMultiplier);
+    document.getElementById("ptm").textContent = formatE(player.primonMultiplier) + "x Total Multiplier";
 
     const antiEnergyMultiplier = upgrades.getAntiEnergyMultiplier();
     document.getElementById("antiBoost").textContent = 
-    "Primon Boost: " + formatE(antiEnergyMultiplier) + "(x)";
+    formatF(antiEnergyMultiplier) + "x Primon Boost";
     document.getElementById("primonBtn").innerHTML = `
         <span class="upgrade-name">Primon Enhancer</span>
         <span class="upgrade-cost">${formatF(upgrades.primonBtn.cost)} Primons</span>
