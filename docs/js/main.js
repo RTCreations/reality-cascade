@@ -7,6 +7,7 @@ import { energyUpgradesLightUp, primonUpgradesLightUp } from "./animations.js";
 import { getPlaytime, getPrimonTime, getEnergyTime, getLightTime, formatTime } from "./time.js";
 import { getFact, checkFactPopup } from "./facts.js";
 import { checkPrimonMilestone } from "./milestones.js";
+import { checkInfoUnlocks } from "./info.js";
 import { startTriviaLoop } from "./trivia.js";
 import { getUnlock } from "./unlock.js";
 import { checkAchievements } from "./achievements.js";
@@ -131,6 +132,15 @@ export function updateDisplay() {
     "Playtime: " + formatTime(player.stats.playtime);
     document.getElementById("energyStats").textContent = getFact();
 
+    document.getElementById("highestPrimonStat").textContent = 
+    "Highest Primons Ever: " + formatF(player.stats.highestPrimon);
+    document.getElementById("totalAntiEnergyStat").textContent = 
+    "Total Anti Energy Earned: " + formatE(player.stats.totalAntiEnergyEarned);
+    document.getElementById("antiEnergyResetsStat").textContent = 
+    "Anti Energy Resets: " + player.stats.antiEnergyResetCount;
+    document.getElementById("energyResetsStat").textContent = 
+    "Energy Resets: " + player.stats.energyResetCount;
+
     document.getElementById("primonAchievementMulti").textContent = "Total Primon Achievement Multiplier: " + formatF(player.primonAchievementBonus) + "(x)";
 
     primonUpgradesLightUp();
@@ -139,6 +149,7 @@ export function updateDisplay() {
     checkAchievements();
     checkFactPopup();
     checkPrimonMilestone();
+    checkInfoUnlocks();
 }
 
 let playtimeInterval = null;

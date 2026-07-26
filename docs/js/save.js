@@ -107,7 +107,11 @@ export function saveGame() {
 
         stats: {
             playtime: player.stats.playtime,
-            totalEnergy: player.stats.totalEnergy.toString()
+            totalEnergy: player.stats.totalEnergy.toString(),
+            highestPrimon: player.stats.highestPrimon.toString(),
+            totalAntiEnergyEarned: player.stats.totalAntiEnergyEarned.toString(),
+            antiEnergyResetCount: player.stats.antiEnergyResetCount,
+            energyResetCount: player.stats.energyResetCount
         },
 
         achievements: player.achievements,
@@ -186,6 +190,10 @@ export function loadGame() {
 
         player.stats.playtime = Number(save.stats?.playtime ?? 0);
         player.stats.totalEnergy = new Decimal(save.stats?.totalEnergy ?? "0");
+        player.stats.highestPrimon = new Decimal(save.stats?.highestPrimon ?? player.primon.toString());
+        player.stats.totalAntiEnergyEarned = new Decimal(save.stats?.totalAntiEnergyEarned ?? "0");
+        player.stats.antiEnergyResetCount = Number(save.stats?.antiEnergyResetCount ?? 0);
+        player.stats.energyResetCount = Number(save.stats?.energyResetCount ?? 0);
         player.achievements = save.achievements ?? {};
         player.primonAchievementBonus = new Decimal(save.primonAchievementBonus ?? "1");
 

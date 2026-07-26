@@ -16,6 +16,7 @@
         <nav class="tabs">
             <button class="tab active" data-tab="resources">Game</button>
             <button class="tab" data-tab="reality">Reality</button>
+            <button class="tab" data-tab="info">Info</button>
             <button class="tab" data-tab="achievements">Achievements</button>
             <button class="tab" data-tab="statistics">Statistics</button>
             <button class="tab" data-tab="settings">Settings</button>
@@ -106,6 +107,32 @@
                 <button id="secondReality">Second Reality</button>
             </section>
 
+            <section id="info" class="tab-content">
+                <h2>The Physics of Reality Cascade</h2>
+                <p class="info-intro">A field guide to the currencies bending your universe. Each entry unlocks as you reach it in the Game tab.</p>
+
+                <div id="infoPrimon" class="info-card unlocked">
+                    <h3>Primons</h3>
+                    <p class="info-body">Primons are Reality Cascade's foundational currency: a fictional "pre-particle" representing raw quantum potential, existing for a fraction of a Planck length before it decides what it wants to become. Nothing in real physics is quite a Primon, but the idea borrows from genuine concepts like Planck-scale quantum foam and vacuum fluctuations and regions of spacetime where virtual particles flicker in and out of existence before settling back into nothing.</p>
+                    <div class="info-formula">Production: Primons += (Primons/s × 1000 ⁄ Primon Speed) every tick, scaled by your Primon Multiplier and Achievement Bonus multipliers.</div>
+                </div>
+
+                <div id="infoAntiEnergy" class="info-card locked">
+                    <h3>Anti Energy (Anti J)</h3>
+                    <p class="info-body">🔒 Locked — unlock Anti Energy in the Game tab to read this entry.</p>
+                </div>
+
+                <div id="infoEnergy" class="info-card locked">
+                    <h3>Energy (J)</h3>
+                    <p class="info-body">🔒 Locked — unlock Energy in the Game tab to read this entry.</p>
+                </div>
+
+                <div id="infoLight" class="info-card locked">
+                    <h3>Light &amp; Photons</h3>
+                    <p class="info-body">🔒 Locked — unlock Light in the Game tab to read this entry.</p>
+                </div>
+            </section>
+
             <section id="achievements" class="tab-content">
                 <div id="achievementHeader">
                     <h2>Achievements</h2>
@@ -119,6 +146,10 @@
                 <h2>Statistics</h2>
 
                 <p id="playtime">Playtime: 0s</p>
+                <p id="highestPrimonStat">Highest Primons Ever: LOADING</p>
+                <p id="totalAntiEnergyStat">Total Anti Energy Earned: LOADING</p>
+                <p id="antiEnergyResetsStat">Anti Energy Resets: LOADING</p>
+                <p id="energyResetsStat">Energy Resets: LOADING</p>
                 <p id="energyStats">You have 1e-35 energy, which is enough energy to power 0.015 photons with a frequency of 1Hz!</p>
             </section>
 

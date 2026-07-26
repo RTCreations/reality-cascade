@@ -35,7 +35,11 @@ export const player = {
 
     stats: {
         playtime: 0,
-        totalEnergy: new Decimal("1e-34")
+        totalEnergy: new Decimal("1e-34"),
+        highestPrimon: new Decimal("1"),
+        totalAntiEnergyEarned: new Decimal("0"),
+        antiEnergyResetCount: 0,
+        energyResetCount: 0
     },
 
     achievements: {},
