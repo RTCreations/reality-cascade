@@ -157,7 +157,7 @@ export function checkAchievements() {
 
             showToast({
                 title: "Achievement Unlocked!",
-                message: `${def.title} — ${def.reward}`,
+                message: `${def.title} > ${def.reward}`,
                 variant: "achievement"
             });
 

@@ -35,7 +35,7 @@ const triviaPool = [
         if (primon.lte(0)) {
             return "You have zero Primons. Somewhere, a physicist is relieved this simplifies their spreadsheet.";
         }
-        const sandGrains = primon.times(new Decimal("7.5e18"));
+        const sandGrains = primon.div(new Decimal("7.5e18"));
         return `Your ${formatE(primon)} Primons, run through the Bureau of Fictional Metrology's official table, convert to ${formatF(sandGrains)} grains of sand, which is either a beach or a filing error.`;
     },
 
