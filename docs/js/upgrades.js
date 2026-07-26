@@ -117,7 +117,7 @@ export const upgrades = {
     },
 
     getEnergyFromAntiEnergyGain() {
-        let baseGain = new Decimal(player.antiEnergy);
+        let baseGain = new Decimal("1e-34").mul(player.antiEnergy.log10());
 
         if (player.energy.lt("1e-34")) {
             baseGain = new Decimal(player.antiEnergy.pow("1.01")); 
