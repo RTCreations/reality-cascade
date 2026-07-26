@@ -68,8 +68,10 @@ export function gameLoop() {
 }
 
 export function updateDisplay() {
-    player.primon.gte("1e308") ? document.getElementById("primon").textContent = formatE(player.primon) + " Primons" : document.getElementById("primon").textContent = formatF(player.primon) + " Primons";
-    player.primonsPerSecond.gte("1e308") ? document.getElementById("pps").textContent = formatE(player.primonsPerSecond) + " Primons Per Second" : document.getElementById("pps").textContent = formatF(player.primonsPerSecond) + " Primons Per Second";
+    player.primon.gte("1e308") ? document.getElementById("primon").textContent = formatE(player.primon) + " Primons"
+     : document.getElementById("primon").textContent = formatF(player.primon) + " Primons";
+    player.primonsPerSecond.gte("1e308") ? document.getElementById("pps").textContent = formatE(player.primonsPerSecond.mul(new Decimal(1000).div(player.primonSpeed))) + " Primons Per Second"
+     : document.getElementById("pps").textContent = formatF(player.primonsPerSecond.mul(new Decimal(1000).div(player.primonSpeed))) + " Primons Per Second";
     document.getElementById("ptm").textContent = "Primon(x): " + formatE(player.primonMultiplier);
 
     const antiEnergyMultiplier = upgrades.getAntiEnergyMultiplier();
