@@ -8,36 +8,36 @@ export const upgrades = {
     primonBtn: {
         name: "Primon Enhancer",
         level: 0,
-        cost: new Decimal(5e-100)
+        cost: new Decimal("2")
     },
 
     energyAmplifier: {
         name: "Energy Amplifier",
         level: 0,
-        cost: new Decimal(1e-34)
+        cost: new Decimal("1e-34")
     },
 
     energyBoost: {
         name: "Energy Boost",
         level: 0,
-        cost: new Decimal(5e-34)
+        cost: new Decimal("5e-34")
     },
 
     energyAccelerate: {
         name: "Energy Accelerator",
         level: 0,
-        cost: new Decimal(5e-34),
+        cost: new Decimal("5e-34"),
     },
 
     buyPrimonBtn() {
         if (player.primon.gte(this.primonBtn.cost)) {
             player.primon = player.primon.minus(this.primonBtn.cost);
             this.primonBtn.level++;
-            player.primonMultiplier = player.primonMultiplier.times(2);
-            player.primonsPerSecond = new Decimal(1e-100)
+            player.primonMultiplier = player.primonMultiplier.times("2");
+            player.primonsPerSecond = new Decimal("1")
                 .times(player.primonMultiplier)
                 .times(player.primonAchievementBonus);
-            player.antiEnergyMultiplier = player.antiEnergyMultiplier.times(1);
+            player.antiEnergyMultiplier = player.antiEnergyMultiplier.times("1");
             const primonScale = getScale("primonBtn", this.primonBtn.level);
             this.primonBtn.cost = new Decimal(this.primonBtn.cost).times(primonScale.Multi);
         }
@@ -49,115 +49,95 @@ export const upgrades = {
         while (player.primon.gte(this.primonBtn.cost)) {
             player.primon = player.primon.minus(this.primonBtn.cost);
             this.primonBtn.level++;
-            player.primonMultiplier = player.primonMultiplier.times(2);
-            player.primonsPerSecond = new Decimal(1e-100)
+            player.primonMultiplier = player.primonMultiplier.times("2");
+            player.primonsPerSecond = new Decimal("1")
                 .times(player.primonMultiplier)
                 .times(player.primonAchievementBonus);
-            player.antiEnergyMultiplier = player.antiEnergyMultiplier.times(1);
-            player.energyMultiplier = player.energyMultiplier.times(1);
-            player.photonsMultiplier = player.photonsMultiplier.times(1);
-            player.lightMultiplier = player.lightMultiplier.times(1);
+            player.antiEnergyMultiplier = player.antiEnergyMultiplier.times("1");
+            player.energyMultiplier = player.energyMultiplier.times("1");
+            player.photonsMultiplier = player.photonsMultiplier.times("1");
+            player.lightMultiplier = player.lightMultiplier.times("1");
             const primonScale = getScale("primonBtn", this.primonBtn.level);
             this.primonBtn.cost = new Decimal(this.primonBtn.cost).times(primonScale.Multi);
             purchases++;
 
-            if (purchases >= 2000) {
+            if (purchases >= 200) {
                 break;
             }
         }
     },
 
     getAntiEnergyGain() {
-        let baseGain = player.primon.pow(2.2);
-        let difficultyRate = new Decimal(1);
+        let baseGain = player.primon.pow("0.5");
+        let difficultyRate = new Decimal("1");
 
-        if (player.antiEnergy.lt(1e-200)) {
-            difficultyRate = new Decimal(0.93);
-        } else if (player.antiEnergy.lte(1e-190)) {
-            difficultyRate = new Decimal(1.2);
-        } else if (player.antiEnergy.lte(1e-180)) {
-            difficultyRate = new Decimal(1.5);
-        } else if (player.antiEnergy.lte(1e-125)) {
-            difficultyRate = new Decimal(1.05);
-        } else if (player.antiEnergy.lte(1e-100)) {
-            difficultyRate = new Decimal(1.1);
-        } else if (player.antiEnergy.lte(1e-75)) {
-            difficultyRate = new Decimal(1.15);
-        } else if (player.antiEnergy.lte(1e-50)) {
-            difficultyRate = new Decimal(1.2);
-        } else if (player.antiEnergy.lte(1e-25)) {
-            difficultyRate = new Decimal(1.3);
-        } else if (player.antiEnergy.lte(1e0)) {
-            difficultyRate = new Decimal(1.5);
-        }
+        difficultyRate = new Decimal(player.primon.log10().div(player.primon.log(5)));
 
         let antiEnergyGain = baseGain.pow(difficultyRate);
 
-        return antiEnergyGain.times(player.antiEnergyMultiplier).times(this.getEnergyBoostMultiplier());
+        return new Decimal(antiEnergyGain.times(player.antiEnergyMultiplier).times(this.getEnergyBoostMultiplier()));
     },
 
     getAntiEnergyMultiplier() {
-        if (player.antiEnergy.lt(0)) {
+        if (player.antiEnergy.lt("0")) {
             return player.antiEnergyMultiplier.toNumber();
         }
 
-        const baseline = new Decimal(1e-200);
+        const baseline = new Decimal("1");
         const ratio = player.antiEnergy.div(baseline);
-        const boost = new Decimal(player.antiEnergyMultiplier).times(new Decimal(1).plus(ratio.pow(0.54)));
+        const boost = new Decimal(player.antiEnergyMultiplier).times(new Decimal("1").plus(ratio.pow("0.54")));
 
-        return boost.toNumber();
+        return new Decimal(boost);
     },
 
     resetPrimonForAntiEnergy() {
-        if (player.primon.lt(0)) {
+        if (player.primon.lt("0")) {
             return false;
         }
 
         const gain = this.getAntiEnergyGain();
         player.antiEnergy = player.antiEnergy.plus(gain);
-        player.primon = new Decimal(0);
+        player.primon = new Decimal("0");
 
         const multiplier = this.getAntiEnergyMultiplier();
-        player.primonMultiplier = new Decimal(1).times(multiplier);
-        player.primonsPerSecond = new Decimal(1e-100)
+        player.primonMultiplier = new Decimal("1").times(multiplier);
+        player.primonsPerSecond = new Decimal("1")
             .times(player.primonMultiplier)
             .times(player.primonAchievementBonus);
         this.primonBtn.level = 0;
-        this.primonBtn.cost = new Decimal(5e-100);
+        this.primonBtn.cost = new Decimal("2");
 
         return true;
     },
 
     getEnergyBoostMultiplier() {
-        const baseline = new Decimal(1e-190);
+        const baseline = new Decimal("1e-34");
         const ratio = player.energy.div(baseline);
-        return new Decimal(1).plus(new Decimal(ratio.pow(0.7)));
+        return new Decimal("1").plus(new Decimal(ratio.pow("0.7")));
     },
 
     getEnergyFromAntiEnergyGain() {
         let baseGain = new Decimal(player.antiEnergy);
 
-        if (player.energy.lt(1e-80)) {
-            baseGain = new Decimal(player.antiEnergy.pow(1.01)); 
-        } else if (player.energy.lt(1e-75)) {
-            baseGain = new Decimal(player.antiEnergy.pow(1.1));
+        if (player.energy.lt("1e-34")) {
+            baseGain = new Decimal(player.antiEnergy.pow("1.01")); 
         }
 
         return baseGain.times(player.energyMultiplier);
     },
 
     resetAntiEnergyForEnergy() {
-        if (player.antiEnergy.lte(1e-200)) {
+        if (player.antiEnergy.lt("0")) {
             return false;
         }
 
         const gain = this.getEnergyFromAntiEnergyGain();
         player.energy = player.energy.plus(gain);
-        player.antiEnergy = new Decimal(0);
-        player.primon = new Decimal(1e-100);
-        player.primonsPerSecond = new Decimal(1e-100);
-        player.primonMultiplier = new Decimal(1).times(player.primonAchievementBonus);
-        this.primonBtn.cost = new Decimal(5e-100);
+        player.antiEnergy = new Decimal("0");
+        player.primon = new Decimal("1");
+        player.primonsPerSecond = new Decimal("1");
+        player.primonMultiplier = new Decimal("1").times(player.primonAchievementBonus);
+        this.primonBtn.cost = new Decimal("2");
         this.primonBtn.level = 0;
         player.stats.totalEnergy = player.stats.totalEnergy.plus(gain);
 

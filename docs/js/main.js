@@ -46,7 +46,7 @@ export function formatF(val) {
     "Sg", "USg", "DSg", "TSg", "QaSg", "QnSg", "SxSg", "SpSg", "OcSg", "NoSg",
     "Og", "UOg", "DOg", "TOg", "QaOg", "QnOg", "SxOg", "SpOg", "OcOg", "NoOg",
     "Ng", "UNg", "DNg", "TNg", "QaNg", "QnNg", "SxNg", "SpNg", "OcNg", "NoNg",
-    "Ce", "Uce"
+    "Ce", "UCe"
     ]; //Up to e308 Support
 
     let exponent = num.log10().floor();
@@ -68,16 +68,16 @@ export function gameLoop() {
 }
 
 export function updateDisplay() {
-    document.getElementById("primon").textContent = "Primons: " + formatE(player.primon);
-    document.getElementById("pps").textContent = "Primons/s: " + formatE(player.primonsPerSecond);
+    player.primon.gte("1e308") ? document.getElementById("primon").textContent = formatE(player.primon) + " Primons" : document.getElementById("primon").textContent = formatF(player.primon) + " Primons";
+    player.primonsPerSecond.gte("1e308") ? document.getElementById("pps").textContent = formatE(player.primonsPerSecond) + " Primons Per Second" : document.getElementById("pps").textContent = formatF(player.primonsPerSecond) + " Primons Per Second";
     document.getElementById("ptm").textContent = "Primon(x): " + formatE(player.primonMultiplier);
 
     const antiEnergyMultiplier = upgrades.getAntiEnergyMultiplier();
     document.getElementById("antiBoost").textContent = 
-    "Primon Boost: " + formatF(antiEnergyMultiplier) + "(x)";
+    "Primon Boost: " + formatE(antiEnergyMultiplier) + "(x)";
     document.getElementById("primonBtn").innerHTML = `
         <span class="upgrade-name">Primon Enhancer</span>
-        <span class="upgrade-cost">Cost: ${formatE(upgrades.primonBtn.cost)}</span>
+        <span class="upgrade-cost">${formatF(upgrades.primonBtn.cost)} Primons</span>
         <span class="upgrade-level">Level ${upgrades.primonBtn.level}</span>
     `;
 
@@ -179,7 +179,7 @@ export function speedUp() {
 
 let intervalId2 = null;
 
-export function heldBuy() {
+export async function heldBuy() {
     clearInterval(intervalId2);
     intervalId2 = null;
 
@@ -200,7 +200,6 @@ window.addEventListener('keydown', (event) => {
 
     event.preventDefault();
 
-    if (event.repeat) return;
     if (!intervalId2) {
         heldBuy();
     }

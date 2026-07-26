@@ -133,73 +133,73 @@ export function loadGame() {
     let save = JSON.parse(localStorage.getItem("RealityCascadeSave"));
 
     if (save) {
-        player.primon = new Decimal(save.primon ?? 1e-100);
-        player.primonsPerSecond = new Decimal(save.primonsPerSecond ?? 1e-100);
-        player.primonSpeed = Number(save.primonSpeed ?? 1000);
-        player.primonMultiplier = new Decimal(save.primonMultiplier ?? 1);
-        player.primonAchievementBonus = new Decimal(save.primonAchievementBonus ?? 1);
+        player.primon = new Decimal(save.primon ?? "1");
+        player.primonsPerSecond = new Decimal(save.primonsPerSecond ?? "1");
+        player.primonSpeed = Number(save.primonSpeed ?? 500);
+        player.primonMultiplier = new Decimal(save.primonMultiplier ?? "1");
+        player.primonAchievementBonus = new Decimal(save.primonAchievementBonus ?? "1");
         player.autoBuyPrimon = Boolean(save.autoBuyPrimon ?? false);
 
-        player.antiEnergy = new Decimal(save.antiEnergy ?? 0);
-        player.antiEnergyPerSecond = new Decimal(save.antiEnergyPerSecond ?? 0);
+        player.antiEnergy = new Decimal(save.antiEnergy ?? "0");
+        player.antiEnergyPerSecond = new Decimal(save.antiEnergyPerSecond ?? "0");
         player.antiEnergySpeed = Number(save.antiEnergySpeed ?? 1000);
-        player.antiEnergyMultiplier = new Decimal(save.antiEnergyMultiplier ?? 1);
+        player.antiEnergyMultiplier = new Decimal(save.antiEnergyMultiplier ?? "1");
         player.unlockedAntiEnergy = Boolean(save.unlockedAntiEnergy ?? false);
 
-        player.energy = new Decimal(save.energy ?? 0);
-        player.energyPerSecond = new Decimal(save.energyPerSecond ?? 1e-35);
-        player.energySpeed = Number(save.energySpeed ?? 1000);
-        player.energyMultiplier = new Decimal(save.energyMultiplier ?? 1);
+        player.energy = new Decimal(save.energy ?? "0");
+        player.energyPerSecond = new Decimal(save.energyPerSecond ?? "1e-34");
+        player.energySpeed = Number(save.energySpeed ?? "1000");
+        player.energyMultiplier = new Decimal(save.energyMultiplier ?? "1");
         player.energyUnlocked = Boolean(save.unlockedEnergy ?? false);
 
-        player.light = new Decimal(save.light ?? 1);
-        player.lightPerSecond = new Decimal(save.lightPerSecond ?? 0);
-        player.lightMultiplier = new Decimal(save.lightMultiplier ?? 1);
-        player.photons = new Decimal(save.photons ?? 1);
-        player.photonsPerSecond = new Decimal(save.photonsPerSecond ?? 0);
-        player.photonsMultiplier = new Decimal(save.photonsMultiplier ?? 1);
+        player.light = new Decimal(save.light ?? "1");
+        player.lightPerSecond = new Decimal(save.lightPerSecond ?? "0");
+        player.lightMultiplier = new Decimal(save.lightMultiplier ?? "1");
+        player.photons = new Decimal(save.photons ?? "1");
+        player.photonsPerSecond = new Decimal(save.photonsPerSecond ?? "0");
+        player.photonsMultiplier = new Decimal(save.photonsMultiplier ?? "1");
         player.unlockedLight = Boolean(save.unlockedLight ?? false);
 
         upgrades.primonBtn = {
             name: save.upgrades?.primonBtn?.name ?? upgrades.primonBtn.name,
             level: Number(save.upgrades?.primonBtn?.level ?? 0),
-            cost: new Decimal(save.upgrades?.primonBtn?.cost ?? 5e-100)
+            cost: new Decimal(save.upgrades?.primonBtn?.cost ?? "2")
         },
 
         upgrades.energyAmplifier = {
             name: save.upgrades?.energyAmplifier?.name ?? upgrades.energyAmplifier.name,
             level: Number(save.upgrades?.energyAmplifier?.level ?? 0),
-            cost: new Decimal(save.upgrades?.energyAmplifier?.cost ?? 1e-34)
+            cost: new Decimal(save.upgrades?.energyAmplifier?.cost ?? "1e-34")
         };
 
         upgrades.energyBoost = {
             name: save.upgrades?.energyBoost?.name ?? upgrades.energyBoost.name,
             level: Number(save.upgrades?.energyBoost?.level ?? 0),
-            cost: new Decimal(save.upgrades?.energyBoost?.cost ?? 5e-34)
+            cost: new Decimal(save.upgrades?.energyBoost?.cost ?? "5e-34")
         };
         
         upgrades.energyAccelerate = {
             name: save.upgrades?.energyAccelerate?.name ?? upgrades.energyAccelerate.name,
             level: Number(save.upgrades?.energyAccelerate?.level ?? 0),
-            cost: new Decimal(save.upgrades?.energyAccelerate?.cost ?? 5e-34)
+            cost: new Decimal(save.upgrades?.energyAccelerate?.cost ?? "5e-34")
         };
 
         player.stats.playtime = Number(save.stats?.playtime ?? 0);
-        player.stats.totalEnergy = new Decimal(save.stats?.totalEnergy ?? 0);
+        player.stats.totalEnergy = new Decimal(save.stats?.totalEnergy ?? "0");
         player.achievements = save.achievements ?? {};
-        player.primonAchievementBonus = new Decimal(save.primonAchievementBonus ?? 1);
+        player.primonAchievementBonus = new Decimal(save.primonAchievementBonus ?? "1");
 
-        if (player.achievements.primon1 && player.primonAchievementBonus.eq(1)) {
-            player.primonAchievementBonus = new Decimal(2);
+        if (player.achievements.primon1 && player.primonAchievementBonus.eq("1")) {
+            player.primonAchievementBonus = new Decimal("2");
         }
 
-        player.primonsPerSecond = new Decimal(1e-100)
+        player.primonsPerSecond = new Decimal("1")
             .times(player.primonMultiplier)
             .times(player.primonAchievementBonus);
 
         player.lastSave = save.lastSave ?? Date.now();
 
-        player.reality.essence = new Decimal(save.reality?.essence ?? 0);
+        player.reality.essence = new Decimal(save.reality?.essence ?? "0");
         player.reality.level = Number(save.reality?.level ?? 0);
     }
 

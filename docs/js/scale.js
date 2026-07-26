@@ -7,92 +7,92 @@ export function getScale(key, level = 0) {
         case "primonBtn":
             if (levelValue.lt(10)) {
                 return {
-                    Multi: new Decimal(2)
+                    Multi: new Decimal("3")
                 };
             } else if (levelValue.lt(25)) {
                 return {
-                    Multi: new Decimal(2.5)
+                    Multi: new Decimal("6")
                 };
             } else if (levelValue.lt(50)) {
                 return {
-                    Multi: new Decimal(3.5)
+                    Multi: new Decimal("10")
                 };
             } else if (levelValue.lt(75)) {
                 return {
-                    Multi: new Decimal(10)
+                    Multi: new Decimal("35")
                 };
             } else if (levelValue.lt(100)) {
                 return {
-                    Multi: new Decimal(50)
+                    Multi: new Decimal("80")
                 };
             } else if (levelValue.lt(200)) {
                 return {
-                    Multi: new Decimal(250)
+                    Multi: new Decimal("250")
                 };
             } else if (levelValue.lt(300)) {
                 return {
-                    Multi: new Decimal(1000)
+                    Multi: new Decimal("1000")
                 };
             }
             return {
-                Multi: new Decimal(1000)
+                Multi: new Decimal("1000")
             };
 
         case "energyAmplifier":
             if (levelValue.lt(10)) {
                 return {
-                    Multi: new Decimal(2)
+                    Multi: new Decimal("2")
                 };
             } else if (levelValue.lt(20)) {
                 return {
-                    Multi: new Decimal(3)
+                    Multi: new Decimal("3")
                 };
             } else if (levelValue.lt(30)) {
                 return {
-                    Multi: new Decimal(4)
+                    Multi: new Decimal("4")
                 };
             } else if (levelValue.lt(40)) {
                 return {
-                    Multi: new Decimal(5)
+                    Multi: new Decimal("5")
                 };
             }
             return {
-                Multi: new Decimal(6)
+                Multi: new Decimal("6")
             };
 
         case "energyBoost":
             if (levelValue.lt(10)) {
                 return {
-                    Multi: new Decimal(4)
+                    Multi: new Decimal("4")
                 };
             } else if (levelValue.lt(20)) {
                 return {
-                    Multi: new Decimal(5)
+                    Multi: new Decimal("5")
                 };
             } else if (levelValue.lt(30)) {
                 return {
-                    Multi: new Decimal(6)
+                    Multi: new Decimal("6")
                 };
             } else if (levelValue.lt(40)) {
                 return {
-                    Multi: new Decimal(7)
+                    Multi: new Decimal("7")
                 };
             } 
             return {
-                Multi: new Decimal(8)
+                Multi: new Decimal("8")
             };
 
         case "energyAccelerate":
             return {
-                Multi: new Decimal(15),
-                Pow: new Decimal(1),
+                Multi: new Decimal("15"),
+                Pow: new Decimal("1"),
                 Max: 50
             };
 
         default:
             return {
-                Multi: new Decimal(1),
-                Pow: new Decimal(1),
+                Multi: new Decimal("1"),
+                Pow: new Decimal("1"),
                 Max: Infinity
             };
     }
