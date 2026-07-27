@@ -1,6 +1,7 @@
 import Decimal from "../libraries/break_eternity.js-2.1.3/break_eternity.esm.js";
 
 import { player } from "./player.js";
+import { showToast } from "./notifications.js";
 
 const firstUnlock = document.querySelector("#unlock1");
 const secondUnlock = document.querySelector("#unlock2");
@@ -14,7 +15,58 @@ const energyResetButton = document.querySelector("#energyResetBtn");
 
 const antiEnergy = new Decimal("1e4");
 const energy = new Decimal("5e8");
-const light = new Decimal("1e-28");
+const light = new Decimal("1e-25");
+
+// Tracks which unlocks we've already announced this session, so reloading an
+// already-progressed save doesn't re-fire the "you just unlocked X" toast.
+let announcedInit = false;
+const announced = {
+    antiEnergy: false,
+    energy: false,
+    light: false
+};
+
+function announceUnlocks() {
+    if (!announcedInit) {
+        // First run after page load: adopt whatever's already true from the save
+        // without toasting for it - only toast for genuinely new unlocks from here on.
+        announced.antiEnergy = player.unlockedAntiEnergy;
+        announced.energy = player.unlockedEnergy;
+        announced.light = player.unlockedLight;
+        announcedInit = true;
+        return;
+    }
+
+    if (player.unlockedAntiEnergy && !announced.antiEnergy) {
+        announced.antiEnergy = true;
+        showToast({
+            title: "New Feature: Anti Energy!",
+            message: "You can now collapse Primons into Anti Energy from the Game tab. Check the Info tab to see how the conversion works.",
+            variant: "milestone",
+            duration: 9000
+        });
+    }
+
+    if (player.unlockedEnergy && !announced.energy) {
+        announced.energy = true;
+        showToast({
+            title: "New Feature: Energy!",
+            message: "You can now convert Anti Energy into Energy from the Game tab. Check the Info tab for the conversion formula.",
+            variant: "milestone",
+            duration: 9000
+        });
+    }
+
+    if (player.unlockedLight && !announced.light) {
+        announced.light = true;
+        showToast({
+            title: "New Feature: Light & Photons!",
+            message: "Your Energy is now emitting Photons, which condense into Light and boost Energy generation further. See the Info tab for details.",
+            variant: "milestone",
+            duration: 9000
+        });
+    }
+}
 
 function isUnlockThresholdReached(value, threshold) {
     return value.gte(threshold);
@@ -44,6 +96,8 @@ export function getUnlock() {
     if (isUnlockThresholdReached(currentEnergy, light)) {
         player.unlockedLight = true;
     }
+
+    announceUnlocks();
 
     firstUnlock.classList.toggle("active", !player.unlockedAntiEnergy);
     secondUnlock.classList.toggle("active", !player.unlockedEnergy && player.unlockedAntiEnergy);

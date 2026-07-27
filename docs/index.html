@@ -84,7 +84,7 @@
                 </footer>
 
                 <footer id="unlock3" class="">
-                    Reach <strong>1e-28 Energy</strong> to unlock something new.
+                    Reach <strong>1e-25 Energy</strong> to unlock something new.
                 </footer>
 
                 <hr id="lightDivider" class="">
@@ -108,7 +108,9 @@
             </section>
 
             <section id="info" class="tab-content">
+                <div id="controls">Controls: M to buy all, E for energy reset</div>
                 <h2>The Physics of Reality Cascade</h2>
+                
                 <p class="info-intro">A field guide to the currencies bending your universe. Each entry unlocks as you reach it in the Game tab.</p>
 
                 <div id="infoPrimon" class="info-card unlocked">
@@ -150,12 +152,44 @@
                 <p id="totalAntiEnergyStat">Total Anti Energy Earned: LOADING</p>
                 <p id="antiEnergyResetsStat">Anti Energy Resets: LOADING</p>
                 <p id="energyResetsStat">Energy Resets: LOADING</p>
-                <p id="energyStats">You have 1e-35 energy, which is enough energy to power 0.015 photons with a frequency of 1Hz!</p>
+                <p id="energyStats">You have 1e-34 energy, which is enough energy to power 0.015 photons with a frequency of 1Hz!</p>
             </section>
 
             <section id="settings" class="tab-content">
                 <h2>Settings</h2>
-                
+
+                <div class="visual-settings">
+                    <h3>Visual Theme</h3>
+                    <div class="theme-swatches">
+                        <div class="theme-option">
+                            <button class="theme-swatch" data-theme="default" aria-label="Default blue theme" style="--swatch-color:#3d8cff"></button>
+                            <span class="theme-label">Default</span>
+                        </div>
+                        <div class="theme-option">
+                            <button class="theme-swatch" data-theme="purple" aria-label="Purple nebula theme" style="--swatch-color:#8b5cf6"></button>
+                            <span class="theme-label">Nebula</span>
+                        </div>
+                        <div class="theme-option">
+                            <button class="theme-swatch" data-theme="emerald" aria-label="Emerald theme" style="--swatch-color:#22c55e"></button>
+                            <span class="theme-label">Emerald</span>
+                        </div>
+                        <div class="theme-option">
+                            <button class="theme-swatch" data-theme="crimson" aria-label="Crimson theme" style="--swatch-color:#ef4444"></button>
+                            <span class="theme-label">Crimson</span>
+                        </div>
+                        <div class="theme-option">
+                            <button class="theme-swatch" data-theme="gold" aria-label="Gold theme" style="--swatch-color:#d4a017"></button>
+                            <span class="theme-label">Gold</span>
+                        </div>
+                    </div>
+
+                    <label class="toggle-switch" for="reduceMotionToggle">
+                        <input type="checkbox" id="reduceMotionToggle">
+                        <span class="toggle-track"></span>
+                        <span class="toggle-label">Reduce Motion</span>
+                    </label>
+                </div>
+
                 <button id="save"><strong>Save Game</strong></button>
                 <textarea id="saveInput" placeholder="Paste your save here"></textarea>
                 <button id="export">Export Save</button>
