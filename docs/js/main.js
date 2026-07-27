@@ -8,6 +8,8 @@ import { getPlaytime, getPrimonTime, getEnergyTime, getLightTime, formatTime } f
 import { getFact, checkFactPopup } from "./facts.js";
 import { checkPrimonMilestone } from "./milestones.js";
 import { checkInfoUnlocks } from "./info.js";
+import { initSettings } from "./settings.js";
+import { playPulse, playShake, playResetFlash } from "./feedback.js";
 import { startTriviaLoop } from "./trivia.js";
 import { getUnlock } from "./unlock.js";
 import { checkAchievements } from "./achievements.js";
@@ -58,7 +60,7 @@ export function formatF(val) {
         return divided.toFixed(2) + suffixes[index];
     }
 
-    return num.toExponential(2);
+    return formatE(num);
 }
 
 export function gameLoop() {
@@ -246,11 +248,9 @@ window.addEventListener('keyup', (event) => {
 
 document.getElementById("primonBtn").onclick = (e) => {
     e.preventDefault();
-    if (player.autoBuyPrimon) {
-        upgrades.buyPrimonBtnMax();
-    } else {
-        upgrades.buyPrimonBtn();
-    }
+    const btn = e.currentTarget;
+    const bought = player.autoBuyPrimon ? upgrades.buyPrimonBtnMax() : upgrades.buyPrimonBtn();
+    bought ? playPulse(btn) : playShake(btn);
 };
 
 const primonBuyMaxInput = document.getElementById("primonBuyMax");
@@ -263,27 +263,44 @@ if (primonBuyMaxInput) {
 
 document.getElementById("antiEnergyReset").onclick = (e) => {
     e.preventDefault();
-    upgrades.resetPrimonForAntiEnergy();
+    const btn = e.currentTarget;
+    const didReset = upgrades.resetPrimonForAntiEnergy();
+    if (didReset) {
+        playPulse(btn);
+        playResetFlash(document.getElementById("resources"));
+    } else {
+        playShake(btn);
+    }
 };
 
 document.getElementById("energyResetBtn").onclick = (e) => {
     e.preventDefault();
-    upgrades.resetAntiEnergyForEnergy();
+    const btn = e.currentTarget;
+    const didReset = upgrades.resetAntiEnergyForEnergy();
+    if (didReset) {
+        playPulse(btn);
+        playResetFlash(document.getElementById("resources"));
+    } else {
+        playShake(btn);
+    }
 };
 
 document.getElementById("energyAmplifierBtn").onclick = (e) => {
     e.preventDefault();
-    upgrades.buyEnergyAmplifier();
+    const btn = e.currentTarget;
+    upgrades.buyEnergyAmplifier() ? playPulse(btn) : playShake(btn);
 };
 
 document.getElementById("energyBoostBtn").onclick = (e) => {
     e.preventDefault();
-    upgrades.buyEnergyBoost();
+    const btn = e.currentTarget;
+    upgrades.buyEnergyBoost() ? playPulse(btn) : playShake(btn);
 };
 
 document.getElementById("energyAccelerateBtn").onclick = (e) => {
     e.preventDefault();
-    upgrades.buyEnergyAccelerate();
+    const btn = e.currentTarget;
+    upgrades.buyEnergyAccelerate() ? playPulse(btn) : playShake(btn);
 };
 
 document.getElementById("save").onclick = (e) => {
@@ -316,6 +333,7 @@ if (primonBuyMaxInput) {
 startTimer();
 checkAchievements();
 startTriviaLoop();
+initSettings();
 
 setInterval(updateDisplay, 60); // Run the display update loop every 100ms
 setInterval(saveGame, 10000); // Run the save game loop every 1 seconds
