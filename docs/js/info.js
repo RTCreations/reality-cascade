@@ -24,9 +24,9 @@ const infoEntries = [
             Reality Cascade's stylized take on matter-antimatter annihilation, if the antimatter in question
             had to file some paperwork first. Cashing in Anti Energy releases ordinary Joules, scaling with
             the logarithm of how much you convert: bigger stockpiles yield diminishing, but never negative,
-            returns — not unlike how real annihilation reactions are ultimately bounded by mass-energy
+            returns, and not unlike how real annihilation reactions are ultimately bounded by mass-energy
             equivalence (E = mc²), just with a much heavier layer of fiction stacked on top.`,
-        formula: "Conversion (approximate): once Energy ≥ 1e-34 J, Energy ≈ 1e-34 × log10(Anti Energy) × Energy Multiplier. Below that threshold, Energy ≈ Anti Energy^1.01 × Energy Multiplier instead — a steeper early payout before the logarithmic curve takes over."
+        formula: "Conversion (approximate): once Energy ≥ 1e-34 J, Energy ≈ 1e-34 × log10(Anti Energy) × Energy Multiplier. Below that threshold, Energy ≈ Anti Energy^1.01 × Energy Multiplier instead, which is a steeper early payout before the logarithmic curve takes over."
     },
     {
         id: "infoLight",

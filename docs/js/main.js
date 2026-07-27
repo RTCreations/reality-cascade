@@ -86,9 +86,9 @@ export function updateDisplay() {
 
 
     document.getElementById("antiEnergy").textContent = 
-    "Anti Energy: " + formatE(player.antiEnergy) + " Anti J";
+    "Anti Energy: " + formatF(player.antiEnergy) + " Anti J";
     document.getElementById("antiEnergyReset").textContent = 
-    "Reset for " + formatE(upgrades.getAntiEnergyGain()) + " Anti Energy";
+    "Reset for " + formatF(upgrades.getAntiEnergyGain()) + " Anti Energy";
 
     const energyGain = document.getElementById("energyGain");
     if (energyGain) {
@@ -191,41 +191,56 @@ export function speedUp() {
 }
 
 let intervalId2 = null;
+let intervalId3 = null;
 
 export async function heldBuy() {
     clearInterval(intervalId2);
     intervalId2 = null;
-
+    
     intervalId2 = setInterval(() => {
         if (player.autoBuyPrimon) {
             upgrades.buyPrimonBtnMax();
         } else {
             upgrades.buyPrimonBtn();
         }
-        upgrades.buyEnergyAmplifier();
+        /*upgrades.buyEnergyAmplifier();
         upgrades.buyEnergyBoost();
-        upgrades.buyEnergyAccelerate();
+        upgrades.buyEnergyAccelerate();*/
     }, 50);
 }
 
-window.addEventListener('keydown', (event) => {
-    if (event.code !== 'KeyM') return;
+export function energy() {
+    clearInterval(intervalId3);
+    intervalId3 = null;
 
+    intervalId3 = setInterval(() => {
+        upgrades.resetAntiEnergyForEnergy();
+    }, 1000)
+}
+
+window.addEventListener('keydown', (event) => {
     event.preventDefault();
 
-    if (!intervalId2) {
+    if (!intervalId2 && event.code === 'KeyM') {
         heldBuy();
+    }
+
+    if (!intervalId3 && event.code === "KeyE") {
+        energy();
     }
 });
 
 window.addEventListener('keyup', (event) => {
-    if (event.code !== 'KeyM') return;
-
     event.preventDefault();
 
-    if (intervalId2) {
+    if (intervalId2 && event.code === 'KeyM') {
         clearInterval(intervalId2);
         intervalId2 = null;
+    }
+
+    if (intervalId3 && event.code === 'KeyE') {
+        clearInterval(intervalId3);
+        intervalId3 = null;
     }
 });
 

@@ -56,9 +56,9 @@ const achievementDefinitions = [
     {
         id: "energy2",
         title: "BIG Energy",
-        requirement: "Reach 1e-28 Energy",
-        reward: "1Kx Energy",
-        unlocked: (p) => p.energy.gte(new Decimal("1e-28"))
+        requirement: "Reach 1e-29 Energy",
+        reward: "50x Energy",
+        unlocked: (p) => p.energy.gte(new Decimal("1e-29"))
     },
     {
         id: "light1",
@@ -208,7 +208,7 @@ export function checkAchievements() {
             }
 
             if (def.id === "energy2") {
-                player.energyMultiplier = player.energyMultiplier.times("1e3");
+                player.energyMultiplier = player.energyMultiplier.times("5e1");
             }
 
             changed = true;

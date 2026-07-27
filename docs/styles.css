@@ -982,6 +982,13 @@ button:disabled {
     color: #d8e7ff;
 }
 
+#controls,
+#info {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
 @media (max-width: 720px) {
     .achievements-grid {
         grid-template-columns: repeat(2, minmax(140px, 1fr));

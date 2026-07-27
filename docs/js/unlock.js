@@ -14,7 +14,7 @@ const energyResetButton = document.querySelector("#energyResetBtn");
 
 const antiEnergy = new Decimal("1e4");
 const energy = new Decimal("5e8");
-const light = new Decimal("1e-28");
+const light = new Decimal("1e-25");
 
 function isUnlockThresholdReached(value, threshold) {
     return value.gte(threshold);
