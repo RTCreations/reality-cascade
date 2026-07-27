@@ -336,4 +336,4 @@ startTriviaLoop();
 initSettings();
 
 setInterval(updateDisplay, 60); // Run the display update loop every 100ms
-setInterval(saveGame, 10000); // Run the save game loop every 1 seconds
+setInterval(saveGame, 10000); // Run the save game loop every 10 seconds
