@@ -137,7 +137,7 @@ export function updateDisplay() {
     document.getElementById("highestPrimonStat").textContent = 
     "Highest Primons Ever: " + formatF(player.stats.highestPrimon);
     document.getElementById("totalAntiEnergyStat").textContent = 
-    "Total Anti Energy Earned: " + formatE(player.stats.totalAntiEnergyEarned);
+    "Total Anti Energy Earned: " + formatF(player.stats.totalAntiEnergyEarned);
     document.getElementById("antiEnergyResetsStat").textContent = 
     "Anti Energy Resets: " + player.stats.antiEnergyResetCount;
     document.getElementById("energyResetsStat").textContent = 
