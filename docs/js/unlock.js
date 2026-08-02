@@ -15,7 +15,7 @@ const energyResetButton = document.querySelector("#energyResetBtn");
 
 const antiEnergy = new Decimal("1e4");
 const energy = new Decimal("5e8");
-const light = new Decimal("1e-25");
+const light = new Decimal("1e-29");
 
 // Tracks which unlocks we've already announced this session, so reloading an
 // already-progressed save doesn't re-fire the "you just unlocked X" toast.
@@ -80,6 +80,7 @@ export function getUnlock() {
     const currentPrimon = player.primon;
     const currentAntiEnergy = player.antiEnergy;
     const currentEnergy = player.energy;
+    const currentLight = player.light;
 
     if (isUnlockThresholdReached(currentPrimon, antiEnergy)) {
         player.unlockedAntiEnergy = true;

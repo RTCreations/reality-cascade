@@ -5,7 +5,7 @@ import { upgrades } from "./upgrades.js";
 export const player = {
     primon: new Decimal("1"),
     primonsPerSecond: new Decimal("1"),
-    primonSpeed: 500,
+    primonSpeed: 250,
     primonMultiplier: new Decimal("1"),
     primonAchievementBonus: new Decimal("1"),
     autoBuyPrimon: false,
@@ -25,9 +25,9 @@ export const player = {
     photons: new Decimal("0"),
     photonsPerSecond: new Decimal("0"),
     photonsMultiplier: new Decimal("1"),
+    light: new Decimal("0"),
     lightPerSecond: new Decimal("0"),
     lightMultiplier: new Decimal("1"),
-    light: new Decimal("0"),
     unlockedLight: false,
     
     boughtUpgrades: new Decimal("0"),

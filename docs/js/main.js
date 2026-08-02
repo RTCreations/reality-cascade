@@ -79,7 +79,7 @@ export function updateDisplay() {
 
     const antiEnergyMultiplier = upgrades.getAntiEnergyMultiplier();
     document.getElementById("antiBoost").textContent = 
-    formatF(antiEnergyMultiplier) + "x Primon Boost";
+    formatF(antiEnergyMultiplier) + "x Primon Boost\nGain +" + formatF(upgrades.getAntiEnergyMultiplier(true)) + "x Primon Boost After Reset";
     document.getElementById("primonBtn").innerHTML = `
         <span class="upgrade-name">Primon Enhancer</span>
         <span class="upgrade-cost">${formatF(upgrades.primonBtn.cost)} Primons</span>
@@ -94,7 +94,7 @@ export function updateDisplay() {
 
     const energyGain = document.getElementById("energyGain");
     if (energyGain) {
-        energyGain.textContent = "Anti Energy Boost: " + formatF(upgrades.getEnergyBoostMultiplier()) + "(x)";
+        energyGain.textContent = formatF(upgrades.getEnergyBoostMultiplier()) + "x Boost To Anti Energy Gain\n+" + formatF(upgrades.getEnergyBoostMultiplier(true)) + "x Boost To Anti Energy Gain After Reset";
     }
 
     const energyResetBtn = document.getElementById("energyResetBtn");
@@ -106,7 +106,7 @@ export function updateDisplay() {
         `;
     }
 
-    const energyPerSecond = player.energyPerSecond.times(new Decimal(1000).div(player.energySpeed));
+    const energyPerSecond = player.energyPerSecond.mul(new Decimal(1000).div(player.energySpeed));
     document.getElementById("energy").textContent = 
     "Energy: " + formatE(player.energy) + " J";
     document.getElementById("energyAmplifierBtn").innerHTML = `
@@ -125,8 +125,9 @@ export function updateDisplay() {
         <span class="upgrade-level">Level ${upgrades.energyAccelerate.level} • ${player.energySpeed.toFixed(0)}ms</span>
     `;
 
+    const lightEnergyMultiplier = upgrades.lightEnergyBoost();
     document.getElementById("light").textContent = 
-    "Light: " + formatE(player.light) + " | Boosts Energy By " + formatE(player.light.pow(1.5));
+    "Light: " + formatE(player.light) + " | Boosts Energy By " + formatE(lightEnergyMultiplier);
     document.getElementById("photons").textContent = 
     "Photons: " + formatE(player.photons);
 
@@ -137,7 +138,7 @@ export function updateDisplay() {
     document.getElementById("highestPrimonStat").textContent = 
     "Highest Primons Ever: " + formatF(player.stats.highestPrimon);
     document.getElementById("totalAntiEnergyStat").textContent = 
-    "Total Anti Energy Earned: " + formatE(player.stats.totalAntiEnergyEarned);
+    "Total Anti Energy Earned: " + formatF(player.stats.totalAntiEnergyEarned);
     document.getElementById("antiEnergyResetsStat").textContent = 
     "Anti Energy Resets: " + player.stats.antiEnergyResetCount;
     document.getElementById("energyResetsStat").textContent = 
@@ -160,6 +161,9 @@ let energyInterval = null;
 let lightInterval = null;
 
 export function startTimer() {
+    if (!loaded) {
+        return;
+    }
     clearInterval(playtimeInterval);
     clearInterval(primonInterval);
     clearInterval(energyInterval);
@@ -325,6 +329,7 @@ document.getElementById("wipe").onclick = (e) => {
 };
 
 loadGame();
+getUnlock();
 
 if (primonBuyMaxInput) {
     primonBuyMaxInput.checked = player.autoBuyPrimon;
@@ -336,4 +341,4 @@ startTriviaLoop();
 initSettings();
 
 setInterval(updateDisplay, 60); // Run the display update loop every 100ms
-setInterval(saveGame, 10000); // Run the save game loop every 1 seconds
+setInterval(saveGame, 10000); // Run the save game loop every 10 seconds

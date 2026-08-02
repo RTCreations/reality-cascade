@@ -14,17 +14,17 @@ const factTiers = [
     {
         id: "planck",
         threshold: planck,
-        text: (e) => "You have " + formatE(e) + "J, which is enough energy to power " + formatF(e.div(planck)) + " photons with a frequency of 1Hz!"
+        text: (e) => "You have " + formatE(e) + "J, which is enough energy to power about " + formatF(e.div(planck)) + " photons with a frequency of 1Hz!"
     },
     {
         id: "infrared",
         threshold: infrared,
-        text: (e) => "You have " + formatE(e) + "J, which is enough energy to power " + formatF(e.div(infrared)) + " infrared light photons that are 1 micrometer!"
+        text: (e) => "You have " + formatE(e) + "J, which is enough energy to power about " + formatF(e.div(infrared)) + " infrared light photons that are 1 micrometer!"
     },
     {
         id: "erg",
         threshold: erg,
-        text: (e) => "You have " + formatE(e) + "J, which is enough energy to make a fly do " + formatF(e.div(erg)) + " pushups!"
+        text: (e) => "You have " + formatE(e) + "J, which is enough energy to make a fly do about " + formatF(e.div(erg)) + " pushups!"
     }
 ];
 
