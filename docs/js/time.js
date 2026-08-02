@@ -38,6 +38,7 @@ function showOfflineProgressNotice(seconds) {
     
     const primonsEarned = new Decimal(player.primonsPerSecond).times(new Decimal(seconds));
     player.primon = new Decimal(player.primon).plus(primonsEarned);
+    player.stats.playtime += seconds;
 
     if (player.primon.gt(player.stats.highestPrimon)) {
         player.stats.highestPrimon = player.primon;
@@ -96,9 +97,13 @@ export function getEnergyTime() {
     const now = Date.now();
     const delta = (now - lastUpdate) / 1000;
     lastUpdate = now;
-    console.log("x");
+
     const energyGain = player.energyPerSecond.times(player.light.pow(1.5)).times(delta);
     player.energy = new Decimal(player.energy).plus(energyGain);
+
+    if (player.energy.gt(player.stats.highestEnergy)) {
+        player.stats.highestEnergy = player.energy;
+    }
 }
 
 export function getLightTime() {

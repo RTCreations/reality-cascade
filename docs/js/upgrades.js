@@ -117,6 +117,8 @@ export const upgrades = {
             .times(player.primonAchievementBonus);
         this.primonBtn.level = 0;
         this.primonBtn.cost = new Decimal("2");
+        player.stats.totalAntiEnergyEarned = player.stats.totalAntiEnergyEarned.plus(gain);
+        player.stats.antiEnergyResetCount++;
 
         return true;
     },
@@ -157,6 +159,8 @@ export const upgrades = {
         this.primonBtn.cost = new Decimal("2");
         this.primonBtn.level = 0;
         player.stats.totalEnergy = player.stats.totalEnergy.plus(gain);
+        player.stats.highestEnergy = player.stats.highestEnergy.max(player.energy);
+        player.stats.energyResetCount++;
 
         return true;
     },
