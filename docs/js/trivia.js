@@ -23,7 +23,7 @@ const triviaPool = [
         if (antiJ.lte(0)) {
             return "Anti Joules are measured in negative exponents because Primon scientists ran out of universe to put them in.";
         }
-        const dread = antiJ.times(new Decimal("1e3"));
+        const dread = antiJ.mul(new Decimal("1e3"));
         return `At the black-market exchange rate of 1 Anti J = 1,000 Existential Dread Units, your ${formatE(antiJ)} Anti J is worth ${formatF(dread)} EDU. Please dread responsibly.`;
     },
 
@@ -44,7 +44,7 @@ const triviaPool = [
         if (primon.lte(0)) {
             return "Primons are so fundamental that even they don't know what they're made of, or know anything.";
         }
-        const atomsInBody = primon.times(new Decimal("7e27"));
+        const atomsInBody = primon.mul(new Decimal("7e27"));
         return `${formatE(primon)} Primons is about ${formatF(atomsInBody)} atoms' worth of you, which raises some uncomfortable questions about where the rest of you is, unless it's above the average 7e27 atoms in a human. But, are you really human?`;
     },
 
@@ -54,7 +54,7 @@ const triviaPool = [
         if (e.lte(0)) {
             return "You have no Energy yet. The multiverse's calorie count remains untouched by your efforts.";
         }
-        const calories = e.times(new Decimal("2.39e17"));
+        const calories = e.mul(new Decimal("2.39e17"));
         return `Your ${formatE(e)} J of Energy, according to a diet plan no nutritionist will endorse, is worth ${formatF(calories)} imaginary calories. You burn them by simply existing.`;
     },
 

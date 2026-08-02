@@ -106,7 +106,7 @@ export function updateDisplay() {
         `;
     }
 
-    const energyPerSecond = player.energyPerSecond.times(new Decimal(1000).div(player.energySpeed));
+    const energyPerSecond = player.energyPerSecond.mul(new Decimal(1000).div(player.energySpeed));
     document.getElementById("energy").textContent = 
     "Energy: " + formatE(player.energy) + " J";
     document.getElementById("energyAmplifierBtn").innerHTML = `
@@ -160,6 +160,9 @@ let energyInterval = null;
 let lightInterval = null;
 
 export function startTimer() {
+    if (!loaded) {
+        return;
+    }
     clearInterval(playtimeInterval);
     clearInterval(primonInterval);
     clearInterval(energyInterval);
@@ -325,6 +328,7 @@ document.getElementById("wipe").onclick = (e) => {
 };
 
 loadGame();
+getUnlock();
 
 if (primonBuyMaxInput) {
     primonBuyMaxInput.checked = player.autoBuyPrimon;

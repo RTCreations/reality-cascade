@@ -6,6 +6,30 @@ import { applyOfflineProgress } from "./time.js";
 
 let countSaves = 0;
 
+function getSaveBoolean(save, keys, fallback = false) {
+    if (!save || typeof save !== "object") {
+        return fallback;
+    }
+
+    for (const key of keys) {
+        if (save[key] !== undefined && save[key] !== null) {
+            const value = save[key];
+
+            if (typeof value === "boolean") {
+                return value;
+            }
+
+            if (typeof value === "string") {
+                return value === "true";
+            }
+
+            return Boolean(value);
+        }
+    }
+
+    return fallback;
+}
+
 export async function exportSave() {
     const save = localStorage.getItem("RealityCascadeSave");
 
@@ -63,13 +87,13 @@ export function saveGame() {
         antiEnergyPerSecond: player.antiEnergyPerSecond.toString(),
         antiEnergySpeed: String(player.antiEnergySpeed),
         antiEnergyMultiplier: player.antiEnergyMultiplier.toString(),
-        antiEnergyUnlocked: String(player.antiEnergyUnlocked),
+        antiEnergyUnlocked: String(player.unlockedAntiEnergy),
 
         energy: player.energy.toString(),
         energyPerSecond: player.energyPerSecond.toString(),
         energySpeed: String(player.energySpeed),
         energyMultiplier: player.energyMultiplier.toString(),
-        energyUnlocked: String(player.energyUnlocked),
+        energyUnlocked: String(player.unlockedEnergy),
 
         photons: player.photons.toString(),
         photonsPerSecond: player.photonsPerSecond.toString(),
@@ -78,6 +102,10 @@ export function saveGame() {
         lightPerSecond: player.lightPerSecond.toString(),
         lightMultiplier: player.lightMultiplier.toString(),
         lightUnlocked: String(player.unlockedLight),
+
+        unlockedAntiEnergy: String(player.unlockedAntiEnergy),
+        unlockedEnergy: String(player.unlockedEnergy),
+        unlockedLight: String(player.unlockedLight),
 
         lastSave: player.lastSave,
 
@@ -148,13 +176,13 @@ export function loadGame() {
         player.antiEnergyPerSecond = new Decimal(save.antiEnergyPerSecond ?? "0");
         player.antiEnergySpeed = Number(save.antiEnergySpeed ?? 1000);
         player.antiEnergyMultiplier = new Decimal(save.antiEnergyMultiplier ?? "1");
-        player.unlockedAntiEnergy = Boolean(save.unlockedAntiEnergy ?? false);
+        player.unlockedAntiEnergy = getSaveBoolean(save, ["unlockedAntiEnergy", "antiEnergyUnlocked"], false);
 
         player.energy = new Decimal(save.energy ?? "0");
         player.energyPerSecond = new Decimal(save.energyPerSecond ?? "1e-34");
         player.energySpeed = Number(save.energySpeed ?? "1000");
         player.energyMultiplier = new Decimal(save.energyMultiplier ?? "1");
-        player.energyUnlocked = Boolean(save.unlockedEnergy ?? false);
+        player.unlockedEnergy = getSaveBoolean(save, ["unlockedEnergy", "energyUnlocked"], false);
 
         player.light = new Decimal(save.light ?? "1");
         player.lightPerSecond = new Decimal(save.lightPerSecond ?? "0");
@@ -162,7 +190,7 @@ export function loadGame() {
         player.photons = new Decimal(save.photons ?? "1");
         player.photonsPerSecond = new Decimal(save.photonsPerSecond ?? "0");
         player.photonsMultiplier = new Decimal(save.photonsMultiplier ?? "1");
-        player.unlockedLight = Boolean(save.unlockedLight ?? false);
+        player.unlockedLight = getSaveBoolean(save, ["unlockedLight", "lightUnlocked"], false);
 
         upgrades.primonBtn = {
             name: save.upgrades?.primonBtn?.name ?? upgrades.primonBtn.name,
@@ -202,8 +230,8 @@ export function loadGame() {
         }
 
         player.primonsPerSecond = new Decimal("1")
-            .times(player.primonMultiplier)
-            .times(player.primonAchievementBonus);
+            .mul(player.primonMultiplier)
+            .mul(player.primonAchievementBonus);
 
         player.lastSave = save.lastSave ?? Date.now();
 

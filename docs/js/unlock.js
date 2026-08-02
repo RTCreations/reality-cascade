@@ -80,6 +80,7 @@ export function getUnlock() {
     const currentPrimon = player.primon;
     const currentAntiEnergy = player.antiEnergy;
     const currentEnergy = player.energy;
+    const currentLight = player.light;
 
     if (isUnlockThresholdReached(currentPrimon, antiEnergy)) {
         player.unlockedAntiEnergy = true;

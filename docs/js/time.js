@@ -3,7 +3,9 @@ import Decimal from "../libraries/break_eternity.js-2.1.3/break_eternity.esm.js"
 import { player } from "./player.js";
 import { formatE } from "./main.js"
 
-let lastUpdate = Date.now();
+let playtimeLastUpdate = Date.now();
+let energyLastUpdate = Date.now();
+let lightLastUpdate = Date.now();
 let offlineNoticeTimer = null;
 let offlineNoticeInterval = null;
 let offlineNoticeSecondsRemaining = 10;
@@ -36,7 +38,7 @@ function showOfflineProgressNotice(seconds) {
     const message = document.getElementById("offline-progress-message");
     const countdown = document.getElementById("offline-progress-countdown");
     
-    const primonsEarned = new Decimal(player.primonsPerSecond).times(new Decimal(seconds));
+    const primonsEarned = new Decimal(player.primonsPerSecond).mul(new Decimal(seconds));
     player.primon = new Decimal(player.primon).plus(primonsEarned);
     player.stats.playtime += seconds;
 
@@ -79,8 +81,8 @@ if (closeOfflineProgressButton) {
 
 export function getPlaytime() {
     const now = Date.now();
-    const delta = (now - lastUpdate) / 1000; // seconds
-    lastUpdate = now;
+    const delta = (now - playtimeLastUpdate) / 1000; // seconds
+    playtimeLastUpdate = now;
 
     player.stats.playtime += delta;
 }
@@ -95,10 +97,10 @@ export function getPrimonTime() {
 
 export function getEnergyTime() {
     const now = Date.now();
-    const delta = (now - lastUpdate) / 1000;
-    lastUpdate = now;
+    const delta = (now - energyLastUpdate) / 1000;
+    energyLastUpdate = now;
 
-    const energyGain = player.energyPerSecond.times(player.light.pow(1.5)).times(delta);
+    const energyGain = player.energyPerSecond.mul(player.light.pow(1.5)).mul(delta);
     player.energy = new Decimal(player.energy).plus(energyGain);
 
     if (player.energy.gt(player.stats.highestEnergy)) {
@@ -108,20 +110,21 @@ export function getEnergyTime() {
 
 export function getLightTime() {
     const now = Date.now();
-    const delta = (now - lastUpdate) / 1000; // seconds
-    lastUpdate = now;
+    const delta = (now - lightLastUpdate) / 1000; // seconds
+    lightLastUpdate = now;
 
-    const photonBaseRate = new Decimal(1).times(player.photonsMultiplier);
+    const photonThreshold = new Decimal("1e-29");
+    const photonBaseRate = new Decimal("1").mul(player.photonsMultiplier);
 
-    if (player.photonsPerSecond.equals(new Decimal(0)) && player.energy.gte(1e-28)) {
-        player.photonsPerSecond = photonBaseRate;
-    }
+    if (player.energy.gte(photonThreshold)) {
+        if (player.photonsPerSecond.lte(0)) {
+            player.photonsPerSecond = photonBaseRate;
+        }
 
-    if (player.energy.gte(1e-28)) {
-        player.photons = new Decimal(player.photons).plus(new Decimal(player.photonsPerSecond).times(delta));
-        const lightRate = new Decimal(player.photons).pow(0.5).times(player.lightMultiplier);
+        player.photons = new Decimal(player.photons).plus(new Decimal(player.photonsPerSecond).mul(delta));
+        const lightRate = new Decimal(player.photons).sqrt().mul(player.lightMultiplier);
         player.lightPerSecond = lightRate;
-        player.light = new Decimal(player.light).plus(new Decimal(player.lightPerSecond).times(delta));
+        player.light = new Decimal(player.light).plus(new Decimal(player.lightPerSecond).mul(delta));
     }
 }
 
