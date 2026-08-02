@@ -79,7 +79,7 @@ export function updateDisplay() {
 
     const antiEnergyMultiplier = upgrades.getAntiEnergyMultiplier();
     document.getElementById("antiBoost").textContent = 
-    formatF(antiEnergyMultiplier) + "x Primon Boost";
+    formatF(antiEnergyMultiplier) + "x Primon Boost\nGain +" + formatF(upgrades.getAntiEnergyMultiplier(true)) + "x Primon Boost After Reset";
     document.getElementById("primonBtn").innerHTML = `
         <span class="upgrade-name">Primon Enhancer</span>
         <span class="upgrade-cost">${formatF(upgrades.primonBtn.cost)} Primons</span>
@@ -94,7 +94,7 @@ export function updateDisplay() {
 
     const energyGain = document.getElementById("energyGain");
     if (energyGain) {
-        energyGain.textContent = "Anti Energy Boost: " + formatF(upgrades.getEnergyBoostMultiplier()) + "(x)";
+        energyGain.textContent = formatF(upgrades.getEnergyBoostMultiplier()) + "x Boost To Anti Energy Gain\n+" + formatF(upgrades.getEnergyBoostMultiplier(true)) + "x Boost To Anti Energy Gain After Reset";
     }
 
     const energyResetBtn = document.getElementById("energyResetBtn");

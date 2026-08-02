@@ -82,9 +82,16 @@ export const upgrades = {
         return new Decimal(antiEnergyGain.times(player.antiEnergyMultiplier).times(this.getEnergyBoostMultiplier()));
     },
 
-    getAntiEnergyMultiplier() {
+    getAntiEnergyMultiplier(afterReset = false) {
         if (player.antiEnergy.lt("0")) {
             return player.antiEnergyMultiplier.toString();
+        }
+
+        if (afterReset) {
+            const baseline = new Decimal("1");
+            const ratio = player.antiEnergy.plus(this.getAntiEnergyGain()).div(baseline);
+            const boost = new Decimal(player.antiEnergyMultiplier).times(new Decimal("1").plus(ratio.pow("0.54")));
+            return new Decimal(boost).sub(this.getAntiEnergyMultiplier()).toString();
         }
 
         const baseline = new Decimal("1");
@@ -114,7 +121,13 @@ export const upgrades = {
         return true;
     },
 
-    getEnergyBoostMultiplier() {
+    getEnergyBoostMultiplier(afterReset = false) {
+        if (afterReset) {
+            const baseline = new Decimal("1e-34");
+            const ratio = player.energy.plus(this.getEnergyFromAntiEnergyGain()).div(baseline);
+            return new Decimal("1").plus(new Decimal(ratio.pow("0.7"))).sub(this.getEnergyBoostMultiplier());
+        }
+
         const baseline = new Decimal("1e-34");
         const ratio = player.energy.div(baseline);
         return new Decimal("1").plus(new Decimal(ratio.pow("0.7")));
