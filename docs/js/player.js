@@ -5,18 +5,18 @@ import { upgrades } from "./upgrades.js";
 export const player = {
     primon: new Decimal("1"),
     primonsPerSecond: new Decimal("1"),
-    primonSpeed: 25,
+    primonSpeed: 250,
     primonMultiplier: new Decimal("1"),
     primonAchievementBonus: new Decimal("1"),
     autoBuyPrimon: false,
 
-    antiEnergy: new Decimal("1e9"),
+    antiEnergy: new Decimal("0"),
     antiEnergyPerSecond: new Decimal("0"),
     antiEnergySpeed: 1000,
     antiEnergyMultiplier: new Decimal("1"),
     unlockedAntiEnergy: false,
 
-    energy: new Decimal("1e-29"),
+    energy: new Decimal("0"),
     energyPerSecond: new Decimal("0"),
     energySpeed: 1000,
     energyMultiplier: new Decimal("1"),

@@ -100,7 +100,8 @@ export function getEnergyTime() {
     const delta = (now - energyLastUpdate) / 1000;
     energyLastUpdate = now;
 
-    const energyGain = player.energyPerSecond.mul(player.light.pow(1.5)).mul(delta);
+    const lightBoost = new Decimal("1").plus(player.light.pow(1.5));
+    const energyGain = player.energyPerSecond.mul(lightBoost).mul(delta);
     player.energy = new Decimal(player.energy).plus(energyGain);
 
     if (player.energy.gt(player.stats.highestEnergy)) {

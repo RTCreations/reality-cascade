@@ -142,7 +142,12 @@ export const upgrades = {
 
         let baseGain = new Decimal("1e-34").mul(new Decimal("1").plus(player.antiEnergy.log10().mul(1.2)));
 
-        return baseGain.mul(player.energyMultiplier);
+        return baseGain.mul(player.energyMultiplier).mul(this.lightEnergyBoost());
+    },
+
+    lightEnergyBoost() {
+        const lightBoost = new Decimal("1").plus(player.light.pow(1.5));
+        return lightBoost;
     },
 
     resetAntiEnergyForEnergy() {

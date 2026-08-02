@@ -125,8 +125,9 @@ export function updateDisplay() {
         <span class="upgrade-level">Level ${upgrades.energyAccelerate.level} • ${player.energySpeed.toFixed(0)}ms</span>
     `;
 
+    const lightEnergyMultiplier = upgrades.lightEnergyBoost();
     document.getElementById("light").textContent = 
-    "Light: " + formatE(player.light) + " | Boosts Energy By " + formatE(player.light.pow(1.5));
+    "Light: " + formatE(player.light) + " | Boosts Energy By " + formatE(lightEnergyMultiplier);
     document.getElementById("photons").textContent = 
     "Photons: " + formatE(player.photons);
 
