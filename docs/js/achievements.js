@@ -212,7 +212,7 @@ export function checkAchievements() {
 
             if (def.id === "antiEnergy3") {
                 player.antiEnergyMultiplier = player.antiEnergyMultiplier.times("2");
-                player.primonMultiplier = player.primonMultiplier.times("5");
+                player.primonAchievementBonus = player.primonAchievementBonus.times("5");
             }
 
             if (def.id === "energy1") {

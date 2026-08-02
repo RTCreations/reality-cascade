@@ -22,8 +22,8 @@ export const player = {
     energyMultiplier: new Decimal("1"),
     unlockedEnergy: false,
     
-    photons: new Decimal("0"),
-    photonsPerSecond: new Decimal("0"),
+    photons: new Decimal("1"),
+    photonsPerSecond: new Decimal("1"),
     photonsMultiplier: new Decimal("1"),
     lightPerSecond: new Decimal("0"),
     lightMultiplier: new Decimal("1"),
