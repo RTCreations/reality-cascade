@@ -79,7 +79,7 @@ export const upgrades = {
 
         let antiEnergyGain = baseGain.pow(difficultyRate);
 
-        return new Decimal(antiEnergyGain.mul(player.antiEnergyMultiplier).mul(this.getEnergyBoostMultiplier()));
+        return new Decimal(antiEnergyGain.mul(player.antiEnergyMultiplier).mul(player.antiEnergyAchievementBonus).mul(this.getEnergyBoostMultiplier()));
     },
 
     getAntiEnergyMultiplier(afterReset = false) {
@@ -90,13 +90,13 @@ export const upgrades = {
         if (afterReset) {
             const baseline = new Decimal("1");
             const ratio = player.antiEnergy.plus(this.getAntiEnergyGain()).div(baseline);
-            const boost = new Decimal(player.antiEnergyMultiplier).mul(new Decimal("1").plus(ratio.pow("0.54")));
+            const boost = new Decimal(player.antiEnergyMultiplier).mul(player.antiEnergyAchievementBonus).mul(new Decimal("1").plus(ratio.pow("0.54")));
             return new Decimal(boost).sub(this.getAntiEnergyMultiplier()).toString();
         }
 
         const baseline = new Decimal("1");
         const ratio = player.antiEnergy.div(baseline);
-        const boost = new Decimal(player.antiEnergyMultiplier).mul(new Decimal("1").plus(ratio.pow("0.54")));
+        const boost = new Decimal(player.antiEnergyMultiplier).mul(player.antiEnergyAchievementBonus).mul(new Decimal("1").plus(ratio.pow("0.54")));
 
         return new Decimal(boost);
     },
@@ -142,11 +142,11 @@ export const upgrades = {
 
         let baseGain = new Decimal("1e-34").mul(new Decimal("1").plus(player.antiEnergy.log10().mul(1.2)));
 
-        return baseGain.mul(player.energyMultiplier).mul(this.lightEnergyBoost());
+        return baseGain.mul(player.energyMultiplier).mul(player.energyAchievementBonus).mul(this.lightEnergyBoost());
     },
 
     lightEnergyBoost() {
-        const lightBoost = new Decimal("1").plus(player.light.pow(1.5));
+        const lightBoost = new Decimal("1").plus(player.light.pow("1.5"));
         return lightBoost;
     },
 

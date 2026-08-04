@@ -146,7 +146,9 @@ export function updateDisplay() {
     document.getElementById("energyResetsStat").textContent = 
     "Energy Resets: " + player.stats.energyResetCount;
 
-    document.getElementById("primonAchievementMulti").textContent = "Total Primon Achievement Multiplier: " + formatF(player.primonAchievementBonus) + "(x)";
+    document.getElementById("primonAchievementMulti").textContent = formatF(player.primonAchievementBonus) + "x Primon Achievement Bonus";
+    document.getElementById("antiEnergyAchievementMulti").textContent = formatF(player.antiEnergyAchievementBonus) + "x Anti Energy Achievement Bonus";
+    document.getElementById("energyAchievementMulti").textContent = formatF(player.energyAchievementBonus) + "x Energy Achievement Bonus";
 
     primonUpgradesLightUp();
     energyUpgradesLightUp();

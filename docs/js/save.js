@@ -87,12 +87,14 @@ export function saveGame() {
         antiEnergyPerSecond: player.antiEnergyPerSecond.toString(),
         antiEnergySpeed: String(player.antiEnergySpeed),
         antiEnergyMultiplier: player.antiEnergyMultiplier.toString(),
+        antiEnergyAchievementBonus: player.antiEnergyAchievementBonus.toString(),
         antiEnergyUnlocked: String(player.unlockedAntiEnergy),
 
         energy: player.energy.toString(),
         energyPerSecond: player.energyPerSecond.toString(),
         energySpeed: String(player.energySpeed),
         energyMultiplier: player.energyMultiplier.toString(),
+        energyAchievementBonus: player.energyAchievementBonus.toString(),
         energyUnlocked: String(player.unlockedEnergy),
 
         photons: player.photons.toString(),
@@ -176,12 +178,14 @@ export function loadGame() {
         player.antiEnergyPerSecond = new Decimal(save.antiEnergyPerSecond ?? "0");
         player.antiEnergySpeed = Number(save.antiEnergySpeed ?? 1000);
         player.antiEnergyMultiplier = new Decimal(save.antiEnergyMultiplier ?? "1");
+        player.antiEnergyAchievementBonus = new Decimal(save.antiEnergyAchievementBonus ?? "1");
         player.unlockedAntiEnergy = getSaveBoolean(save, ["unlockedAntiEnergy", "antiEnergyUnlocked"], false);
 
         player.energy = new Decimal(save.energy ?? "0");
         player.energyPerSecond = new Decimal(save.energyPerSecond ?? "1e-34");
         player.energySpeed = Number(save.energySpeed ?? "1000");
         player.energyMultiplier = new Decimal(save.energyMultiplier ?? "1");
+        player.energyAchievementBonus = new Decimal(save.energyAchievementBonus ?? "1");
         player.unlockedEnergy = getSaveBoolean(save, ["unlockedEnergy", "energyUnlocked"], false);
 
         player.light = new Decimal(save.light ?? "1");

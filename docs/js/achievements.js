@@ -198,29 +198,29 @@ export function checkAchievements() {
 
             if (def.id === "antiEnergy1") {
                 player.primonAchievementBonus = player.primonAchievementBonus.mul("2");
-                player.antiEnergyMultiplier = player.antiEnergyMultiplier.mul("2");
-                player.energyMultiplier = player.energyMultiplier.mul("2");
+                player.antiEnergyAchievementBonus = player.antiEnergyAchievementBonus.mul("2");
+                player.energyAchievementBonus = player.energyAchievementBonus.mul("2");
                 player.primonsPerSecond = new Decimal("1")
                     .mul(player.primonMultiplier)
                     .mul(player.primonAchievementBonus);
             }
 
             if (def.id === "antiEnergy2") {
-                player.antiEnergyMultiplier = player.antiEnergyMultiplier.mul("2");
-                player.energyMultiplier = player.energyMultiplier.mul("2");
+                player.antiEnergyAchievementBonus = player.antiEnergyAchievementBonus.mul("2");
+                player.energyAchievementBonus = player.energyAchievementBonus.mul("2");
             }
 
             if (def.id === "antiEnergy3") {
-                player.antiEnergyMultiplier = player.antiEnergyMultiplier.mul("2");
+                player.antiEnergyAchievementBonus = player.antiEnergyAchievementBonus.mul("2");
                 player.primonAchievementBonus = player.primonAchievementBonus.mul("5");
             }
 
             if (def.id === "energy1") {
-                player.energyMultiplier = player.energyMultiplier.mul("3");
+                player.energyAchievementBonus = player.energyAchievementBonus.mul("3");
             }
 
             if (def.id === "energy2") {
-                player.energyMultiplier = player.energyMultiplier.mul("5e1");
+                player.energyAchievementBonus = player.energyAchievementBonus.mul("5e1");
             }
 
             changed = true;
