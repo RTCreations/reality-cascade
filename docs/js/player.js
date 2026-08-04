@@ -3,7 +3,7 @@ import Decimal from "../libraries/break_eternity.js-2.1.3/break_eternity.esm.js"
 import { upgrades } from "./upgrades.js";
 
 export const player = {
-    primon: new Decimal("1"),
+    primon: new Decimal("0"),
     primonsPerSecond: new Decimal("1"),
     primonSpeed: 250,
     primonMultiplier: new Decimal("1"),

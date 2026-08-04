@@ -126,10 +126,12 @@ export function updateDisplay() {
     `;
 
     const lightEnergyMultiplier = upgrades.lightEnergyBoost();
-    document.getElementById("light").textContent = 
-    "Light: " + formatE(player.light) + " | Boosts Energy By " + formatE(lightEnergyMultiplier);
+    document.getElementById("light").innerHTML = `
+        <span class="light-value">${formatF(player.light)} Light</span>
+        <span class="light-boost">Boosts Energy By ${formatF(lightEnergyMultiplier)}x</span>
+    `;
     document.getElementById("photons").textContent = 
-    "Photons: " + formatE(player.photons);
+    "Photons: " + formatF(player.photons);
 
     document.getElementById("playtime").textContent = 
     "Playtime: " + formatTime(player.stats.playtime);

@@ -103,7 +103,6 @@ export function getUnlock() {
     firstUnlock.classList.toggle("active", !player.unlockedAntiEnergy);
     secondUnlock.classList.toggle("active", !player.unlockedEnergy && player.unlockedAntiEnergy);
     thirdUnlock.classList.toggle("active", !player.unlockedLight && player.unlockedEnergy);
-    lightDivider.classList.toggle("active", player.unlockedLight);
     antiEnergyColumn.classList.toggle("active", player.unlockedAntiEnergy);
     energyColumn.classList.toggle("active", player.unlockedEnergy);
     lightColumn.classList.toggle("active", player.unlockedLight);

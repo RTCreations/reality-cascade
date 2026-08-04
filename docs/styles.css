@@ -531,7 +531,7 @@ h1 {
 
 .energy-column {
     display: none;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     gap: 12px;
     padding: 16px 18px;
@@ -595,20 +595,6 @@ h1 {
     display: block;
 }
 
-#lightDivider {
-    display: none;
-    width: 100%;
-    margin: 8px 0 4px;
-    border: 0;
-    height: 2px;
-    background: linear-gradient(90deg, #ffffff, #fce306, #ffffff);
-    box-shadow: 0 0 8px rgba(252, 227, 6, 0.35);
-}
-
-#lightDivider.active {
-    display: block;
-}
-
 .anti-energy-column {
     display: none;
 }
@@ -636,20 +622,46 @@ h1 {
 .light-column.active {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    align-items: center;
+    gap: 8px;
+    width: min(100%, 360px);
+    margin: 0 auto;
+    padding: 12px;
+    background: rgba(255, 255, 0, 0.15);
+    border: 1px solid rgba(252, 227, 6, 0.3);
+    border-radius: 12px;
+    box-shadow: 0 8px 18px rgba(8, 6, 20, 0.35);
+    order: 3;
 }
 
-#light,
-#photons {
-    width: 320px;
+.light-value,
+#photons,
+.light-boost {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 60px;
     text-align: center;
-    background: rgba(255, 255, 160, 0.4);
-    border: 2px solid #fce306;
+    background: rgba(252, 227, 6, 0.3);
+    border: 1px solid rgba(252, 227, 6, 0.6);
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin: 0;
+    color: #ffffff;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.light-value:hover,
+#photons:hover,
+.light-boost:hover {
+    border-color: rgba(255, 255, 255, 0.9);
     border-radius: 12px;
-    padding: 15px;
-    margin: 10px 0;
-    font-size: 1.2rem;
-    transition: 0.25s;
 }
 
 #energy:hover,
