@@ -128,10 +128,10 @@ export function saveGame() {
                 level: upgrades.energyBoost.level,
                 cost: upgrades.energyBoost.cost.toString()
             },
-            energyAccelerate: {
-                name: upgrades.energyAccelerate.name,
-                level: upgrades.energyAccelerate.level,
-                cost: upgrades.energyAccelerate.cost.toString()
+            lightAccelerate: {
+                name: upgrades.lightAccelerate.name,
+                level: upgrades.lightAccelerate.level,
+                cost: upgrades.lightAccelerate.cost.toString()
             }
         },
 
@@ -214,10 +214,10 @@ export function loadGame() {
             cost: new Decimal(save.upgrades?.energyBoost?.cost ?? "5e-34")
         };
         
-        upgrades.energyAccelerate = {
-            name: save.upgrades?.energyAccelerate?.name ?? upgrades.energyAccelerate.name,
-            level: Number(save.upgrades?.energyAccelerate?.level ?? 0),
-            cost: new Decimal(save.upgrades?.energyAccelerate?.cost ?? "5e-34")
+        upgrades.lightAccelerate = {
+            name: save.upgrades?.lightAccelerate?.name ?? upgrades.lightAccelerate.name,
+            level: Number(save.upgrades?.lightAccelerate?.level ?? 0),
+            cost: new Decimal(save.upgrades?.lightAccelerate?.cost ?? "200")
         };
 
         player.stats.playtime = Number(save.stats?.playtime ?? 0);

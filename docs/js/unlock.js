@@ -11,10 +11,12 @@ const primonColumn = document.querySelector(".primon-column");
 const antiEnergyColumn = document.querySelector(".anti-energy-column");
 const energyColumn = document.querySelector(".energy-column")
 const lightColumn = document.querySelector(".light-column");
+const lightLockedNote = document.querySelector("#lightLockedNote");
 const energyResetButton = document.querySelector("#energyResetBtn");
 
 const antiEnergy = new Decimal("1e4");
 const energy = new Decimal("5e8");
+// Lowered light unlock threshold so players see Light earlier.
 const light = new Decimal("1e-29");
 
 // Tracks which unlocks we've already announced this session, so reloading an
@@ -90,12 +92,12 @@ export function getUnlock() {
         player.unlockedEnergy = true;
     }
 
-    if (energyResetButton) {
-        energyResetButton.classList.toggle("active", isUnlockThresholdReached(currentPrimon, energy));
-    }
-
     if (isUnlockThresholdReached(currentEnergy, light)) {
         player.unlockedLight = true;
+    }
+
+    if (energyResetButton) {
+        energyResetButton.classList.toggle("active", isUnlockThresholdReached(currentPrimon, energy));
     }
 
     announceUnlocks();
@@ -106,4 +108,9 @@ export function getUnlock() {
     antiEnergyColumn.classList.toggle("active", player.unlockedAntiEnergy);
     energyColumn.classList.toggle("active", player.unlockedEnergy);
     lightColumn.classList.toggle("active", player.unlockedLight);
+
+    // Update locked-note text so it reflects the current threshold dynamically
+    if (lightLockedNote) {
+        lightLockedNote.textContent = player.unlockedLight ? "" : `Unlocks at ${light.toString()} Energy`;
+    }
 }

@@ -82,7 +82,7 @@ export function getScale(key, level = 0) {
                 Multi: new Decimal("8")
             };
 
-        case "energyAccelerate":
+        case "lightAccelerate":
             return {
                 Multi: new Decimal("15"),
                 Pow: new Decimal("1"),
@@ -102,5 +102,5 @@ export const scale = {
     primonBtn: getScale("primonBtn"),
     energyAmplifier: getScale("energyAmplifier"),
     energyBoost: getScale("energyBoost"),
-    energyAccelerate: getScale("energyAccelerate")
+    lightAccelerate: getScale("lightAccelerate")
 };

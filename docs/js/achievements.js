@@ -78,15 +78,15 @@ const achievementDefinitions = [
         id: "amplifier",
         title: "Amplified",
         requirement: "Buy 1 Energy Amplifier",
-        reward: "2x Energy",
-        unlocked: (p) => p.boughtUpgrades.gte(new Decimal(1))
+        reward: "2x Light",
+        unlocked: (p) => p.boughtUpgrades.gte(new Decimal("1"))
     },
     {
         id: "boost",
         title: "Energy Boost",
         requirement: "Buy 1 Energy Boost",
-        reward: "1.67x Energy",
-        unlocked: (p) => p.boughtUpgrades.gte(new Decimal(2))
+        reward: "1.67x Light",
+        unlocked: (p) => p.boughtUpgrades.gte(new Decimal("1"))
     }
 ];
 
@@ -221,6 +221,14 @@ export function checkAchievements() {
 
             if (def.id === "energy2") {
                 player.energyAchievementBonus = player.energyAchievementBonus.mul("5e1");
+            }
+
+            if (def.id === "amplifier") {
+                player.lightMultiplier = player.lightMultiplier.mul("2");
+            }
+
+            if (def.id === "boost") {
+                player.lightMultiplier = player.lightMultiplier.mul("1.67");
             }
 
             changed = true;

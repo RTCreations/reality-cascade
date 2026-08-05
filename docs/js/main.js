@@ -109,20 +109,25 @@ export function updateDisplay() {
     const energyPerSecond = player.energyPerSecond.mul(new Decimal(1000).div(player.energySpeed));
     document.getElementById("energy").textContent = 
     "Energy: " + formatE(player.energy) + " J";
+    const ampEffect = new Decimal("1.1").mul(upgrades.energyAmplifier.level);
+    const boostEffect = new Decimal("1.1").mul(upgrades.energyBoost.level);
+
     document.getElementById("energyAmplifierBtn").innerHTML = `
         <span class="upgrade-name">Amplifier</span>
         <span class="upgrade-cost">Cost: ${formatE(upgrades.energyAmplifier.cost)}</span>
         <span class="upgrade-level">Level ${upgrades.energyAmplifier.level}</span>
+        <span class="upgrade-effect">Effect: ${formatF(ampEffect)}x Energy</span>
     `;
     document.getElementById("energyBoostBtn").innerHTML = `
         <span class="upgrade-name">Boost</span>
         <span class="upgrade-cost">Cost: ${formatE(upgrades.energyBoost.cost)}</span>
         <span class="upgrade-level">Level ${upgrades.energyBoost.level}</span>
+        <span class="upgrade-effect">Effect: ${formatF(boostEffect)}x Energy</span>
     `;
-    document.getElementById("energyAccelerateBtn").innerHTML = `
-        <span class="upgrade-name">Accelerate</span>
-        <span class="upgrade-cost">Cost: ${formatE(upgrades.energyAccelerate.cost)}</span>
-        <span class="upgrade-level">Level ${upgrades.energyAccelerate.level} • ${player.energySpeed.toFixed(0)}ms</span>
+    document.getElementById("lightAccelerateBtn").innerHTML = `
+        <span class="upgrade-name">Light Acceleration</span>
+        <span class="upgrade-cost">Cost: ${formatF(upgrades.lightAccelerate.cost)} Light</span>
+        <span class="upgrade-level">Level ${upgrades.lightAccelerate.level} • ${player.energySpeed.toFixed(0)}ms</span>
     `;
 
     const lightEnergyMultiplier = upgrades.lightEnergyBoost();
@@ -195,9 +200,11 @@ export function startTimer() {
 }
 
 // Update the variable dynamically
-export function speedUp() {
-  player.energySpeed = player.energySpeed * 0.9; // Cut the time in half
-  startTimer(); // Restart the interval with the new delay
+export function speedUp(upgradeType) {
+    if (player.unlockedLight && upgradeType === "lightAccelerate") {
+        player.energySpeed = player.energySpeed * 0.9; // Cut the time in half
+    }
+    startTimer(); //Restart intervals with new speed
 }
 
 let intervalId2 = null;
@@ -305,10 +312,10 @@ document.getElementById("energyBoostBtn").onclick = (e) => {
     upgrades.buyEnergyBoost() ? playPulse(btn) : playShake(btn);
 };
 
-document.getElementById("energyAccelerateBtn").onclick = (e) => {
+document.getElementById("lightAccelerateBtn").onclick = (e) => {
     e.preventDefault();
     const btn = e.currentTarget;
-    upgrades.buyEnergyAccelerate() ? playPulse(btn) : playShake(btn);
+    upgrades.buyLightAccelerate() ? playPulse(btn) : playShake(btn);
 };
 
 document.getElementById("save").onclick = (e) => {

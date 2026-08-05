@@ -396,7 +396,7 @@ h1 {
 #primonBtn,
 #energyAmplifierBtn,
 #energyBoostBtn,
-#energyAccelerateBtn,
+#lightAccelerateBtn,
 #energyResetBtn {
     width: 220px;
     display: flex;
@@ -421,7 +421,7 @@ h1 {
 #primonBtn:hover,
 #energyAmplifierBtn:hover,
 #energyBoostBtn:hover,
-#energyAccelerateBtn:hover,
+#lightAccelerateBtn:hover,
 #energyResetBtn:hover {
     transform: translateY(-1px);
     border-color: #e5e7eb;
@@ -567,7 +567,7 @@ h1 {
 
 .upgrades-column {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 12px;
 }
 
@@ -634,6 +634,43 @@ h1 {
     order: 3;
 }
 
+/* Decorative divider for the light section */
+.section-divider {
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(252,227,6,0.6), rgba(255,255,255,0.05));
+    margin: 6px 0 8px 0;
+    border-radius: 2px;
+}
+
+/* Locked-note shown when light panel isn't unlocked */
+.light-column:not(.active) .locked-note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 360px;
+    padding: 10px 12px;
+    margin: 6px 0;
+    background: linear-gradient(90deg, rgba(255,255,255,0.03), rgba(252,227,6,0.05));
+    color: rgba(255,255,255,0.85);
+    font-weight: 600;
+    border: 1px dashed rgba(255,255,255,0.06);
+    border-radius: 8px;
+}
+
+.light-column.active .locked-note {
+    display: none;
+}
+
+.upgrade-effect {
+    display: block;
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.85);
+    margin-top: 6px;
+    font-weight: 600;
+}
+
 .light-value,
 #photons,
 .light-boost {
@@ -670,27 +707,35 @@ h1 {
     box-shadow: 0 0 12px rgba(103, 215, 255, 0.3);
 }
 
-#energyAmplifierBtn,
-#energyBoostBtn,
-#energyAccelerateBtn {
+.light-column:not(.active) #energyAmplifierBtn,
+.light-column:not(.active) #energyBoostBtn,
+.light-column:not(.active) #lightAccelerateBtn {
     display: none;
 }
 
-#energyAmplifierBtn.active,
-#energyBoostBtn.active,
-#energyAccelerateBtn.active {
-    width: 350px;
+.light-column.active .upgrades-column button,
+.light-column.active #energyAmplifierBtn,
+.light-column.active #energyBoostBtn,
+.light-column.active #lightAccelerateBtn {
     display: flex;
+    width: 100%;
+    max-width: 500px;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 4px;
-    background: #2b3452;
-    color: white;
-    border: 1px solid #4e70ff;
+    gap: 8px;
+    background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+    color: #ffffff;
+    border: 1px solid rgba(78, 112, 255, 0.9);
     padding: 15px;
     cursor: pointer;
-    transition: 0.2s;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+    border-radius: 10px;
+}
+
+.light-column.active .upgrades-column button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 22px rgba(2,6,23,0.45);
 }
 
 .upgrade-name {

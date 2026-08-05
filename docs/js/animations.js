@@ -23,21 +23,24 @@ export function energyUpgradesLightUp() {
 
     const amplifierBtn = document.getElementById("energyAmplifierBtn");
     const boostBtn = document.getElementById("energyBoostBtn");
-    const accelerateBtn = document.getElementById("energyAccelerateBtn");
+    const accelerateBtn = document.getElementById("lightAccelerateBtn");
 
     if (amplifierBtn) {
         amplifierBtn.style.backgroundColor = energy.gte(upgrades.energyAmplifier.cost) ? "#0e1f31" : "#2a2f37";
         amplifierBtn.style.borderColor = energy.gte(upgrades.energyAmplifier.cost) ? "#e5e7eb" : "#6b7280";
+        amplifierBtn.classList.toggle('active', energy.gte(upgrades.energyAmplifier.cost));
     }
 
     if (boostBtn) {
         boostBtn.style.backgroundColor = energy.gte(upgrades.energyBoost.cost) ? "#0e1f31" : "#2a2f37";
         boostBtn.style.borderColor = energy.gte(upgrades.energyBoost.cost) ? "#e5e7eb" : "#6b7280";
+        boostBtn.classList.toggle('active', energy.gte(upgrades.energyBoost.cost));
     }
 
     if (accelerateBtn) {
-        accelerateBtn.style.backgroundColor = energy.gte(upgrades.energyAccelerate.cost) ? "#0e1f31" : "#2a2f37";
-        accelerateBtn.style.borderColor = energy.gte(upgrades.energyAccelerate.cost) ? "#e5e7eb" : "#6b7280";
+        accelerateBtn.style.backgroundColor = energy.gte(upgrades.lightAccelerate.cost) ? "#0e1f31" : "#2a2f37";
+        accelerateBtn.style.borderColor = energy.gte(upgrades.lightAccelerate.cost) ? "#e5e7eb" : "#6b7280";
+        accelerateBtn.classList.toggle('active', energy.gte(upgrades.lightAccelerate.cost));
     }
 }
 
