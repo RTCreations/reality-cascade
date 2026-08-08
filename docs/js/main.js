@@ -8,7 +8,7 @@ import { getPlaytime, getPrimonTime, getEnergyTime, getLightTime, formatTime } f
 import { getFact, checkFactPopup } from "./facts.js";
 import { checkPrimonMilestone } from "./milestones.js";
 import { checkInfoUnlocks } from "./info.js";
-import { initSettings } from "./settings.js";
+import { getNotationMode, initSettings } from "./settings.js";
 import { playPulse, playShake, playResetFlash } from "./feedback.js";
 import { startTriviaLoop } from "./trivia.js";
 import { getUnlock } from "./unlock.js";
@@ -21,9 +21,7 @@ function isZeroishValue(value) {
     return decimalValue.eq(0) || text === "NaN" || text === "Infinity" || text === "-Infinity";
 }
 
-export function formatE(num) {
-    const value = new Decimal(num);
-
+function formatScientificNumber(value) {
     if (isZeroishValue(value)) return "0";
 
     let exponent = value.log10().floor();
@@ -32,7 +30,7 @@ export function formatE(num) {
     return `${mantissa.toFixed(2)}e${exponent}`;
 }
 
-export function formatF(val) {
+function formatShortNumber(val) {
     let num = new Decimal(val);
 
     if (isZeroishValue(num)) return "0";
@@ -60,7 +58,27 @@ export function formatF(val) {
         return divided.toFixed(2) + suffixes[index];
     }
 
-    return formatE(num);
+    return formatScientificNumber(num);
+}
+
+export function formatE(num) {
+    const value = new Decimal(num);
+
+    if (getNotationMode() === "short") {
+        return formatShortNumber(value);
+    }
+
+    return formatScientificNumber(value);
+}
+
+export function formatF(val) {
+    const num = new Decimal(val);
+
+    if (getNotationMode() === "scientific") {
+        return formatScientificNumber(num);
+    }
+
+    return formatShortNumber(num);
 }
 
 export function gameLoop() {
@@ -71,10 +89,8 @@ export function gameLoop() {
 }
 
 export function updateDisplay() {
-    player.primon.gte("1e308") ? document.getElementById("primon").textContent = formatE(player.primon) + " Primons"
-     : document.getElementById("primon").textContent = formatF(player.primon) + " Primons";
-    player.primonsPerSecond.gte("1e308") ? document.getElementById("pps").textContent = formatE(player.primonsPerSecond.mul(new Decimal(1000).div(player.primonSpeed))) + " Primons Per Second"
-     : document.getElementById("pps").textContent = formatF(player.primonsPerSecond.mul(new Decimal(1000).div(player.primonSpeed))) + " Primons Per Second";
+    document.getElementById("primon").textContent = formatF(player.primon) + " Primons";
+    document.getElementById("pps").textContent = formatF(player.primonsPerSecond.mul(new Decimal(1000).div(player.primonSpeed))) + " Primons Per Second";
     document.getElementById("ptm").textContent = formatE(player.primonMultiplier) + "x Total Multiplier";
 
     const antiEnergyMultiplier = upgrades.getAntiEnergyMultiplier();

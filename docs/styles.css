@@ -831,6 +831,46 @@ button:disabled {
     letter-spacing: 0.01em;
 }
 
+.notation-select-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 2px;
+    width: 100%;
+}
+
+.notation-select {
+    width: min(220px, 100%);
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: #111827;
+    color: #f3f4f6;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    font-size: 1rem;
+    text-align: center;
+    text-align-last: center;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.notation-select option {
+    background: #111827;
+    color: #f3f4f6;
+    text-align: center;
+}
+
+.setting-hint {
+    margin: 0;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #9fa9b8;
+    line-height: 1.4;
+}
+
 .theme-swatches {
     display: flex;
     gap: 14px;
