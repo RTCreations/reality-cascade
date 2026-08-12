@@ -64,7 +64,7 @@ function formatShortNumber(val) {
 export function formatE(num) {
     const value = new Decimal(num);
 
-    if (getNotationMode() === "short") {
+    if (getNotationMode() === "short" && value.gte("1e0") && value.lte("1e308")) {
         return formatShortNumber(value);
     }
 
@@ -74,7 +74,7 @@ export function formatE(num) {
 export function formatF(val) {
     const num = new Decimal(val);
 
-    if (getNotationMode() === "scientific") {
+    if (getNotationMode() === "scientific" || num.gte("1e308") || num.lte("1e0")) {
         return formatScientificNumber(num);
     }
 
@@ -122,7 +122,7 @@ export function updateDisplay() {
         `;
     }
 
-    const energyPerSecond = player.energyPerSecond.mul(new Decimal(1000).div(player.energySpeed));
+    const energyPerSecond = player.energyPerSecond.mul(new Decimal("1000").div(player.energySpeed));
     document.getElementById("energy").textContent = 
     "Energy: " + formatE(player.energy) + " J";
     const ampEffect = new Decimal("1.1").mul(upgrades.energyAmplifier.level);
@@ -148,7 +148,7 @@ export function updateDisplay() {
 
     const lightEnergyMultiplier = upgrades.lightEnergyBoost();
     document.getElementById("light").innerHTML = `
-        <span class="light-value">${formatF(player.light)} Light</span>
+        <span class="light-value">${formatF(player.light)} Light (${formatF(player.lightPerSecond.mul(new Decimal("1000").div(player.energySpeed)))}/s)</span>
         <span class="light-boost">Boosts Energy By ${formatF(lightEnergyMultiplier)}x</span>
     `;
     document.getElementById("photons").textContent = 
@@ -196,10 +196,12 @@ export function startTimer() {
 
     playtimeInterval = setInterval(() => {
         getPlaytime();
+        getUnlock();
     }, 1000);
 
     primonInterval = setInterval(() => {
         getPrimonTime();
+        getUnlock();
     }, player.primonSpeed);
 
     if (player.unlockedEnergy) {
