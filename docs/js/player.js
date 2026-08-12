@@ -5,7 +5,7 @@ import { upgrades } from "./upgrades.js";
 export const player = {
     primon: new Decimal("0"),
     primonsPerSecond: new Decimal("1"),
-    primonSpeed: 50,
+    primonSpeed: 500,
     primonMultiplier: new Decimal("1"),
     primonAchievementBonus: new Decimal("1"),
     autoBuyPrimon: false,
