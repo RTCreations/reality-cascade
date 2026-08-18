@@ -115,8 +115,8 @@ export function updateDisplay() {
     const energyPerSecond = player.energyPerSecond.mul(new Decimal("1000").div(player.energySpeed));
     document.getElementById("energy").textContent = 
     "Energy: " + format(player.energy) + " J";
-    const ampEffect = new Decimal("1.1").mul(upgrades.energyAmplifier.level);
-    const boostEffect = new Decimal("1.1").mul(upgrades.energyBoost.level);
+    const ampEffect = new Decimal("1.1").pow(upgrades.energyAmplifier.level);
+    const boostEffect = new Decimal("1.2").pow(upgrades.energyBoost.level);
 
     document.getElementById("energyAmplifierBtn").innerHTML = `
         <span class="upgrade-name" style="font-family: monospace;">Amplifier</span>
@@ -138,11 +138,11 @@ export function updateDisplay() {
 
     const lightEnergyMultiplier = upgrades.lightEnergyBoost();
     document.getElementById("light").innerHTML = `
-        <span class="light-value">${format(player.light)} Light (${format(player.lightPerSecond.mul(new Decimal("1000").div(player.energySpeed)))}/s)</span>
-        <span class="light-boost">Boosts Energy By ${format(lightEnergyMultiplier)}x</span>
+        <span class="light-value" data-label="Light">${format(player.light)} Light (${format(player.lightPerSecond.mul(new Decimal("1000").div(player.energySpeed)))}/s)</span>
+        <span class="light-boost" data-label="Boost">${format(lightEnergyMultiplier)}x Energy</span>
     `;
-    document.getElementById("photons").textContent = 
-    "Photons: " + format(player.photons);
+    document.getElementById("photons").textContent = format(player.photons);
+    document.getElementById("photons").setAttribute("data-label", "Photons");
 
     document.getElementById("playtime").textContent = 
     "Playtime: " + formatTime(player.stats.playtime);

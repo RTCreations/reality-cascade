@@ -400,7 +400,7 @@ h1 {
 .toggle-track {
     width: 58px;
     height: 28px;
-    border-radius: 999px !important;
+    border-radius: 999px;
     background: rgba(255, 255, 255, 0.12);
     border: 1px solid rgba(255, 255, 255, 0.16);
     position: relative;
@@ -414,7 +414,7 @@ h1 {
     left: 3px;
     width: 22px;
     height: 22px;
-    border-radius: 50% !important;
+    border-radius: 50%;
     background: #f3f4f6;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.16);
     transition: transform 0.2s ease, background 0.2s ease;
@@ -669,26 +669,34 @@ h1 {
 }
 
 .light-column.active {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
-    width: min(100%, 360px);
+    gap: 12px;
+    width: min(100%, 380px);
     margin: 0 auto;
-    padding: 12px;
-    background: rgba(255, 255, 0, 0.15);
-    border: 1px solid rgba(252, 227, 6, 0.3);
-    border-radius: 12px;
-    box-shadow: 0 8px 18px rgba(8, 6, 20, 0.35);
+    padding: 16px 14px 14px;
+    background: linear-gradient(180deg, rgba(44, 32, 10, 0.85), rgba(17, 13, 5, 0.96));
+    border: 1px solid rgba(252, 227, 6, 0.55);
+    box-shadow: 0 0 0 1px rgba(252, 227, 6, 0.18), 0 12px 24px rgba(12, 8, 1, 0.5), inset 0 0 22px rgba(252, 227, 6, 0.12);
     order: 3;
+    overflow: hidden;
+}
+
+.light-column.active::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at top, rgba(252, 227, 6, 0.18), transparent 55%);
+    pointer-events: none;
 }
 
 .section-divider {
     width: 100%;
     height: 2px;
-    background: linear-gradient(90deg, rgba(252,227,6,0.6), rgba(255,255,255,0.05));
-    margin: 6px 0 8px 0;
-    border-radius: 2px;
+    background: linear-gradient(90deg, rgba(252,227,6,0.8), rgba(255,255,255,0.08));
+    margin: 4px 0 2px;
 }
 
 .light-column:not(.active) .locked-note {
@@ -718,35 +726,88 @@ h1 {
     font-weight: 900;
 }
 
-.light-value,
-#photons,
-.light-boost {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
+#light,
+#photons {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: 8px;
     width: 100%;
-    min-height: 60px;
-    text-align: center;
-    background: rgba(252, 227, 6, 0.3);
-    border: 1px solid rgba(252, 227, 6, 0.6);
-    border-radius: 10px;
-    padding: 10px 12px;
     margin: 0;
-    gap: 50px;
-    color: #ffffff;
+    padding: 0;
+    color: #fff8d6;
+}
+
+#light {
+    gap: 10px;
+}
+
+.light-value,
+.light-boost,
+#photons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 56px;
+    padding: 10px 12px;
+    background: linear-gradient(180deg, rgba(255, 244, 177, 0.06), rgba(94, 74, 8, 0.2));
+    border: 1px solid rgba(252, 227, 6, 0.62);
+    color: #fff6c4;
     font-family: monospace;
-    font-size: 1rem;
-    font-weight: 600;
+    font-size: 0.94rem;
+    font-weight: 700;
     letter-spacing: 0.02em;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), inset 0 0 16px rgba(252, 227, 6, 0.08);
+}
+
+#photons {
+    justify-content: center;
+    text-align: center;
+}
+
+#light .light-value,
+#light .light-boost {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    text-align: left;
+}
+
+#light .light-value::before,
+#light .light-boost::before,
+#photons::before {
+    content: attr(data-label);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255, 245, 181, 0.8);
+    opacity: 0.9;
+}
+
+#light .light-value {
+    color: #fff8da;
+}
+
+#light .light-boost {
+    color: #f4d67c;
+}
+
+#photons::before {
+    content: "Photons";
+}
+
+#photons {
+    justify-content: space-between;
 }
 
 .light-value:hover,
 #photons:hover,
 .light-boost:hover {
     border-color: rgba(255, 255, 255, 0.9);
-    border-radius: 12px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.09), inset 0 0 18px rgba(252, 227, 6, 0.12);
 }
 
 #energy:hover,
@@ -765,6 +826,8 @@ h1 {
 .light-column.active #energyAmplifierBtn,
 .light-column.active #energyBoostBtn,
 .light-column.active #lightAccelerateBtn {
+    position: relative;
+    z-index: 1;
     display: flex;
     width: 100%;
     max-width: 500px;
@@ -772,18 +835,19 @@ h1 {
     align-items: center;
     justify-content: center;
     gap: 8px;
-    background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+    background: linear-gradient(180deg, rgba(18, 28, 44, 0.98), rgba(11, 17, 27, 0.98));
     color: #ffffff;
-    border: 1px solid rgba(78, 112, 255, 0.9);
+    border: 1px solid rgba(252, 227, 6, 0.45);
     padding: 15px;
     cursor: pointer;
-    transition: transform 0.12s ease, box-shadow 0.12s ease;
-    border-radius: 10px;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.2s ease;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 8px 18px rgba(2,6,23,0.36);
 }
 
 .light-column.active .upgrades-column button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 22px rgba(2,6,23,0.45);
+    transform: translateY(-2px);
+    border-color: rgba(255, 241, 156, 0.9);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 12px 22px rgba(2,6,23,0.45);
 }
 
 .upgrade-name {
