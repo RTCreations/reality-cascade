@@ -8,7 +8,7 @@ import { getPlaytime, getPrimonTime, getEnergyTime, getLightTime, formatTime } f
 import { getFact, checkFactPopup } from "./facts.js";
 import { checkPrimonMilestone } from "./milestones.js";
 import { checkInfoUnlocks } from "./info.js";
-import { initSettings } from "./settings.js";
+import { getNotationMode, initSettings } from "./settings.js";
 import { playPulse, playShake, playResetFlash } from "./feedback.js";
 import { startTriviaLoop } from "./trivia.js";
 import { getUnlock } from "./unlock.js";
@@ -21,9 +21,7 @@ function isZeroishValue(value) {
     return decimalValue.eq(0) || text === "NaN" || text === "Infinity" || text === "-Infinity";
 }
 
-export function formatE(num) {
-    const value = new Decimal(num);
-
+function formatScientificNumber(value) {
     if (isZeroishValue(value)) return "0";
 
     let exponent = value.log10().floor();
@@ -32,7 +30,7 @@ export function formatE(num) {
     return `${mantissa.toFixed(2)}e${exponent}`;
 }
 
-export function formatF(val) {
+function formatShortNumber(val) {
     let num = new Decimal(val);
 
     if (isZeroishValue(num)) return "0";
@@ -60,7 +58,17 @@ export function formatF(val) {
         return divided.toFixed(2) + suffixes[index];
     }
 
-    return formatE(num);
+    return formatScientificNumber(num);
+}
+
+export function format(value) {
+    const num = new Decimal(value);
+
+    if (getNotationMode() === "scientific" || num.gte("1e308") || num.lte("1e0")) {
+        return formatScientificNumber(num);
+    }
+
+    return formatShortNumber(num);
 }
 
 export function gameLoop() {
@@ -71,80 +79,87 @@ export function gameLoop() {
 }
 
 export function updateDisplay() {
-    player.primon.gte("1e308") ? document.getElementById("primon").textContent = formatE(player.primon) + " Primons"
-     : document.getElementById("primon").textContent = formatF(player.primon) + " Primons";
-    player.primonsPerSecond.gte("1e308") ? document.getElementById("pps").textContent = formatE(player.primonsPerSecond.mul(new Decimal(1000).div(player.primonSpeed))) + " Primons Per Second"
-     : document.getElementById("pps").textContent = formatF(player.primonsPerSecond.mul(new Decimal(1000).div(player.primonSpeed))) + " Primons Per Second";
-    document.getElementById("ptm").textContent = formatE(player.primonMultiplier) + "x Total Multiplier";
+    document.getElementById("primon").textContent = format(player.primon) + " Primons";
+    document.getElementById("pps").textContent = format(player.primonsPerSecond.mul(new Decimal(1000).div(player.primonSpeed))) + " Primons Per Second";
+    document.getElementById("ptm").textContent = format(player.primonMultiplier) + "x Total Multiplier";
 
     const antiEnergyMultiplier = upgrades.getAntiEnergyMultiplier();
     document.getElementById("antiBoost").textContent = 
-    formatF(antiEnergyMultiplier) + "x Primon Boost\nGain +" + formatF(upgrades.getAntiEnergyMultiplier(true)) + "x Primon Boost After Reset";
+    format(antiEnergyMultiplier) + "x Primon Boost\nGain +" + format(upgrades.getAntiEnergyMultiplier(true)) + "x Primon Boost After Reset";
     document.getElementById("primonBtn").innerHTML = `
-        <span class="upgrade-name">Primon Enhancer</span>
-        <span class="upgrade-cost">${formatF(upgrades.primonBtn.cost)} Primons</span>
-        <span class="upgrade-level">Level ${upgrades.primonBtn.level}</span>
+        <span class="upgrade-name" style="font-family: monospace;">Primon Enhancer</span>
+        <span class="upgrade-cost" style="font-family: monospace;">${format(upgrades.primonBtn.cost)} Primons</span>
+        <span class="upgrade-level" style="font-family: monospace;">Level ${upgrades.primonBtn.level}</span>
     `;
 
 
     document.getElementById("antiEnergy").textContent = 
-    "Anti Energy: " + formatF(player.antiEnergy) + " Anti J";
+    "Anti Energy: " + format(player.antiEnergy) + " Anti J";
     document.getElementById("antiEnergyReset").textContent = 
-    "Reset for " + formatF(upgrades.getAntiEnergyGain()) + " Anti Energy";
+    "Reset for " + format(upgrades.getAntiEnergyGain()) + " Anti Energy";
 
     const energyGain = document.getElementById("energyGain");
     if (energyGain) {
-        energyGain.textContent = formatF(upgrades.getEnergyBoostMultiplier()) + "x Boost To Anti Energy Gain\n+" + formatF(upgrades.getEnergyBoostMultiplier(true)) + "x Boost To Anti Energy Gain After Reset";
+        energyGain.textContent = format(upgrades.getEnergyBoostMultiplier()) + "x Boost To Anti Energy Gain\n+" + format(upgrades.getEnergyBoostMultiplier(true)) + "x Boost To Anti Energy Gain After Reset";
     }
 
     const energyResetBtn = document.getElementById("energyResetBtn");
     if (energyResetBtn) {
         energyResetBtn.innerHTML = `
-            <span class="upgrade-name">Convert Anti Energy</span>
-            <span class="upgrade-cost">Gain ${formatE(upgrades.getEnergyFromAntiEnergyGain())} Energy</span>
-            <span class="upgrade-level">Resets Anti Energy, Primons, and all Upgrades Above</span>
+            <span class="upgrade-name" style="font-family: monospace;">Convert Anti Energy</span>
+            <span class="upgrade-cost" style="font-family: monospace;">Gain ${format(upgrades.getEnergyFromAntiEnergyGain())} Energy</span>
+            <span class="upgrade-level" style="font-family: monospace;">Resets Anti Energy, Primons, and all Upgrades Above</span>
         `;
     }
 
-    const energyPerSecond = player.energyPerSecond.mul(new Decimal(1000).div(player.energySpeed));
+    const energyPerSecond = player.energyPerSecond.mul(new Decimal("1000").div(player.energySpeed));
     document.getElementById("energy").textContent = 
-    "Energy: " + formatE(player.energy) + " J";
+    "Energy: " + format(player.energy) + " J";
+    const ampEffect = new Decimal("1.1").pow(upgrades.energyAmplifier.level);
+    const boostEffect = new Decimal("1.2").pow(upgrades.energyBoost.level);
+
     document.getElementById("energyAmplifierBtn").innerHTML = `
-        <span class="upgrade-name">Amplifier</span>
-        <span class="upgrade-cost">Cost: ${formatE(upgrades.energyAmplifier.cost)}</span>
-        <span class="upgrade-level">Level ${upgrades.energyAmplifier.level}</span>
+        <span class="upgrade-name" style="font-family: monospace;">Amplifier</span>
+        <span class="upgrade-cost" style="font-family: monospace;">Cost: ${format(upgrades.energyAmplifier.cost)}</span>
+        <span class="upgrade-level" style="font-family: monospace;">Level ${upgrades.energyAmplifier.level}</span>
+        <span class="upgrade-effect" style="font-family: monospace;">Effect: ${format(ampEffect)}x Energy</span>
     `;
     document.getElementById("energyBoostBtn").innerHTML = `
-        <span class="upgrade-name">Boost</span>
-        <span class="upgrade-cost">Cost: ${formatE(upgrades.energyBoost.cost)}</span>
-        <span class="upgrade-level">Level ${upgrades.energyBoost.level}</span>
+        <span class="upgrade-name" style="font-family: monospace;">Boost</span>
+        <span class="upgrade-cost" style="font-family: monospace;">Cost: ${format(upgrades.energyBoost.cost)}</span>
+        <span class="upgrade-level" style="font-family: monospace;">Level ${upgrades.energyBoost.level}</span>
+        <span class="upgrade-effect" style="font-family: monospace;">Effect: ${format(boostEffect)}x Energy</span>
     `;
-    document.getElementById("energyAccelerateBtn").innerHTML = `
-        <span class="upgrade-name">Accelerate</span>
-        <span class="upgrade-cost">Cost: ${formatE(upgrades.energyAccelerate.cost)}</span>
-        <span class="upgrade-level">Level ${upgrades.energyAccelerate.level} • ${player.energySpeed.toFixed(0)}ms</span>
+    document.getElementById("lightAccelerateBtn").innerHTML = `
+        <span class="upgrade-name" style="font-family: monospace;">Light Acceleration</span>
+        <span class="upgrade-cost" style="font-family: monospace;">Cost: ${format(upgrades.lightAccelerate.cost)} Light</span>
+        <span class="upgrade-level" style="font-family: monospace;">Level ${upgrades.lightAccelerate.level} • ${player.energySpeed.toFixed(0)}ms</span>
     `;
 
     const lightEnergyMultiplier = upgrades.lightEnergyBoost();
-    document.getElementById("light").textContent = 
-    "Light: " + formatE(player.light) + " | Boosts Energy By " + formatE(lightEnergyMultiplier);
-    document.getElementById("photons").textContent = 
-    "Photons: " + formatE(player.photons);
+    document.getElementById("light").innerHTML = `
+        <span class="light-value" data-label="Light">${format(player.light)} Light (${format(player.lightPerSecond.mul(new Decimal("1000").div(player.energySpeed)))}/s)</span>
+        <span class="light-boost" data-label="Boost">${format(lightEnergyMultiplier)}x Energy</span>
+    `;
+    document.getElementById("photons").textContent = format(player.photons);
+    document.getElementById("photons").setAttribute("data-label", "Photons");
 
     document.getElementById("playtime").textContent = 
     "Playtime: " + formatTime(player.stats.playtime);
     document.getElementById("energyStats").textContent = getFact();
 
     document.getElementById("highestPrimonStat").textContent = 
-    "Highest Primons Ever: " + formatF(player.stats.highestPrimon);
+    "Highest Primons Ever: " + format(player.stats.highestPrimon);
     document.getElementById("totalAntiEnergyStat").textContent = 
-    "Total Anti Energy Earned: " + formatF(player.stats.totalAntiEnergyEarned);
+    "Total Anti Energy Earned: " + format(player.stats.totalAntiEnergyEarned);
     document.getElementById("antiEnergyResetsStat").textContent = 
     "Anti Energy Resets: " + player.stats.antiEnergyResetCount;
     document.getElementById("energyResetsStat").textContent = 
     "Energy Resets: " + player.stats.energyResetCount;
 
-    document.getElementById("primonAchievementMulti").textContent = "Total Primon Achievement Multiplier: " + formatF(player.primonAchievementBonus) + "(x)";
+    document.getElementById("primonAchievementMulti").textContent = format(player.primonAchievementBonus) + "x Primon Achievement Bonus";
+    document.getElementById("antiEnergyAchievementMulti").textContent = format(player.antiEnergyAchievementBonus) + "x Anti Energy Achievement Bonus";
+    document.getElementById("energyAchievementMulti").textContent = format(player.energyAchievementBonus) + "x Energy Achievement Bonus";
 
     primonUpgradesLightUp();
     energyUpgradesLightUp();
@@ -171,10 +186,12 @@ export function startTimer() {
 
     playtimeInterval = setInterval(() => {
         getPlaytime();
+        getUnlock();
     }, 1000);
 
     primonInterval = setInterval(() => {
         getPrimonTime();
+        getUnlock();
     }, player.primonSpeed);
 
     if (player.unlockedEnergy) {
@@ -191,9 +208,11 @@ export function startTimer() {
 }
 
 // Update the variable dynamically
-export function speedUp() {
-  player.energySpeed = player.energySpeed * 0.9; // Cut the time in half
-  startTimer(); // Restart the interval with the new delay
+export function speedUp(upgradeType) {
+    if (player.unlockedLight && upgradeType === "lightAccelerate") {
+        player.energySpeed = player.energySpeed * 0.9; // Cut the time in half
+    }
+    startTimer(); //Restart intervals with new speed
 }
 
 let intervalId2 = null;
@@ -301,10 +320,10 @@ document.getElementById("energyBoostBtn").onclick = (e) => {
     upgrades.buyEnergyBoost() ? playPulse(btn) : playShake(btn);
 };
 
-document.getElementById("energyAccelerateBtn").onclick = (e) => {
+document.getElementById("lightAccelerateBtn").onclick = (e) => {
     e.preventDefault();
     const btn = e.currentTarget;
-    upgrades.buyEnergyAccelerate() ? playPulse(btn) : playShake(btn);
+    upgrades.buyLightAccelerate() ? playPulse(btn) : playShake(btn);
 };
 
 document.getElementById("save").onclick = (e) => {

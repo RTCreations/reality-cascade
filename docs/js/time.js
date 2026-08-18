@@ -1,7 +1,7 @@
 import Decimal from "../libraries/break_eternity.js-2.1.3/break_eternity.esm.js";
 
 import { player } from "./player.js";
-import { formatE } from "./main.js"
+import { format } from "./main.js"
 
 let playtimeLastUpdate = Date.now();
 let energyLastUpdate = Date.now();
@@ -52,7 +52,7 @@ function showOfflineProgressNotice(seconds) {
 
     hideOfflineProgressNotice();
 
-    message.textContent = `You earned ${formatE(primonsEarned.toString())} primons while away for ${formatTime(seconds)}!`;
+    message.textContent = `You earned ${format(primonsEarned.toString())} primons while away for ${formatTime(seconds)}!`;
     offlineNoticeSecondsRemaining = 10;
     countdown.textContent = "Closing in 10s";
     notice.classList.add("visible");
@@ -117,7 +117,7 @@ export function getLightTime() {
     const photonThreshold = new Decimal("1e-29");
     const photonBaseRate = new Decimal("1").mul(player.photonsMultiplier);
 
-    if (player.energy.gte(photonThreshold)) {
+    if (player.energy.gte(photonThreshold) || player.lightUnlocked) {
         if (player.photonsPerSecond.lte(0)) {
             player.photonsPerSecond = photonBaseRate;
         }

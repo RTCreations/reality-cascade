@@ -2,7 +2,8 @@ const STORAGE_KEY = "RealityCascadeSettings";
 
 const defaultSettings = {
     theme: "default",
-    reduceMotion: false
+    reduceMotion: false,
+    notation: "scientific"
 };
 
 function loadSettings() {
@@ -37,15 +38,29 @@ function applyReduceMotion(enabled) {
     document.documentElement.classList.toggle("reduce-motion", enabled);
 }
 
+function applyNotation(mode) {
+    document.documentElement.dataset.notation = mode;
+
+    const notationSelect = document.getElementById("notationSelect");
+    if (notationSelect) {
+        notationSelect.value = mode === "short" ? "short" : "scientific";
+    }
+}
+
 // Read by feedback.js before playing any purchase/shake/reset animation.
 export function isReducedMotion() {
     return Boolean(currentSettings.reduceMotion);
+}
+
+export function getNotationMode() {
+    return currentSettings.notation === "short" ? "short" : "scientific";
 }
 
 // Call once at startup, after the Settings tab's DOM exists.
 export function initSettings() {
     applyTheme(currentSettings.theme);
     applyReduceMotion(currentSettings.reduceMotion);
+    applyNotation(currentSettings.notation);
 
     document.querySelectorAll(".theme-swatch").forEach((btn) => {
         btn.addEventListener("click", () => {
@@ -61,6 +76,16 @@ export function initSettings() {
         reduceMotionToggle.addEventListener("change", (event) => {
             currentSettings.reduceMotion = event.target.checked;
             applyReduceMotion(currentSettings.reduceMotion);
+            persistSettings();
+        });
+    }
+
+    const notationSelect = document.getElementById("notationSelect");
+    if (notationSelect) {
+        notationSelect.value = currentSettings.notation === "short" ? "short" : "scientific";
+        notationSelect.addEventListener("change", (event) => {
+            currentSettings.notation = event.target.value;
+            applyNotation(currentSettings.notation);
             persistSettings();
         });
     }

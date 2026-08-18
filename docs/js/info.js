@@ -32,13 +32,13 @@ const infoEntries = [
         id: "infoLight",
         isUnlocked: () => player.unlockedLight,
         title: "Light & Photons",
-        body: `Once your Energy output crosses a critical threshold, it begins spontaneously emitting Photons —
+        body: `Once your Energy output crosses a critical threshold, it begins spontaneously emitting Photons,
             quantized packets of light, echoing the real photoelectric effect, where light was first shown to
             behave as discrete particles rather than a continuous wave. Enough accumulated Photons condense
             into Light, which loops back around to boost your Energy generation even further: a small, mostly
             fictional nod to how real stars convert nuclear energy into light that, billions of years later,
             becomes the energy powering... well, everything, including this simulation.`,
-        formula: "Growth (approximate): Light += √Photons × Light Multiplier each tick, once Energy ≥ 1e-28 J."
+        formula: "Growth (approximate): Light += √Photons × Light Multiplier each tick, once Energy ≥ 1e-29 J."
     }
 ];
 

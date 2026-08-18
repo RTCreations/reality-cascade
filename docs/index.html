@@ -69,12 +69,6 @@
                     </button>
                 </div>
 
-                <div class="upgrades-column">
-                    <button id="energyAmplifierBtn">Amplifier LOADING</button>
-                    <button id="energyBoostBtn">Boost LOADING</button>
-                    <button id="energyAccelerateBtn">Accel LOADING</button>
-                </div>
-
                 <footer id="unlock1" class="active">
                     Reach <strong>10K Primons</strong> to unlock a new feature.
                 </footer>
@@ -87,11 +81,15 @@
                     Reach <strong>1e-29 Energy</strong> to unlock something new.
                 </footer>
 
-                <hr id="lightDivider" class="">
-
                 <div class="light-column">
                     <p id="light">Light: LOADING</p>
                     <p id="photons">Photons: LOADING</p>
+                    <div id="lightLockedNote" class="locked-note" aria-hidden="true">Unlocks at 1e-29 Energy</div>
+                    <div class="upgrades-column">
+                        <button id="energyAmplifierBtn">Amplifier LOADING</button>
+                        <button id="energyBoostBtn">Boost LOADING</button>
+                        <button id="lightAccelerateBtn">Accel LOADING</button>
+                    </div>
                 </div>
             </section>
 
@@ -104,7 +102,7 @@
                 <h2>Reality</h2>
                 <h4>Current: Reality 1</h4>
                 <button id="firstReality" class="active">First Reality</button>
-                <button id="secondReality">Second Reality</button>
+                <button id="secondReality">Second Reality (Coming Soon)</button>
             </section>
 
             <section id="info" class="tab-content">
@@ -139,6 +137,8 @@
                 <div id="achievementHeader">
                     <h2>Achievements</h2>
                     <p id="primonAchievementMulti">Achievement (x) to Primons: LOADING</p>
+                    <p id="antiEnergyAchievementMulti">Achievement (x) to Anti Energy: LOADING</p>
+                    <p id="energyAchievementMulti">Achievement (x) to Energy: LOADING</p>
                 </div>
                 <div id="achievements-grid" class="achievements-grid"></div>
                 <div id="achievement-tooltip" class="achievement-tooltip" aria-hidden="true"></div>
@@ -152,7 +152,7 @@
                 <p id="totalAntiEnergyStat">Total Anti Energy Earned: LOADING</p>
                 <p id="antiEnergyResetsStat">Anti Energy Resets: LOADING</p>
                 <p id="energyResetsStat">Energy Resets: LOADING</p>
-                <p id="energyStats">You have 1e-34 energy, which is enough energy to power 0.015 photons with a frequency of 1Hz!</p>
+                <p id="energyStats">Fun Fact: LOADING</p>
             </section>
 
             <section id="settings" class="tab-content">
@@ -188,6 +188,15 @@
                         <span class="toggle-track"></span>
                         <span class="toggle-label">Reduce Motion</span>
                     </label>
+
+                    <label class="notation-select-group" for="notationSelect">
+                        <span class="toggle-label">Notation</span>
+                        <select id="notationSelect" class="notation-select">
+                            <option value="scientific">Scientific</option>
+                            <option value="short">Standard Short</option>
+                        </select>
+                    </label>
+                    <p class="setting-hint">Choose how large values are displayed. Note: Numbers below 1 or above 1e308 (10UCe) will be shown in scientific notation.</p>
                 </div>
 
                 <button id="save"><strong>Save Game</strong></button>
@@ -202,7 +211,7 @@
 
         <div id="cutscene-overlay" class="cutscene-overlay" aria-hidden="true">
             <div class="cutscene-content">
-                <h2>Reality Cascade</h2>
+                <h1>Reality Cascade</h1>
                 <p>Initializing the cascade…</p>
             </div>
         </div>

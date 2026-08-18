@@ -14,19 +14,19 @@ export const upgrades = {
     energyAmplifier: {
         name: "Energy Amplifier",
         level: 0,
-        cost: new Decimal("1e-34")
+        cost: new Decimal("1e-29")
     },
 
     energyBoost: {
         name: "Energy Boost",
         level: 0,
-        cost: new Decimal("5e-34")
+        cost: new Decimal("1e-29")
     },
 
-    energyAccelerate: {
-        name: "Energy Accelerator",
+    lightAccelerate: {
+        name: "Light Accelerator",
         level: 0,
-        cost: new Decimal("5e-34"),
+        cost: new Decimal("2e2"),
     },
 
     buyPrimonBtn() {
@@ -79,7 +79,7 @@ export const upgrades = {
 
         let antiEnergyGain = baseGain.pow(difficultyRate);
 
-        return new Decimal(antiEnergyGain.mul(player.antiEnergyMultiplier).mul(this.getEnergyBoostMultiplier()));
+        return new Decimal(antiEnergyGain.mul(player.antiEnergyMultiplier).mul(player.antiEnergyAchievementBonus).mul(this.getEnergyBoostMultiplier()));
     },
 
     getAntiEnergyMultiplier(afterReset = false) {
@@ -90,13 +90,13 @@ export const upgrades = {
         if (afterReset) {
             const baseline = new Decimal("1");
             const ratio = player.antiEnergy.plus(this.getAntiEnergyGain()).div(baseline);
-            const boost = new Decimal(player.antiEnergyMultiplier).mul(new Decimal("1").plus(ratio.pow("0.54")));
+            const boost = new Decimal(player.antiEnergyMultiplier).mul(player.antiEnergyAchievementBonus).mul(new Decimal("1").plus(ratio.pow("0.54")));
             return new Decimal(boost).sub(this.getAntiEnergyMultiplier()).toString();
         }
 
         const baseline = new Decimal("1");
         const ratio = player.antiEnergy.div(baseline);
-        const boost = new Decimal(player.antiEnergyMultiplier).mul(new Decimal("1").plus(ratio.pow("0.54")));
+        const boost = new Decimal(player.antiEnergyMultiplier).mul(player.antiEnergyAchievementBonus).mul(new Decimal("1").plus(ratio.pow("0.54")));
 
         return new Decimal(boost);
     },
@@ -142,11 +142,11 @@ export const upgrades = {
 
         let baseGain = new Decimal("1e-34").mul(new Decimal("1").plus(player.antiEnergy.log10().mul(1.2)));
 
-        return baseGain.mul(player.energyMultiplier).mul(this.lightEnergyBoost());
+        return baseGain.mul(player.energyMultiplier).mul(player.energyAchievementBonus).mul(this.lightEnergyBoost());
     },
 
     lightEnergyBoost() {
-        const lightBoost = new Decimal("1").plus(player.light.pow(1.5));
+        const lightBoost = new Decimal("1").plus(player.light.pow("1.5"));
         return lightBoost;
     },
 
@@ -175,8 +175,7 @@ export const upgrades = {
             player.energy = player.energy.minus(this.energyAmplifier.cost);
             this.energyAmplifier.level++;
             player.boughtUpgrades = player.boughtUpgrades.plus(1);
-            player.energyMultiplier = player.energyMultiplier.mul(2);
-            player.energyPerSecond = new Decimal(1e-35).mul(player.energyMultiplier);
+            player.energyMultiplier = player.energyMultiplier.mul("1.1");
             const amplifierScale = getScale("energyAmplifier", this.energyAmplifier.level);
             this.energyAmplifier.cost = new Decimal(this.energyAmplifier.cost).mul(amplifierScale.Multi);
             return true;
@@ -189,8 +188,7 @@ export const upgrades = {
             player.energy = player.energy.minus(this.energyBoost.cost);
             this.energyBoost.level++;
             player.boughtUpgrades = player.boughtUpgrades.plus(1);
-            player.energyMultiplier = player.energyMultiplier.mul(1.5);
-            player.energyPerSecond = new Decimal(1e-35).mul(player.energyMultiplier);
+            player.energyMultiplier = player.energyMultiplier.mul("1.2");
             const boostScale = getScale("energyBoost", this.energyBoost.level);
             this.energyBoost.cost = new Decimal(this.energyBoost.cost).mul(boostScale.Multi);
             return true;
@@ -198,14 +196,14 @@ export const upgrades = {
         return false;
     },
 
-    buyEnergyAccelerate() {
-        if (player.energy.gte(this.energyAccelerate.cost)) {
-            player.energy = player.energy.minus(this.energyAccelerate.cost);
-            this.energyAccelerate.level++;
+    buyLightAccelerate() {
+        if (player.light.gte(this.lightAccelerate.cost)) {
+            player.light = player.light.minus(this.lightAccelerate.cost);
+            this.lightAccelerate.level++;
             player.boughtUpgrades = player.boughtUpgrades.plus(1);
-            speedUp();
-            const accelerateScale = getScale("energyAccelerate", this.energyAccelerate.level);
-            this.energyAccelerate.cost = new Decimal(this.energyAccelerate.cost).mul(accelerateScale.Multi);
+            speedUp("lightAccelerate");
+            const accelerateScale = getScale("lightAccelerate", this.lightAccelerate.level);
+            this.lightAccelerate.cost = new Decimal(this.lightAccelerate.cost).mul(accelerateScale.Multi);
             return true;
         }
         return false;

@@ -1,7 +1,7 @@
 import Decimal from "../libraries/break_eternity.js-2.1.3/break_eternity.esm.js";
 
 import { player } from "./player.js";
-import { formatE, formatF } from "./main.js";
+import { format } from "./main.js";
 import { showToast } from "./notifications.js";
 
 // Each entry is either a plain string, or a function that reads live player
@@ -15,7 +15,7 @@ const triviaPool = [
             return "You haven't banked any Anti Energy yet. The universe currently owes you nothing, which is, legally speaking, fair.";
         }
         const fictionalJoules = antiJ.pow(0.7);
-        return `You've stockpiled ${formatE(antiJ)} Anti J. Under the Universal Inversion Treaty (still unratified), that converts to roughly ${formatE(fictionalJoules)} real Joules — enough to reheat a cold coffee in a universe that hasn't been invented yet.`;
+        return `You've stockpiled ${format(antiJ)} Anti J. Under the Universal Inversion Treaty (still unratified), that converts to roughly ${format(fictionalJoules)} real Joules — enough to reheat a cold coffee in a universe that hasn't been invented yet.`;
     },
 
     () => {
@@ -24,7 +24,7 @@ const triviaPool = [
             return "Anti Joules are measured in negative exponents because Primon scientists ran out of universe to put them in.";
         }
         const dread = antiJ.mul(new Decimal("1e3"));
-        return `At the black-market exchange rate of 1 Anti J = 1,000 Existential Dread Units, your ${formatE(antiJ)} Anti J is worth ${formatF(dread)} EDU. Please dread responsibly.`;
+        return `At the black-market exchange rate of 1 Anti J = 1,000 Existential Dread Units, your ${format(antiJ)} Anti J is worth ${format(dread)} EDU. Please dread responsibly.`;
     },
 
     "Anti Energy isn't the opposite of energy, it's energy's IOU to a universe that never signed the contract.",
@@ -36,7 +36,7 @@ const triviaPool = [
             return "You have zero Primons. Somewhere, a physicist is relieved this simplifies their spreadsheet.";
         }
         const sandGrains = primon.div(new Decimal("7.5e18"));
-        return `Your ${formatE(primon)} Primons, run through the Bureau of Fictional Metrology's official table, convert to ${formatF(sandGrains)} grains of sand, which is either a beach or a filing error.`;
+        return `Your ${format(primon)} Primons, run through the Bureau of Fictional Metrology's official table, convert to ${format(sandGrains)} grains of sand, which is either a beach or a filing error.`;
     },
 
     () => {
@@ -45,7 +45,7 @@ const triviaPool = [
             return "Primons are so fundamental that even they don't know what they're made of, or know anything.";
         }
         const atomsInBody = primon.mul(new Decimal("7e27"));
-        return `${formatE(primon)} Primons is about ${formatF(atomsInBody)} atoms' worth of you, which raises some uncomfortable questions about where the rest of you is, unless it's above the average 7e27 atoms in a human. But, are you really human?`;
+        return `${format(primon)} Primons is about ${format(atomsInBody)} atoms' worth of you, which raises some uncomfortable questions about where the rest of you is, unless it's above the average 7e27 atoms in a human. But, are you really human?`;
     },
 
     // --- Energy ---
@@ -55,7 +55,7 @@ const triviaPool = [
             return "You have no Energy yet. The multiverse's calorie count remains untouched by your efforts.";
         }
         const calories = e.mul(new Decimal("2.39e17"));
-        return `Your ${formatE(e)} J of Energy, according to a diet plan no nutritionist will endorse, is worth ${formatF(calories)} imaginary calories. You burn them by simply existing.`;
+        return `Your ${format(e)} J of Energy, according to a diet plan no nutritionist will endorse, is worth ${format(calories)} imaginary calories. You burn them by simply existing.`;
     },
 
     () => {
@@ -65,7 +65,7 @@ const triviaPool = [
             return "A real lightning bolt carries about 1 billion Joules. Your Energy currently carries about zero. The gap is, frankly, embarrassing.";
         }
         const ratio = e.div(realBolt);
-        return `A real lightning bolt is about 1e9 J. Your ${formatE(e)} J of Energy is ${formatE(ratio)}x that — the universe is still deciding whether to classify it as weather or as a rounding error.`;
+        return `A real lightning bolt is about 1e9 J. Your ${format(e)} J of Energy is ${format(ratio)}x that — the universe is still deciding whether to classify it as weather or as a rounding error.`;
     },
 
     // --- Light / Photons ---
@@ -74,7 +74,7 @@ const triviaPool = [
         if (light.lte(0)) {
             return "You haven't generated any Light yet. The darkness respects your commitment to the bit.";
         }
-        return `Your ${formatE(light)} Light, if bottled and sold at a certain Swedish furniture store, would be called the GLÖDLAMPA — and it would still be perpetually out of stock.`;
+        return `Your ${format(light)} Light, if bottled and sold at a certain Swedish furniture store, would be called the GLÖDLAMPA — and it would still be perpetually out of stock.`;
     },
 
     // --- Cross-currency absurdity ---
@@ -85,7 +85,7 @@ const triviaPool = [
             return "Somewhere, a filing cabinet exists solely to store the exchange rate between Primons and Anti Energy. It has never been opened.";
         }
         const rate = primon.div(antiJ.plus(1));
-        return `Right now, your Primon-to-Anti-Energy ratio sits at ${formatE(rate)}. Nobody knows what unit this is measured in, including the person who invented the ratio.`;
+        return `Right now, your Primon-to-Anti-Energy ratio sits at ${format(rate)}. Nobody knows what unit this is measured in, including the person who invented the ratio.`;
     },
 
     "Primons and Anti Energy exist in a delicate balance, in the sense that nobody has explained the physics and everyone has agreed not to ask."

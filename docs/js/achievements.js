@@ -78,15 +78,15 @@ const achievementDefinitions = [
         id: "amplifier",
         title: "Amplified",
         requirement: "Buy 1 Energy Amplifier",
-        reward: "2x Energy",
-        unlocked: (p) => p.boughtUpgrades.gte(new Decimal(1))
+        reward: "2x Light",
+        unlocked: (p) => p.boughtUpgrades.gte(new Decimal("1"))
     },
     {
         id: "boost",
         title: "Energy Boost",
         requirement: "Buy 1 Energy Boost",
-        reward: "1.67x Energy",
-        unlocked: (p) => p.boughtUpgrades.gte(new Decimal(2))
+        reward: "1.67x Light",
+        unlocked: (p) => p.boughtUpgrades.gte(new Decimal("1"))
     }
 ];
 
@@ -198,29 +198,37 @@ export function checkAchievements() {
 
             if (def.id === "antiEnergy1") {
                 player.primonAchievementBonus = player.primonAchievementBonus.mul("2");
-                player.antiEnergyMultiplier = player.antiEnergyMultiplier.mul("2");
-                player.energyMultiplier = player.energyMultiplier.mul("2");
+                player.antiEnergyAchievementBonus = player.antiEnergyAchievementBonus.mul("2");
+                player.energyAchievementBonus = player.energyAchievementBonus.mul("2");
                 player.primonsPerSecond = new Decimal("1")
                     .mul(player.primonMultiplier)
                     .mul(player.primonAchievementBonus);
             }
 
             if (def.id === "antiEnergy2") {
-                player.antiEnergyMultiplier = player.antiEnergyMultiplier.mul("2");
-                player.energyMultiplier = player.energyMultiplier.mul("2");
+                player.antiEnergyAchievementBonus = player.antiEnergyAchievementBonus.mul("2");
+                player.energyAchievementBonus = player.energyAchievementBonus.mul("2");
             }
 
             if (def.id === "antiEnergy3") {
-                player.antiEnergyMultiplier = player.antiEnergyMultiplier.mul("2");
+                player.antiEnergyAchievementBonus = player.antiEnergyAchievementBonus.mul("2");
                 player.primonAchievementBonus = player.primonAchievementBonus.mul("5");
             }
 
             if (def.id === "energy1") {
-                player.energyMultiplier = player.energyMultiplier.mul("3");
+                player.energyAchievementBonus = player.energyAchievementBonus.mul("3");
             }
 
             if (def.id === "energy2") {
-                player.energyMultiplier = player.energyMultiplier.mul("5e1");
+                player.energyAchievementBonus = player.energyAchievementBonus.mul("5e1");
+            }
+
+            if (def.id === "amplifier") {
+                player.lightMultiplier = player.lightMultiplier.mul("2");
+            }
+
+            if (def.id === "boost") {
+                player.lightMultiplier = player.lightMultiplier.mul("1.67");
             }
 
             changed = true;

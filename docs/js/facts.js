@@ -1,8 +1,7 @@
 import Decimal from "../libraries/break_eternity.js-2.1.3/break_eternity.esm.js";
 
 import { player } from "./player.js";
-import { formatE } from "./main.js";
-import { formatF } from "./main.js";
+import { format } from "./main.js";
 import { showToast } from "./notifications.js";
 
 const planck = new Decimal(6.626e-34);
@@ -14,17 +13,17 @@ const factTiers = [
     {
         id: "planck",
         threshold: planck,
-        text: (e) => "You have " + formatE(e) + "J, which is enough energy to power about " + formatF(e.div(planck)) + " photons with a frequency of 1Hz!"
+        text: (e) => "You have " + format(e) + "J, which is enough energy to power about " + format(e.div(planck)) + " photons with a frequency of 1Hz!"
     },
     {
         id: "infrared",
         threshold: infrared,
-        text: (e) => "You have " + formatE(e) + "J, which is enough energy to power about " + formatF(e.div(infrared)) + " infrared light photons that are 1 micrometer!"
+        text: (e) => "You have " + format(e) + "J, which is enough energy to power about " + format(e.div(infrared)) + " infrared light photons that are 1 micrometer!"
     },
     {
         id: "erg",
         threshold: erg,
-        text: (e) => "You have " + formatE(e) + "J, which is enough energy to make a fly do about " + formatF(e.div(erg)) + " pushups!"
+        text: (e) => "You have " + format(e) + "J, which is enough energy to make a fly do about " + format(e.div(erg)) + " pushups!"
     }
 ];
 
