@@ -129,6 +129,24 @@ function createCell(def) {
         tooltip.setAttribute("aria-hidden", "true");
     });
 
+    cell.addEventListener("pointerup", (event) => {
+        if (event.pointerType === "mouse") return;
+
+        const isVisible = tooltip.classList.contains("visible");
+        if (isVisible) {
+            tooltip.classList.remove("visible");
+            tooltip.setAttribute("aria-hidden", "true");
+            return;
+        }
+
+        const completed = Boolean(player.achievements[def.id]);
+        tooltip.textContent = "";
+        tooltip.innerHTML = `<strong>${def.title}</strong><p>${getTooltipText(def, completed).replace(/\n/g, "<br>")}</p>`;
+        tooltip.classList.add("visible");
+        tooltip.setAttribute("aria-hidden", "false");
+        positionTooltip(event.currentTarget);
+    });
+
     return cell;
 }
 
