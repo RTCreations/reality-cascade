@@ -269,12 +269,26 @@ window.addEventListener('keyup', (event) => {
     }
 });
 
-document.getElementById("primonBtn").onclick = (e) => {
-    e.preventDefault();
-    const btn = e.currentTarget;
-    const bought = player.autoBuyPrimon ? upgrades.buyPrimonBtnMax() : upgrades.buyPrimonBtn();
-    bought ? playPulse(btn) : playShake(btn);
-};
+function bindActionButton(id, action, isReset = false) {
+    document.getElementById(id).onclick = (event) => {
+        event.preventDefault();
+        const button = event.currentTarget;
+        const succeeded = action();
+
+        if (succeeded) {
+            playPulse(button);
+            if (isReset) {
+                playResetFlash(document.getElementById("resources"));
+            }
+        } else {
+            playShake(button);
+        }
+    };
+}
+
+bindActionButton("primonBtn", () => (
+    player.autoBuyPrimon ? upgrades.buyPrimonBtnMax() : upgrades.buyPrimonBtn()
+));
 
 const primonBuyMaxInput = document.getElementById("primonBuyMax");
 if (primonBuyMaxInput) {
@@ -284,47 +298,11 @@ if (primonBuyMaxInput) {
     });
 }
 
-document.getElementById("antiEnergyReset").onclick = (e) => {
-    e.preventDefault();
-    const btn = e.currentTarget;
-    const didReset = upgrades.resetPrimonForAntiEnergy();
-    if (didReset) {
-        playPulse(btn);
-        playResetFlash(document.getElementById("resources"));
-    } else {
-        playShake(btn);
-    }
-};
-
-document.getElementById("energyResetBtn").onclick = (e) => {
-    e.preventDefault();
-    const btn = e.currentTarget;
-    const didReset = upgrades.resetAntiEnergyForEnergy();
-    if (didReset) {
-        playPulse(btn);
-        playResetFlash(document.getElementById("resources"));
-    } else {
-        playShake(btn);
-    }
-};
-
-document.getElementById("energyAmplifierBtn").onclick = (e) => {
-    e.preventDefault();
-    const btn = e.currentTarget;
-    upgrades.buyEnergyAmplifier() ? playPulse(btn) : playShake(btn);
-};
-
-document.getElementById("energyBoostBtn").onclick = (e) => {
-    e.preventDefault();
-    const btn = e.currentTarget;
-    upgrades.buyEnergyBoost() ? playPulse(btn) : playShake(btn);
-};
-
-document.getElementById("lightAccelerateBtn").onclick = (e) => {
-    e.preventDefault();
-    const btn = e.currentTarget;
-    upgrades.buyLightAccelerate() ? playPulse(btn) : playShake(btn);
-};
+bindActionButton("antiEnergyReset", () => upgrades.resetPrimonForAntiEnergy(), true);
+bindActionButton("energyResetBtn", () => upgrades.resetAntiEnergyForEnergy(), true);
+bindActionButton("energyAmplifierBtn", () => upgrades.buyEnergyAmplifier());
+bindActionButton("energyBoostBtn", () => upgrades.buyEnergyBoost());
+bindActionButton("lightAccelerateBtn", () => upgrades.buyLightAccelerate());
 
 document.getElementById("save").onclick = (e) => {
     e.preventDefault();
