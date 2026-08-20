@@ -79,6 +79,9 @@ export function gameLoop() {
 }
 
 export function updateDisplay() {
+    const wasEnergyUnlocked = player.unlockedEnergy;
+    const wasLightUnlocked = player.unlockedLight;
+
     document.getElementById("primon").textContent = format(player.primon) + " Primons";
     document.getElementById("pps").textContent = format(player.primonsPerSecond.mul(new Decimal(1000).div(player.primonSpeed))) + " Primons Per Second";
     document.getElementById("ptm").textContent = format(player.primonMultiplier) + "x Total Multiplier";
@@ -164,6 +167,11 @@ export function updateDisplay() {
     primonUpgradesLightUp();
     energyUpgradesLightUp();
     getUnlock();
+
+    if ((!wasEnergyUnlocked && player.unlockedEnergy) || (!wasLightUnlocked && player.unlockedLight)) {
+        startTimer();
+    }
+
     checkAchievements();
     checkFactPopup();
     checkPrimonMilestone();
@@ -244,26 +252,26 @@ export function energy() {
 }
 
 window.addEventListener('keydown', (event) => {
-    event.preventDefault();
-
     if (!intervalId2 && event.code === 'KeyM') {
+        event.preventDefault();
         heldBuy();
     }
 
     if (!intervalId3 && event.code === "KeyE") {
+        event.preventDefault();
         energy();
     }
 });
 
 window.addEventListener('keyup', (event) => {
-    event.preventDefault();
-
     if (intervalId2 && event.code === 'KeyM') {
+        event.preventDefault();
         clearInterval(intervalId2);
         intervalId2 = null;
     }
 
     if (intervalId3 && event.code === 'KeyE') {
+        event.preventDefault();
         clearInterval(intervalId3);
         intervalId3 = null;
     }
