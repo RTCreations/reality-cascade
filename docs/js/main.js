@@ -147,18 +147,18 @@ export function updateDisplay() {
     document.getElementById("photons").textContent = format(player.photons);
     document.getElementById("photons").setAttribute("data-label", "Photons");
 
-    document.getElementById("playtime").textContent = 
-    "Playtime: " + formatTime(player.stats.playtime);
-    document.getElementById("energyStats").textContent = getFact();
+    document.getElementById("playtime").innerHTML = 
+    `<span class="stat-label">Playtime</span><span class="stat-value">${formatTime(player.stats.playtime)}</span>`;
+    document.getElementById("energyStats").textContent = "Fun Fact: " + getFact();
 
-    document.getElementById("highestPrimonStat").textContent = 
-    "Highest Primons Ever: " + format(player.stats.highestPrimon);
-    document.getElementById("totalAntiEnergyStat").textContent = 
-    "Total Anti Energy Earned: " + format(player.stats.totalAntiEnergyEarned);
-    document.getElementById("antiEnergyResetsStat").textContent = 
-    "Anti Energy Resets: " + player.stats.antiEnergyResetCount;
-    document.getElementById("energyResetsStat").textContent = 
-    "Energy Resets: " + player.stats.energyResetCount;
+    document.getElementById("highestPrimonStat").innerHTML = 
+    `<span class="stat-label">Highest Primons</span><span class="stat-value">${format(player.stats.highestPrimon)}</span>`;
+    document.getElementById("totalAntiEnergyStat").innerHTML = 
+    `<span class="stat-label">Total Anti Energy</span><span class="stat-value">${format(player.stats.totalAntiEnergyEarned)}</span>`;
+    document.getElementById("antiEnergyResetsStat").innerHTML = 
+    `<span class="stat-label">Anti Energy Resets</span><span class="stat-value">${player.stats.antiEnergyResetCount}</span>`;
+    document.getElementById("energyResetsStat").innerHTML = 
+    `<span class="stat-label">Energy Resets</span><span class="stat-value">${player.stats.energyResetCount}</span>`;
 
     document.getElementById("primonAchievementMulti").textContent = format(player.primonAchievementBonus) + "x Primon Achievement Bonus";
     document.getElementById("antiEnergyAchievementMulti").textContent = format(player.antiEnergyAchievementBonus) + "x Anti Energy Achievement Bonus";
